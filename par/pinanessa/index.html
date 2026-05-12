@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>💖 Cuenta atrás para Piñanessa</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Particle canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <main class="main-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">
+                <span class="title-line">Cuenta atrás para ver a</span>
+                <span class="name-highlight">Piñanessa</span>
+            </h1>
+            <p class="subtitle">Cada segundo que pasa es un segundo menos sin ti 💕</p>
+        </header>
+
+        <!-- Countdown -->
+        <section class="countdown-section" id="countdownSection">
+            <div class="countdown-grid">
+                <div class="countdown-card" id="daysCard">
+                    <div class="card-glow"></div>
+                    <span class="countdown-value" id="days">00</span>
+                    <span class="countdown-label">Días</span>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-card" id="hoursCard">
+                    <div class="card-glow"></div>
+                    <span class="countdown-value" id="hours">00</span>
+                    <span class="countdown-label">Horas</span>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-card" id="minutesCard">
+                    <div class="card-glow"></div>
+                    <span class="countdown-value" id="minutes">00</span>
+                    <span class="countdown-label">Minutos</span>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-card" id="secondsCard">
+                    <div class="card-glow"></div>
+                    <span class="countdown-value" id="seconds">00</span>
+                    <span class="countdown-label">Segundos</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress bar -->
+        <section class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text">Progreso hasta verte</span>
+                <span class="progress-percent" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-shimmer"></div>
+            </div>
+        </section>
+
+        <!-- Love message -->
+        <section class="message-section">
+            <div class="message-card" id="messageCard">
+                <div class="quote-icon">💌</div>
+                <p class="love-message" id="loveMessage"></p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Hecho con todo mi <span class="heart-beat">❤️</span> para ti</p>
+        </footer>
+    </main>
+
+    <!-- Celebration overlay (hidden by default) -->
+    <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="celebration-content">
+            <h2 class="celebration-title">🎉 ¡ES HOY! 🎉</h2>
+            <p class="celebration-text">¡Por fin puedo abrazar a mi Piñanessa!</p>
+            <div class="celebration-hearts">💖💗💝💘💕</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
