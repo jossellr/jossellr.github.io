@@ -1,0 +1,59 @@
+name: Actualizar métricas (Scholar + OpenAlex IFs)
+
+on:
+  schedule:
+    # Lunes 07:00 UTC = 08:00 Madrid en invierno (CET) / 09:00 en verano (CEST).
+    # GitHub Actions no soporta zonas horarias, así que se acepta ese desfase
+    # de 1h durante el horario de verano. Si te importa más en verano, baja a "0 6 * * 1".
+    - cron: "0 7 * * 1"
+  workflow_dispatch:    # Permite lanzar el workflow a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scholar-update
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install scholarly==1.7.11
+
+      - name: Raspar perfil de Google Scholar
+        run: python scripts/update_scholar.py
+        continue-on-error: true   # si Scholar mete CAPTCHA, seguimos con IFs
+
+      - name: Refrescar IFs desde OpenAlex
+        run: python scripts/update_journal_metrics.py
+
+      - name: Commitear cambios si los hay
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          CHANGED=""
+          for f in data/scholar.json data/publications/journals.json; do
+            if [[ -n "$(git status --porcelain "$f")" ]]; then
+              git add "$f"
+              CHANGED="$CHANGED $f"
+            fi
+          done
+          if [[ -n "$CHANGED" ]]; then
+            git commit -m "chore(metrics): refresco semanal de Scholar e IFs OpenAlex"
+            git push
+          else
+            echo "Sin cambios."
+          fi

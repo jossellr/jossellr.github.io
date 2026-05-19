@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /par/
+Disallow: /.docker/
+Disallow: /.github/
+Disallow: /.claude/
+
+Sitemap: https://jossellr.github.io/sitemap.xml

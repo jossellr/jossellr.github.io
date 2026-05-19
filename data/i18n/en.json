@@ -1,0 +1,212 @@
+{
+  "_comment": "English strings. To add or change literals, edit here and in es.json. JS lookup is by data-i18n with dot notation (e.g. nav.about).",
+
+  "meta": {
+    "title": "José Luis López Ruiz · University of Jaén",
+    "description": "José Luis López Ruiz · Lecturer and researcher in the Computer Architecture and Technology area at the University of Jaén.",
+    "skipLink": "Skip to content"
+  },
+
+  "brand": {
+    "subtitle": "University of Jaén"
+  },
+
+  "nav": {
+    "about": "About",
+    "metrics": "Metrics",
+    "research": "Research",
+    "publications": "Publications",
+    "awards": "Awards",
+    "openMenu": "Open menu"
+  },
+
+  "hero": {
+    "eyebrow": "University of Jaén · Computer Architecture and Technology",
+    "role": "Assistant Professor · Intelligent systems applied to health and active ageing",
+    "bio": "Assistant Professor (Profesor Ayudante Doctor) and researcher at the <strong>University of Jaén</strong>, with <strong>ANECA</strong> accreditation as <strong>Lecturer</strong> (Profesor Permanente Laboral). My work sits at the intersection of <strong>IoT</strong>, <strong>fuzzy logic</strong> and <strong>deep learning</strong>, with a focus on connected health, chronic-patient monitoring and active ageing.",
+    "btnTutoria": "Book office hours",
+    "btnPublications": "See publications",
+    "photoAlt": "Portrait of José Luis López Ruiz",
+    "socials": {
+      "email": "Email",
+      "orcid": "ORCID",
+      "scholar": "Google Scholar",
+      "researchgate": "ResearchGate",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    }
+  },
+
+  "education": {
+    "title": "Education",
+    "items": {
+      "y2023": { "title": "Ph.D. in Information and Communication Technologies", "meta": "University of Jaén" },
+      "y2020": { "title": "M.Sc. in Computer Engineering", "meta": "University of Jaén · Best Master's Thesis Award" },
+      "y2018": { "title": "B.Sc. in Computer Engineering", "meta": "University of Jaén" }
+    }
+  },
+
+  "career": {
+    "title": "Career path",
+    "items": {
+      "y2024": { "title": "Assistant Professor (Profesor Ayudante Doctor)", "meta": "Department of Computer Science · Computer Architecture and Technology area" },
+      "y2023": { "title": "Substitute Lecturer", "meta": "Department of Computer Science · Computer Languages and Systems area" },
+      "y2022": { "title": "Interim Substitute Lecturer", "meta": "Department of Computer Science · Computer Languages and Systems area" },
+      "y2020": { "title": "R&D&I Support and Management Technician", "meta": "ASIA research group (TIC-257)" },
+      "y2019": { "title": "Research staff · Youth Guarantee Programme", "meta": "ASIA research group (TIC-257)" }
+    }
+  },
+
+  "office": {
+    "title": "Office",
+    "building": "<strong>Building A3</strong> · Office 118",
+    "address": "Campus Las Lagunillas, s/n · 23071 Jaén, Spain",
+    "phoneLabel": "(+34) 953 21 24 76",
+    "note": "University of Jaén · Polytechnic School of Jaén",
+    "mapLabel": "Map of Building A3 on the Las Lagunillas Campus"
+  },
+
+  "biography": {
+    "title": "Biography",
+    "p1": "José Luis López Ruiz (Linares, Jaén, 1993) holds a B.Sc. in Computer Engineering (2018), an M.Sc. in Computer Engineering with the Best Master's Thesis Award (2020) and a Ph.D. in Information and Communication Technologies (2023), all from the <strong>University of Jaén</strong>. He currently serves as Assistant Professor (Profesor Ayudante Doctor) in the Department of Computer Science and is a member of the <strong>ASIA (TIC-257)</strong> research group at the same university. He has held the <strong>ANECA</strong> accreditation as Lecturer (Profesor Permanente Laboral) since December 2023. His research lines combine Internet of Things, fuzzy logic and deep learning in connected-health and active-ageing systems.",
+    "p2": "My academic career has developed entirely at the University of Jaén, where I started in 2019 as research staff under the Youth Guarantee programme. Between 2020 and 2022 I held a position as R&D&I Support and Management Technician, and in February 2022 I joined university teaching as Interim Substitute Lecturer. The defence of my doctoral thesis in May 2023, followed by the ANECA accreditation in December of the same year, led to my contract as Substitute Lecturer. Since December 2024 I hold an Assistant Professor (Profesor Ayudante Doctor) position in the Computer Architecture and Technology area. In 2025 I was awarded a <strong>José Castillejo grant</strong> from the Spanish Ministry of Science, Innovation and Universities for a three-month research stay (May–July 2026) at <strong>Ulster University</strong> (Belfast, United Kingdom).",
+    "p3": "My research is currently organised in four complementary lines, all focused on intelligent systems applied to health and active ageing. The first one, started during my doctoral thesis, tackles <strong>human activity recognition</strong> using IoT sensors deployed in domestic and care environments, aimed at monitoring older adults and chronic patients. A second line, derived from the first, addresses <strong>glucose monitoring and management of type 1 and type 2 diabetes mellitus</strong>, combining treatment-adherence platforms with the generation of linguistic summaries from sensor data through fuzzy logic and large language models. In parallel I work on <strong>indoor positioning with BLE and UWB technologies</strong>, applied mainly to assisted-living environments. More recently, and under my own leadership, I have opened a fourth line on <strong>stress detection from biometric data in low-cost IoMT devices</strong>, whose first results appear in <em>Computer Methods and Programs in Biomedicine</em> (Q1, IF 4.8). Across these four lines, I maintain continuous work on efficient IoT/IoMT architectures and the assessment of their alignment with the Sustainable Development Goals."
+  },
+
+  "metrics": {
+    "kicker": "01 — Indicators",
+    "title": "Quality metrics",
+    "sub": "Bibliometric impact and detailed scientific production by type.",
+    "impactTitle": "Bibliometric impact",
+    "productionTitle": "Production",
+    "stats": {
+      "citations": "Total citations",
+      "hindex": "h-index",
+      "i10": "i10-index",
+      "jcr": "JCR publications",
+      "confInt": "International conferences",
+      "confNac": "National conferences",
+      "software": "Software registrations"
+    },
+    "source": {
+      "openalex": "OpenAlex",
+      "scholar": "Google Scholar",
+      "cv": "Curriculum",
+      "jcr": "Indexed in JCR"
+    },
+    "chart": {
+      "title": "Annual output and impact"
+    }
+  },
+
+  "research": {
+    "kicker": "02 — Lines and group",
+    "title": "Research",
+    "sub": "Member of the <strong>ASIA TIC-257 · Advances in Intelligent Systems and Applications</strong> group.",
+    "intro": "My lines are framed within <strong>Internet of Things (IoT)</strong> technology and combine fuzzy logic, supervised machine learning and deep learning.",
+    "lines": {
+      "har": {
+        "title": "Indoor positioning",
+        "desc": "Positioning systems in enclosed spaces using signals and sensors."
+      },
+      "activities": {
+        "title": "Human activity recognition",
+        "desc": "Detection and classification of daily activities from sensor data."
+      },
+      "health": {
+        "title": "Linguistic summaries in health",
+        "desc": "Interpretable summaries of glucose levels in people with diabetes."
+      },
+      "ai": {
+        "title": "Sustainable AI",
+        "desc": "Evaluation of intelligent systems from a sustainability standpoint."
+      }
+    }
+  },
+
+  "publications": {
+    "kicker": "03 — Scientific output",
+    "title": "Publications",
+    "sub": "Selection of articles in indexed journals, book chapters and conferences.",
+    "loading": "Loading publications…",
+    "empty": "No results for this filter.",
+    "filters": {
+      "all": "All",
+      "journal": "Journals",
+      "conference": "Conferences",
+      "software": "Software"
+    },
+    "types": {
+      "journal": "Article",
+      "conference": "Conference",
+      "thesis": "Doctoral thesis",
+      "software": "Software registration"
+    },
+    "labels": {
+      "corresponding": "Corresponding",
+      "international": "International",
+      "national": "National",
+      "coSupervision": "Co-supervision",
+      "coSupervisionActive": "Active co-supervision",
+      "cumLaude": "Cum Laude",
+      "doi": "DOI",
+      "doctoralProgram": "Doctoral programme in ICT",
+      "inProgress": "In progress",
+      "quartileUnknown": "Quartile to be assigned",
+      "ifTitle": "Impact Factor"
+    },
+    "pager": {
+      "showing": "Showing",
+      "of": "of",
+      "perPage": "Per page",
+      "all": "All",
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Pagination"
+    },
+    "citationsAbbrev": "citations"
+  },
+
+  "awards": {
+    "kicker": "04 — Recognitions",
+    "title": "Awards and distinctions",
+    "items": {
+      "castillejo": {
+        "line": "<strong>José Castillejo grant</strong> for a research stay at <em>Ulster University</em> (Belfast, United Kingdom), May–July 2026.",
+        "place": "Spanish Ministry of Science, Innovation and Universities"
+      },
+      "bestRecord": {
+        "line": "<strong>Best academic record</strong> of the 2021-22 cohort in the M.Sc. in Computer Engineering.",
+        "place": "University of Jaén"
+      },
+      "bestTfm": {
+        "line": "<strong>Best Master's Thesis Award</strong> of the University of Jaén, defended in 2020.",
+        "place": "University of Jaén"
+      }
+    },
+    "thesesTitle": "Supervised doctoral theses",
+    "theses": {
+      "defended": {
+        "title": "Smart health platforms: monitoring of patients with type 2 diabetes and sustainability",
+        "authors": "PhD candidate: <strong>David Díaz Jiménez</strong> · Co-supervisors: Macarena Espinilla Estévez, <strong>López Ruiz, J. L.</strong>",
+        "venue": "University of Jaén · Defended on 12 February 2025"
+      },
+      "inProgress": {
+        "title": "2 co-supervised doctoral theses in progress",
+        "authors": "Pending: titles and PhD candidates to be added.",
+        "venue": "University of Jaén · ASIA TIC-257 research group"
+      }
+    }
+  },
+
+  "footer": {
+    "signature": "José Luis López Ruiz · University of Jaén"
+  },
+
+  "lang": {
+    "es": "ES",
+    "en": "EN",
+    "switchToEn": "Switch language to English",
+    "switchToEs": "Switch language to Spanish"
+  }
+}

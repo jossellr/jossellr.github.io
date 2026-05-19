@@ -1,0 +1,212 @@
+{
+  "_comment": "Textos en español. Para añadir o cambiar literales, edita aquí y en en.json. El JS busca por data-i18n con notación de puntos (p.ej. nav.about).",
+
+  "meta": {
+    "title": "José Luis López Ruiz · Universidad de Jaén",
+    "description": "José Luis López Ruiz · Profesor e investigador en el Área de Arquitectura y Tecnología de Computadores de la Universidad de Jaén.",
+    "skipLink": "Saltar al contenido"
+  },
+
+  "brand": {
+    "subtitle": "Universidad de Jaén"
+  },
+
+  "nav": {
+    "about": "Sobre mí",
+    "metrics": "Métricas",
+    "research": "Investigación",
+    "publications": "Publicaciones",
+    "awards": "Premios",
+    "openMenu": "Abrir menú"
+  },
+
+  "hero": {
+    "eyebrow": "Universidad de Jaén · Área de Arquitectura y Tecnología de Computadores",
+    "role": "Profesor Ayudante Doctor · Sistemas inteligentes aplicados a la salud y el envejecimiento activo",
+    "bio": "Profesor e investigador en la <strong>Universidad de Jaén</strong>, acreditado <strong>ANECA</strong> como Profesor Permanente Laboral. Investigo en la frontera entre <strong>IoT</strong>, <strong>lógica difusa</strong> y <strong>aprendizaje profundo</strong>, con foco en salud conectada, monitorización de pacientes crónicos y envejecimiento activo.",
+    "btnTutoria": "Reservar tutoría",
+    "btnPublications": "Ver publicaciones",
+    "photoAlt": "Retrato de José Luis López Ruiz",
+    "socials": {
+      "email": "Correo",
+      "orcid": "ORCID",
+      "scholar": "Google Scholar",
+      "researchgate": "ResearchGate",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    }
+  },
+
+  "education": {
+    "title": "Formación",
+    "items": {
+      "y2023": { "title": "Doctorado en Tecnologías de la Información y la Comunicación", "meta": "Universidad de Jaén" },
+      "y2020": { "title": "Máster Universitario en Ingeniería Informática", "meta": "Universidad de Jaén · Premio al Mejor Trabajo Fin de Máster" },
+      "y2018": { "title": "Grado en Ingeniería Informática", "meta": "Universidad de Jaén" }
+    }
+  },
+
+  "career": {
+    "title": "Trayectoria profesional",
+    "items": {
+      "y2024": { "title": "Profesor Ayudante Doctor", "meta": "Departamento de Informática · Área de Arquitectura y Tecnología de Computadores" },
+      "y2023": { "title": "Profesor Sustituto", "meta": "Departamento de Informática · Área de Lenguajes y Sistemas Informáticos" },
+      "y2022": { "title": "Profesor Sustituto Interino", "meta": "Departamento de Informática · Área de Lenguajes y Sistemas Informáticos" },
+      "y2020": { "title": "Técnico de Apoyo y Gestión I+D+I", "meta": "Grupo de investigación ASIA (TIC-257)" },
+      "y2019": { "title": "Personal investigador · Garantía Juvenil", "meta": "Grupo de investigación ASIA (TIC-257)" }
+    }
+  },
+
+  "office": {
+    "title": "Despacho",
+    "building": "<strong>Edificio A3</strong> · Despacho 118",
+    "address": "Campus Las Lagunillas, s/n · 23071 Jaén",
+    "phoneLabel": "(+34) 953 21 24 76",
+    "note": "Universidad de Jaén · Escuela Politécnica Superior de Jaén",
+    "mapLabel": "Mapa del Edificio A3 en el Campus Las Lagunillas"
+  },
+
+  "biography": {
+    "title": "Biografía",
+    "p1": "José Luis López Ruiz (Linares, Jaén, 1993) es Graduado en Ingeniería Informática (2018), Máster Universitario en Ingeniería Informática (2020) con Premio al Mejor Trabajo Fin de Máster, y Doctor en Tecnologías de la Información y la Comunicación (2023) por la <strong>Universidad de Jaén</strong>. Actualmente ejerce como Profesor Ayudante Doctor en el Departamento de Informática y forma parte del grupo de investigación <strong>ASIA (TIC-257)</strong> de la misma universidad. Cuenta con la acreditación de la <strong>ANECA</strong> a Profesor Permanente Laboral desde diciembre de 2023. Sus líneas de investigación abordan la integración de Internet de las Cosas, lógica difusa y aprendizaje profundo en sistemas de salud conectada y envejecimiento activo.",
+    "p2": "Mi trayectoria académica se ha desarrollado íntegramente en la Universidad de Jaén, desde mi incorporación en 2019 como personal investigador del programa de Garantía Juvenil. Entre 2020 y 2022 ocupé un puesto de Técnico de Apoyo y Gestión I+D+I y, en febrero de 2022, me incorporé a la docencia universitaria como Profesor Sustituto Interino. La defensa de mi tesis doctoral en mayo de 2023, seguida de la obtención de la acreditación ANECA en diciembre del mismo año, dio paso a mi contrato como Profesor Sustituto. Desde diciembre de 2024 ocupo plaza de Profesor Ayudante Doctor en el Área de Arquitectura y Tecnología de Computadores. En 2025 obtuve una <strong>Beca José Castillejo</strong> del Ministerio de Ciencia, Innovación y Universidades, cuya ejecución se concreta en una estancia de investigación de tres meses (mayo a julio de 2026) en la <strong>University of Ulster</strong> (Belfast, Reino Unido).",
+    "p3": "Mi actividad investigadora se organiza actualmente en cuatro líneas complementarias, todas ellas centradas en la aplicación de sistemas inteligentes a la salud y el envejecimiento activo. La primera, iniciada durante la tesis doctoral, aborda el <strong>reconocimiento de actividades de la vida diaria</strong> mediante sensores IoT desplegados en entornos domésticos y sociosanitarios para el seguimiento de personas mayores y pacientes crónicos. Una segunda línea, derivada de la anterior, se ocupa de la <strong>monitorización de glucosa y la gestión de la diabetes mellitus</strong> tipo 1 y tipo 2, donde combino plataformas de adherencia terapéutica con la generación de resúmenes lingüísticos a partir de datos de sensor, mediante lógica difusa y modelos de lenguaje. En paralelo desarrollo trabajo en <strong>posicionamiento en interiores con tecnologías BLE y UWB</strong>, aplicado fundamentalmente a entornos de vida asistida. Más recientemente, y bajo mi liderazgo, hemos abierto una cuarta línea orientada a la <strong>detección de estrés a partir de datos biométricos en dispositivos IoMT de bajo coste</strong>, cuyos primeros resultados aparecen en <em>Computer Methods and Programs in Biomedicine</em> (Q1, IF 4.8). Como eje transversal a estas cuatro líneas mantengo un trabajo continuado en el diseño de arquitecturas IoT/IoMT eficientes y en la evaluación de su alineación con los Objetivos de Desarrollo Sostenible."
+  },
+
+  "metrics": {
+    "kicker": "01 — Indicadores",
+    "title": "Métricas de calidad",
+    "sub": "Impacto bibliométrico y producción científica detallada por tipo.",
+    "impactTitle": "Impacto bibliométrico",
+    "productionTitle": "Producción",
+    "stats": {
+      "citations": "Citas totales",
+      "hindex": "Índice h",
+      "i10": "Índice i10",
+      "jcr": "Publicaciones JCR",
+      "confInt": "Congresos internacionales",
+      "confNac": "Congresos nacionales",
+      "software": "Registros software"
+    },
+    "source": {
+      "openalex": "OpenAlex",
+      "scholar": "Google Scholar",
+      "cv": "Currículum",
+      "jcr": "Indexadas en JCR"
+    },
+    "chart": {
+      "title": "Producción anual e impacto"
+    }
+  },
+
+  "research": {
+    "kicker": "02 — Líneas y grupo",
+    "title": "Investigación",
+    "sub": "Miembro del grupo <strong>ASIA TIC-257 · Avances en Sistemas Inteligentes y Aplicaciones</strong>.",
+    "intro": "Mis líneas se enmarcan en la tecnología <strong>Internet de las Cosas (IoT)</strong> y combinan lógica difusa, aprendizaje automático supervisado y aprendizaje profundo.",
+    "lines": {
+      "har": {
+        "title": "Localización en interiores",
+        "desc": "Sistemas de posicionamiento en espacios cerrados mediante señales y sensores."
+      },
+      "activities": {
+        "title": "Reconocimiento de actividades humanas",
+        "desc": "Detección y clasificación de actividades diarias a partir de datos de sensores."
+      },
+      "health": {
+        "title": "Resúmenes lingüísticos en salud",
+        "desc": "Resúmenes interpretables de niveles de glucosa en personas con diabetes."
+      },
+      "ai": {
+        "title": "IA sostenible",
+        "desc": "Evaluación de sistemas inteligentes desde un punto de vista sostenible."
+      }
+    }
+  },
+
+  "publications": {
+    "kicker": "03 — Producción científica",
+    "title": "Publicaciones",
+    "sub": "Selección de artículos en revistas indexadas, capítulos de libro y congresos.",
+    "loading": "Cargando publicaciones…",
+    "empty": "Sin resultados para este filtro.",
+    "filters": {
+      "all": "Todas",
+      "journal": "Revistas",
+      "conference": "Congresos",
+      "software": "Software"
+    },
+    "types": {
+      "journal": "Artículo",
+      "conference": "Congreso",
+      "thesis": "Tesis doctoral",
+      "software": "Registro software"
+    },
+    "labels": {
+      "corresponding": "Corresponding",
+      "international": "Internacional",
+      "national": "Nacional",
+      "coSupervision": "Codirección",
+      "coSupervisionActive": "Codirección activa",
+      "cumLaude": "Cum Laude",
+      "doi": "DOI",
+      "doctoralProgram": "Programa de doctorado en TIC",
+      "inProgress": "En curso",
+      "quartileUnknown": "Pendiente de asignar",
+      "ifTitle": "Impact Factor"
+    },
+    "pager": {
+      "showing": "Mostrando",
+      "of": "de",
+      "perPage": "Por página",
+      "all": "Todas",
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "page": "Paginación"
+    },
+    "citationsAbbrev": "citas"
+  },
+
+  "awards": {
+    "kicker": "04 — Reconocimientos",
+    "title": "Premios y distinciones",
+    "items": {
+      "castillejo": {
+        "line": "<strong>Beca José Castillejo</strong> para estancia de investigación en la <em>University of Ulster</em> (Belfast, Reino Unido), mayo-julio 2026.",
+        "place": "Ministerio de Ciencia, Innovación y Universidades"
+      },
+      "bestRecord": {
+        "line": "<strong>Mejor expediente académico</strong> del curso 2021-22 en el Máster de Ingeniería Informática.",
+        "place": "Universidad de Jaén"
+      },
+      "bestTfm": {
+        "line": "<strong>Mejor Trabajo Fin de Máster</strong> de la Universidad de Jaén defendido en 2020.",
+        "place": "Universidad de Jaén"
+      }
+    },
+    "thesesTitle": "Tesis doctorales dirigidas",
+    "theses": {
+      "defended": {
+        "title": "Plataformas de salud inteligentes: monitorización de pacientes con diabetes tipo 2 y sostenibilidad",
+        "authors": "Doctorando: <strong>David Díaz Jiménez</strong> · Codirectores: Macarena Espinilla Estévez, <strong>López Ruiz, J. L.</strong>",
+        "venue": "Universidad de Jaén · Defendida el 12 de febrero de 2025"
+      },
+      "inProgress": {
+        "title": "2 tesis doctorales en codirección",
+        "authors": "Pendiente de añadir títulos y doctorandos.",
+        "venue": "Universidad de Jaén · Grupo ASIA TIC-257"
+      }
+    }
+  },
+
+  "footer": {
+    "signature": "José Luis López Ruiz · Universidad de Jaén"
+  },
+
+  "lang": {
+    "es": "ES",
+    "en": "EN",
+    "switchToEn": "Cambiar idioma a inglés",
+    "switchToEs": "Cambiar idioma a español"
+  }
+}

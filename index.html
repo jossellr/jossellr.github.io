@@ -1,157 +1,525 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Resume - Start Bootstrap Theme</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <span class="d-block d-lg-none">José Luis López Ruiz</span>
-                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/profile.jpg" alt="..." /></span>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO básico -->
+    <title data-i18n="meta.title">José Luis López Ruiz · Universidad de Jaén</title>
+    <meta name="description" content="José Luis López Ruiz · Profesor e investigador en el Área de Arquitectura y Tecnología de Computadores de la Universidad de Jaén. Sistemas inteligentes aplicados a salud conectada y envejecimiento activo." data-i18n-attr="content:meta.description" />
+    <meta name="author" content="José Luis López Ruiz" />
+    <meta name="keywords" content="José Luis López Ruiz, Universidad de Jaén, UJA, IoT, Internet de las Cosas, lógica difusa, aprendizaje profundo, deep learning, salud conectada, envejecimiento activo, reconocimiento de actividades, indoor positioning, BLE, UWB, diabetes, glucosa, IoMT, ASIA TIC-257, Profesor Ayudante Doctor" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="theme-color" content="#047857" />
+
+    <!-- Canonical y alternativas por idioma -->
+    <link rel="canonical" href="https://jossellr.github.io/" />
+    <link rel="alternate" hreflang="es" href="https://jossellr.github.io/?lang=es" />
+    <link rel="alternate" hreflang="en" href="https://jossellr.github.io/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://jossellr.github.io/" />
+
+    <!-- Open Graph (LinkedIn, Facebook, WhatsApp, Slack…) -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="José Luis López Ruiz" />
+    <meta property="og:url" content="https://jossellr.github.io/" />
+    <meta property="og:title" content="José Luis López Ruiz · Universidad de Jaén" />
+    <meta property="og:description" content="Profesor e investigador en la Universidad de Jaén. IoT, lógica difusa y aprendizaje profundo aplicados a salud conectada y envejecimiento activo." />
+    <meta property="og:image" content="https://jossellr.github.io/assets/img/profile_hero.jpg" />
+    <meta property="og:image:alt" content="Retrato de José Luis López Ruiz" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta property="profile:first_name" content="José Luis" />
+    <meta property="profile:last_name" content="López Ruiz" />
+    <meta property="profile:username" content="jossellr" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="José Luis López Ruiz · Universidad de Jaén" />
+    <meta name="twitter:description" content="Profesor e investigador en la Universidad de Jaén. IoT, lógica difusa y aprendizaje profundo en salud conectada y envejecimiento activo." />
+    <meta name="twitter:image" content="https://jossellr.github.io/assets/img/profile_hero.jpg" />
+    <meta name="twitter:image:alt" content="Retrato de José Luis López Ruiz" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+
+    <!-- Schema.org Person (JSON-LD) → alimenta el knowledge panel de Google -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://jossellr.github.io/#person",
+        "name": "José Luis López Ruiz",
+        "givenName": "José Luis",
+        "familyName": "López Ruiz",
+        "birthPlace": "Linares, Jaén, España",
+        "nationality": "Spanish",
+        "gender": "Male",
+        "jobTitle": "Profesor Ayudante Doctor",
+        "description": "Profesor e investigador en el Área de Arquitectura y Tecnología de Computadores de la Universidad de Jaén. Trabajo en sistemas inteligentes aplicados a salud conectada y envejecimiento activo, combinando IoT, lógica difusa y aprendizaje profundo.",
+        "image": "https://jossellr.github.io/assets/img/profile_hero.jpg",
+        "url": "https://jossellr.github.io/",
+        "email": "mailto:llopez@ujaen.es",
+        "telephone": "+34953212476",
+        "knowsLanguage": ["es", "en"],
+        "knowsAbout": [
+            "Internet of Things",
+            "Fuzzy Logic",
+            "Deep Learning",
+            "Human Activity Recognition",
+            "Indoor Positioning",
+            "BLE",
+            "UWB",
+            "Connected Health",
+            "Active Ageing",
+            "Diabetes Monitoring",
+            "Computer Architecture"
+        ],
+        "worksFor": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universidad de Jaén",
+            "url": "https://www.ujaen.es/",
+            "department": "Departamento de Informática · Área de Arquitectura y Tecnología de Computadores",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Campus Las Lagunillas, s/n",
+                "postalCode": "23071",
+                "addressLocality": "Jaén",
+                "addressRegion": "Andalucía",
+                "addressCountry": "ES"
+            }
+        },
+        "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universidad de Jaén",
+            "url": "https://www.ujaen.es/"
+        },
+        "memberOf": {
+            "@type": "Organization",
+            "name": "ASIA · Avances en Sistemas Inteligentes y Aplicaciones (TIC-257)",
+            "url": "https://www.ujaen.es/grupos-de-investigacion/asia/"
+        },
+        "identifier": [
+            { "@type": "PropertyValue", "propertyID": "ORCID", "value": "0000-0003-2583-8638" },
+            { "@type": "PropertyValue", "propertyID": "Scopus", "value": "57222729458" },
+            { "@type": "PropertyValue", "propertyID": "ResearcherID", "value": "C-5034-2019" },
+            { "@type": "PropertyValue", "propertyID": "Google Scholar", "value": "Am2sDmIAAAAJ" },
+            { "@type": "PropertyValue", "propertyID": "OpenAlex", "value": "A5070374778" }
+        ],
+        "sameAs": [
+            "https://orcid.org/0000-0003-2583-8638",
+            "https://scholar.google.com/citations?user=Am2sDmIAAAAJ",
+            "https://www.researchgate.net/profile/Jose-Luis-Lopez-Ruiz",
+            "https://www.linkedin.com/in/jossellr/",
+            "https://github.com/jossellr",
+            "https://openalex.org/authors/A5070374778"
+        ]
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body id="top">
+    <a class="skip-link" href="#contenido" data-i18n="meta.skipLink">Saltar al contenido</a>
+    <div id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- Topbar sticky -->
+    <header class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="#top" aria-label="Inicio">
+                <img class="brand-avatar" src="assets/img/profile.jpg" alt="" />
+                <span class="brand-text">
+                    <span class="brand-name">José Luis López Ruiz</span>
+                    <span class="brand-sub" data-i18n="brand.subtitle">Universidad de Jaén</span>
+                </span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Sobre mí</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#teaching">Docencia</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#research">Investigación</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Premios</a></li>
-                </ul>
+
+            <nav class="topnav" id="topnav" aria-label="Navegación principal">
+                <a class="topnav-link" href="#sobre-mi" data-i18n="nav.about">Sobre mí</a>
+                <a class="topnav-link" href="#metricas" data-i18n="nav.metrics">Métricas</a>
+                <a class="topnav-link" href="#investigacion" data-i18n="nav.research">Investigación</a>
+                <a class="topnav-link" href="#publicaciones" data-i18n="nav.publications">Publicaciones</a>
+                <a class="topnav-link" href="#premios" data-i18n="nav.awards">Premios</a>
+            </nav>
+
+            <div class="lang-switch" role="group" aria-label="Idioma / Language">
+                <button type="button" class="lang-btn" data-lang="es" data-i18n="lang.es" data-i18n-attr="aria-label:lang.switchToEs">ES</button>
+                <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en" data-i18n-attr="aria-label:lang.switchToEn">EN</button>
             </div>
-        </nav>
-        <!-- Page Content-->
-        <div class="container-fluid p-0">
-            <!-- About-->
-            <section class="resume-section" id="about">
-                <div class="resume-section-content">
-                    <h1 class="mb-0">
-                        José Luis
-                        <span class="text-primary">López Ruiz</span>
-                    </h1>
-                    <div class="subheading mb-5">
-                        Área de Arquitectura y Tecnología de Computadores · Departamento de Informática<br>
-                        Campus Las Lagunillas s/n 23071 Jaén (Jaén), España · Edificio A3 - 318  · (+34) 953 21 24 76 ·
-                        <a href="mailto:llopez@ujaen.es">llopez@ujaen.es</a>
-                    </div>
-                    <p class="lead mb-5">
-                        ¡Bienvenido a mi página web! Aquí podrás encontrar recursos importantes relacionados con mi docencia. <br>
-                        Aunque no es obligatorio, puedes solicitar tutoría en un horario concreto a través de este enlace: <a href="https://calendar.app.google/QWXxmiP2fhWnJ5dX7">enlace</a>
-                    </p>
-                    <div class="social-icons">
-                        <a class="social-icon" href="https://www.linkedin.com/in/jossellr/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="social-icon" href="https://github.com/jossellr" target="_blank"><i class="fab fa-github"></i></a>
-                        <a class="social-icon" href="https://github.com/jossellr" target="_blank"><i class="fa fa-university"></i></a>
-                    </div>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Experience-->
-            <section class="resume-section" id="teaching">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Docencia</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Arquitectura de computadores</h3>
-                            <div class="subheading mb-3">Grado en Ingeniería Informática</div>
-                            <p>La guía docente se encuentra disponible en el siguiente <a href="https://uvirtual.ujaen.es/pub/es/informacionacademica/catalogoguiasdocentes/p/2023-24/4/133A/13312001/es/2023-24-13312001_es.html" target="_blank">enlace</a></p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">Segundo curso - Obligatoria</span></div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Fundamentos de Ingeniería del Software</h3>
-                            <div class="subheading mb-3">Grado en Ingeniería Informática</div>
-                            <p>La guía docente se encuentra disponible en el siguiente <a href="https://uvirtual.ujaen.es/pub/es/informacionacademica/catalogoguiasdocentes/p/2023-24/4/133A/13312014/es/2023-24-13312014_es.html" target="_blank">enlace</a></p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">Segundo curso - Obligatoria</span></div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Diseño e implantación de servidores</h3>
-                            <div class="subheading mb-3">Grado en Ingeniería Informática</div>
-                            <p>La guía docente se encuentra disponible en el siguiente <a href="https://uvirtual.ujaen.es/pub/es/informacionacademica/catalogoguiasdocentes/p/2023-24/4/133A/13312011/es/2023-24-13312011_es.html" target="_blank">enlace</a></p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">Cuarto curso - Obligatoria</span></div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Gestión de Proyectos Software</h3>
-                            <div class="subheading mb-3">Grado en Ingeniería Informática</div>
-                            <p>La guía docente se encuentra disponible en el siguiente <a href="https://uvirtual.ujaen.es/pub/es/informacionacademica/catalogoguiasdocentes/p/2023-24/4/133A/13312015/es/2023-24-13312015_es.html" target="_blank">enlace</a></p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">Cuarto curso - Obligatoria</span></div>
-                    </div>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Education-->
-            <section class="resume-section" id="research">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Investigación</h2>
-                    <p class="lead mb-3">
-                        Soy miembro investigador dentro del Grupo de Investigación Avances en Sistemas Inteligentes y Aplicaciones (ASIA TIC-257). <br><br>
-                        
-                        Mis líneas de investigación se centran principalmente:
-                    </p>
-                    <ul class="fa-ul mb-0">
-                        <li class="lead"> 
-                            <span class="fa-solid fa-minus"></span> Localización en espacios interiores.
-                        </li>
-                        <li class="lead"> 
-                            <span class="fa-solid fa-minus"></span> Reconocimiento de actividades diarias humanas.
-                        </li>
-                        <li class="lead"> 
-                            <span class="fa-solid fa-minus"></span> Resúmenes lingüisticos de niveles de glucosa en personas diabéticas.
-                        </li>
-                        <li class="lead mb-3"> 
-                            <span class="fa-solid fa-minus"></span> Evaluación de sistemas inteligentes desde un punto de vista sostenible.
-                        </li>
-                    </ul>
-                    <p class="lead mb-3">
-                        Estas líneas de investigación están centradas en la tecnología Internet de las Cosas (IoT) y utilizan principalmente 
-                        metodologías basadas en Lógica Difusa, Aprendizaje Automático Supervisado y Aprendizaje Profundo.<br><br>
-                        Podéis encontrar todos mis resultados de investigación en Researchgate y ORCID.
-                    </p>
-                    <ul class="list-inline dev-icons">
-                        <a class="social-icon" href="https://www.researchgate.net/profile/Jose-Luis-Lopez-Ruiz" target="_blank"><i class="fa-brands fa-researchgate"></i></a>
-                        <a class="social-icon" href="https://orcid.org/0000-0003-2583-8638" target="_blank"><i class="fa-brands fa-orcid"></i></a>
-                    </ul>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Awards-->
-            <section class="resume-section" id="awards">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Premios</h2>
-                    <ul class="fa-ul mb-0">
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            Mejor expediente académico del curso 2021-22 en el Máster de Ingeniería Informática
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            Mejor Trabajo Fin de Máster de la Universidad de Jaén defendido en 2020.
-                        </li>
-                    </ul>
-                </div>
-            </section>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" data-i18n-attr="aria-label:nav.openMenu" aria-expanded="false" aria-controls="topnav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
+    </header>
+
+    <main id="contenido">
+
+        <!-- Hero / Sobre mí -->
+        <section class="hero" id="sobre-mi">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <span class="hero-eyebrow" data-i18n="hero.eyebrow">Universidad de Jaén · Área de Arquitectura y Tecnología de Computadores</span>
+                    <h1 class="hero-name">
+                        José Luis
+                        <span>López Ruiz</span>
+                    </h1>
+                    <p class="hero-role" data-i18n="hero.role">Profesor Ayudante Doctor · Sistemas inteligentes aplicados a la salud y el envejecimiento activo</p>
+                    <p class="hero-bio" data-i18n-html="hero.bio">
+                        Profesor e investigador en la <strong>Universidad de Jaén</strong>, acreditado <strong>ANECA</strong> como Profesor Permanente Laboral. Investigo en la frontera entre <strong>IoT</strong>, <strong>lógica difusa</strong> y <strong>aprendizaje profundo</strong>, con foco en salud conectada, monitorización de pacientes crónicos y envejecimiento activo.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="https://uvirtual.ujaen.es/pub/es/informacionacademica/tutorias/p/119295" target="_blank" rel="noopener">
+                            <i class="fa-regular fa-calendar"></i> <span data-i18n="hero.btnTutoria">Reservar tutoría</span>
+                        </a>
+                        <a class="btn btn-ghost" href="#publicaciones">
+                            <i class="fa-solid fa-book"></i> <span data-i18n="hero.btnPublications">Ver publicaciones</span>
+                        </a>
+                    </div>
+
+                    <div class="hero-socials" aria-label="Perfiles externos">
+                        <a class="social-link" href="mailto:llopez@ujaen.es" title="Correo electrónico" aria-label="Correo" data-i18n-attr="title:hero.socials.email|aria-label:hero.socials.email">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                        <a class="social-link" href="https://orcid.org/0000-0003-2583-8638" target="_blank" rel="noopener" title="ORCID" aria-label="ORCID">
+                            <i class="fa-brands fa-orcid"></i>
+                        </a>
+                        <a class="social-link" href="https://scholar.google.com/citations?user=Am2sDmIAAAAJ" target="_blank" rel="noopener" title="Google Scholar" aria-label="Google Scholar">
+                            <i class="fa-brands fa-google-scholar"></i>
+                        </a>
+                        <a class="social-link" href="https://www.researchgate.net/profile/Jose-Luis-Lopez-Ruiz" target="_blank" rel="noopener" title="ResearchGate" aria-label="ResearchGate">
+                            <i class="fa-brands fa-researchgate"></i>
+                        </a>
+                        <a class="social-link" href="https://www.linkedin.com/in/jossellr/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a class="social-link" href="https://github.com/jossellr" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <figure class="hero-photo-wrap" aria-hidden="true">
+                    <div class="hero-photo-deco"></div>
+                    <img class="hero-photo" src="assets/img/profile_hero.jpg" alt="Retrato de José Luis López Ruiz" data-i18n-attr="alt:hero.photoAlt" />
+                </figure>
+            </div>
+
+            <div class="two-col">
+                <div class="col-block">
+                    <h3 class="subsection-title" data-i18n="education.title">Formación</h3>
+                    <ol class="career-timeline">
+                        <li class="career-item">
+                            <span class="career-year">2023</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="education.items.y2023.title">Doctorado en Tecnologías de la Información y la Comunicación</h4>
+                                <p class="career-meta" data-i18n="education.items.y2023.meta">Universidad de Jaén</p>
+                            </div>
+                        </li>
+                        <li class="career-item">
+                            <span class="career-year">2020</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="education.items.y2020.title">Máster Universitario en Ingeniería Informática</h4>
+                                <p class="career-meta" data-i18n="education.items.y2020.meta">Universidad de Jaén · Premio al Mejor Trabajo Fin de Máster</p>
+                            </div>
+                        </li>
+                        <li class="career-item">
+                            <span class="career-year">2018</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="education.items.y2018.title">Grado en Ingeniería Informática</h4>
+                                <p class="career-meta" data-i18n="education.items.y2018.meta">Universidad de Jaén</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-block">
+                    <h3 class="subsection-title" data-i18n="career.title">Trayectoria profesional</h3>
+                    <ol class="career-timeline">
+                        <li class="career-item">
+                            <span class="career-year">2024</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="career.items.y2024.title">Profesor Ayudante Doctor</h4>
+                                <p class="career-meta" data-i18n="career.items.y2024.meta">Departamento de Informática · Área de Arquitectura y Tecnología de Computadores</p>
+                            </div>
+                        </li>
+                        <li class="career-item">
+                            <span class="career-year">2023</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="career.items.y2023.title">Profesor Sustituto</h4>
+                                <p class="career-meta" data-i18n="career.items.y2023.meta">Departamento de Informática · Área de Lenguajes y Sistemas Informáticos</p>
+                            </div>
+                        </li>
+                        <li class="career-item">
+                            <span class="career-year">2022</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="career.items.y2022.title">Profesor Sustituto Interino</h4>
+                                <p class="career-meta" data-i18n="career.items.y2022.meta">Departamento de Informática · Área de Lenguajes y Sistemas Informáticos</p>
+                            </div>
+                        </li>
+                        <li class="career-item">
+                            <span class="career-year">2020</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="career.items.y2020.title">Técnico de Apoyo y Gestión I+D+I</h4>
+                                <p class="career-meta" data-i18n="career.items.y2020.meta">Grupo de investigación ASIA (TIC-257)</p>
+                            </div>
+                        </li>
+                        <li class="career-item">
+                            <span class="career-year">2019</span>
+                            <div class="career-body">
+                                <h4 class="career-title" data-i18n="career.items.y2019.title">Personal investigador · Garantía Juvenil</h4>
+                                <p class="career-meta" data-i18n="career.items.y2019.meta">Grupo de investigación ASIA (TIC-257)</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3 class="subsection-title" data-i18n="office.title">Despacho</h3>
+            <div class="office-block">
+                <div class="office-info">
+                    <p class="office-line"><i class="fa-solid fa-building-columns"></i> <span data-i18n-html="office.building"><strong>Edificio A3</strong> · Despacho 118</span></p>
+                    <p class="office-line"><i class="fa-solid fa-location-dot"></i> <span data-i18n="office.address">Campus Las Lagunillas, s/n · 23071 Jaén</span></p>
+                    <p class="office-line"><i class="fa-solid fa-phone"></i> <a href="tel:+34953212476" data-i18n="office.phoneLabel">(+34) 953 21 24 76</a></p>
+                    <p class="office-note" data-i18n="office.note">Universidad de Jaén · Escuela Politécnica Superior de Jaén</p>
+                </div>
+                <iframe class="office-map"
+                        title="Mapa del Edificio A3 en el Campus Las Lagunillas"
+                        data-i18n-attr="title:office.mapLabel"
+                        src="https://www.google.com/maps?q=Edificio+A3+Universidad+de+Ja%C3%A9n+Campus+Las+Lagunillas&hl=es&z=17&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen></iframe>
+            </div>
+
+            <h3 class="subsection-title" data-i18n="biography.title">Biografía</h3>
+            <div class="biography">
+                <p class="biography-intro" data-i18n-html="biography.p1">
+                    José Luis López Ruiz (Linares, Jaén, 1993) es Graduado en Ingeniería Informática (2018), Máster Universitario en Ingeniería Informática (2020) con Premio al Mejor Trabajo Fin de Máster, y Doctor en Tecnologías de la Información y la Comunicación (2023) por la <strong>Universidad de Jaén</strong>. Actualmente ejerce como Profesor Ayudante Doctor en el Departamento de Informática y forma parte del grupo de investigación <strong>ASIA (TIC-257)</strong> de la misma universidad. Cuenta con la acreditación de la <strong>ANECA</strong> a Profesor Permanente Laboral desde diciembre de 2023. Sus líneas de investigación abordan la integración de Internet de las Cosas, lógica difusa y aprendizaje profundo en sistemas de salud conectada y envejecimiento activo.
+                </p>
+
+                <p data-i18n-html="biography.p2">
+                    Mi trayectoria académica se ha desarrollado íntegramente en la Universidad de Jaén, desde mi incorporación en 2019 como personal investigador del programa de Garantía Juvenil. Entre 2020 y 2022 ocupé un puesto de Técnico de Apoyo y Gestión I+D+I y, en febrero de 2022, me incorporé a la docencia universitaria como Profesor Sustituto Interino. La defensa de mi tesis doctoral en mayo de 2023, seguida de la obtención de la acreditación ANECA en diciembre del mismo año, dio paso a mi contrato como Profesor Sustituto. Desde diciembre de 2024 ocupo plaza de Profesor Ayudante Doctor en el Área de Arquitectura y Tecnología de Computadores. En 2025 obtuve una <strong>Beca José Castillejo</strong> del Ministerio de Ciencia, Innovación y Universidades, cuya ejecución se concreta en una estancia de investigación de tres meses (mayo a julio de 2026) en la <strong>University of Ulster</strong> (Belfast, Reino Unido).
+                </p>
+
+                <p data-i18n-html="biography.p3">
+                    Mi actividad investigadora se organiza actualmente en cuatro líneas complementarias, todas ellas centradas en la aplicación de sistemas inteligentes a la salud y el envejecimiento activo. La primera, iniciada durante la tesis doctoral, aborda el <strong>reconocimiento de actividades de la vida diaria</strong> mediante sensores IoT desplegados en entornos domésticos y sociosanitarios para el seguimiento de personas mayores y pacientes crónicos. Una segunda línea, derivada de la anterior, se ocupa de la <strong>monitorización de glucosa y la gestión de la diabetes mellitus</strong> tipo 1 y tipo 2, donde combino plataformas de adherencia terapéutica con la generación de resúmenes lingüísticos a partir de datos de sensor, mediante lógica difusa y modelos de lenguaje. En paralelo desarrollo trabajo en <strong>posicionamiento en interiores con tecnologías BLE y UWB</strong>, aplicado fundamentalmente a entornos de vida asistida. Más recientemente, y bajo mi liderazgo, hemos abierto una cuarta línea orientada a la <strong>detección de estrés a partir de datos biométricos en dispositivos IoMT de bajo coste</strong>, cuyos primeros resultados aparecen en <em>Computer Methods and Programs in Biomedicine</em> (Q1, IF 4.8). Como eje transversal a estas cuatro líneas mantengo un trabajo continuado en el diseño de arquitecturas IoT/IoMT eficientes y en la evaluación de su alineación con los Objetivos de Desarrollo Sostenible.
+                </p>
+
+            </div>
+        </section>
+
+        <!-- Métricas -->
+        <section class="section" id="metricas">
+            <header class="section-header">
+                <span class="section-kicker" data-i18n="metrics.kicker">01 — Indicadores</span>
+                <h2 class="section-title" data-i18n="metrics.title">Métricas de calidad</h2>
+                <p class="section-sub" data-i18n="metrics.sub">Impacto bibliométrico y producción científica detallada por tipo.</p>
+            </header>
+
+            <h3 class="subsection-title" data-i18n="metrics.impactTitle">Impacto bibliométrico</h3>
+            <div class="stat-grid" id="statsImpact">
+                <div class="stat-card">
+                    <span class="stat-value" data-stat="citations">—</span>
+                    <span class="stat-label" data-i18n="metrics.stats.citations">Citas totales</span>
+                    <span class="stat-source" data-i18n="metrics.source.openalex">OpenAlex</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" data-stat="hindex">—</span>
+                    <span class="stat-label" data-i18n="metrics.stats.hindex">Índice h</span>
+                    <span class="stat-source" data-i18n="metrics.source.openalex">OpenAlex</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" data-stat="i10">—</span>
+                    <span class="stat-label" data-i18n="metrics.stats.i10">Índice i10</span>
+                    <span class="stat-source" data-i18n="metrics.source.openalex">OpenAlex</span>
+                </div>
+            </div>
+
+            <h3 class="subsection-title" data-i18n="metrics.productionTitle">Producción</h3>
+            <div class="stat-grid" id="statsProduction">
+                <div class="stat-card stat-card-jcr">
+                    <span class="stat-value" data-stat="jcr">—</span>
+                    <span class="stat-label" data-i18n="metrics.stats.jcr">Publicaciones JCR</span>
+                    <div class="quartile-breakdown" id="quartileBreakdown" aria-label="Desglose por cuartil"></div>
+                    <span class="stat-source" data-i18n="metrics.source.jcr">Indexadas en JCR</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" data-stat="conf-int">—</span>
+                    <span class="stat-label" data-i18n="metrics.stats.confInt">Congresos internacionales</span>
+                    <span class="stat-source" data-i18n="metrics.source.cv">Currículum</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" data-stat="conf-nac">—</span>
+                    <span class="stat-label" data-i18n="metrics.stats.confNac">Congresos nacionales</span>
+                    <span class="stat-source" data-i18n="metrics.source.cv">Currículum</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" data-stat="software">—</span>
+                    <span class="stat-label" data-i18n="metrics.stats.software">Registros software</span>
+                    <span class="stat-source" data-i18n="metrics.source.cv">Currículum</span>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h4 data-i18n="metrics.chart.title">Producción anual e impacto</h4>
+                </div>
+                <div class="chart-canvas-wrapper" id="citationsChartWrap">
+                    <canvas id="citationsChart" aria-label="Gráfica de publicaciones por año (barras apiladas) y evolución de citas (línea)"></canvas>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Investigación -->
+        <section class="section" id="investigacion">
+            <header class="section-header">
+                <span class="section-kicker" data-i18n="research.kicker">02 — Líneas y grupo</span>
+                <h2 class="section-title" data-i18n="research.title">Investigación</h2>
+                <p class="section-sub" data-i18n-html="research.sub">Miembro del grupo <strong>ASIA TIC-257 · Avances en Sistemas Inteligentes y Aplicaciones</strong>.</p>
+            </header>
+
+            <p class="lead" data-i18n-html="research.intro">
+                Mis líneas se enmarcan en la tecnología <strong>Internet de las Cosas (IoT)</strong> y combinan
+                lógica difusa, aprendizaje automático supervisado y aprendizaje profundo.
+            </p>
+
+            <div class="lines-grid">
+                <div class="line-card">
+                    <div class="line-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+                    <h4 data-i18n="research.lines.har.title">Localización en interiores</h4>
+                    <p data-i18n="research.lines.har.desc">Sistemas de posicionamiento en espacios cerrados mediante señales y sensores.</p>
+                </div>
+                <div class="line-card">
+                    <div class="line-icon"><i class="fa-solid fa-person-walking"></i></div>
+                    <h4 data-i18n="research.lines.activities.title">Reconocimiento de actividades humanas</h4>
+                    <p data-i18n="research.lines.activities.desc">Detección y clasificación de actividades diarias a partir de datos de sensores.</p>
+                </div>
+                <div class="line-card">
+                    <div class="line-icon"><i class="fa-solid fa-droplet"></i></div>
+                    <h4 data-i18n="research.lines.health.title">Resúmenes lingüísticos en salud</h4>
+                    <p data-i18n="research.lines.health.desc">Resúmenes interpretables de niveles de glucosa en personas con diabetes.</p>
+                </div>
+                <div class="line-card">
+                    <div class="line-icon"><i class="fa-solid fa-leaf"></i></div>
+                    <h4 data-i18n="research.lines.ai.title">IA sostenible</h4>
+                    <p data-i18n="research.lines.ai.desc">Evaluación de sistemas inteligentes desde un punto de vista sostenible.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publicaciones -->
+        <section class="section" id="publicaciones">
+            <header class="section-header">
+                <span class="section-kicker" data-i18n="publications.kicker">03 — Producción científica</span>
+                <h2 class="section-title" data-i18n="publications.title">Publicaciones</h2>
+                <p class="section-sub" data-i18n="publications.sub">Selección de artículos en revistas indexadas, capítulos de libro y congresos.</p>
+            </header>
+
+            <div class="filter-row" role="tablist" aria-label="Filtrar publicaciones">
+                <button class="filter-chip is-active" data-filter="all"><span data-i18n="publications.filters.all">Todas</span></button>
+                <button class="filter-chip" data-filter="journal"><span data-i18n="publications.filters.journal">Revistas</span></button>
+                <button class="filter-chip" data-filter="conference"><span data-i18n="publications.filters.conference">Congresos</span></button>
+                <button class="filter-chip" data-filter="software"><span data-i18n="publications.filters.software">Software</span></button>
+            </div>
+
+            <div class="publications" id="publicationsList" aria-live="polite">
+                <p class="muted-note"><i class="fa-solid fa-spinner fa-spin"></i> <span data-i18n="publications.loading">Cargando publicaciones…</span></p>
+            </div>
+
+            <nav class="publications-pager" id="publicationsPager" aria-label="Paginación" data-i18n-attr="aria-label:publications.pager.page"></nav>
+        </section>
+
+        <!-- Premios -->
+        <section class="section" id="premios">
+            <header class="section-header">
+                <span class="section-kicker" data-i18n="awards.kicker">04 — Reconocimientos</span>
+                <h2 class="section-title" data-i18n="awards.title">Premios y distinciones</h2>
+            </header>
+
+            <ul class="awards-list">
+                <li>
+                    <span class="award-icon"><i class="fa-solid fa-plane-departure"></i></span>
+                    <div>
+                        <span data-i18n-html="awards.items.castillejo.line"><strong>Beca José Castillejo</strong> para estancia de investigación en la <em>University of Ulster</em> (Belfast, Reino Unido), mayo-julio 2026.</span>
+                        <span class="award-place" data-i18n="awards.items.castillejo.place">Ministerio de Ciencia, Innovación y Universidades</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="award-icon"><i class="fa-solid fa-trophy"></i></span>
+                    <div>
+                        <span data-i18n-html="awards.items.bestRecord.line"><strong>Mejor expediente académico</strong> del curso 2021-22 en el Máster de Ingeniería Informática.</span>
+                        <span class="award-place" data-i18n="awards.items.bestRecord.place">Universidad de Jaén</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="award-icon"><i class="fa-solid fa-award"></i></span>
+                    <div>
+                        <span data-i18n-html="awards.items.bestTfm.line"><strong>Mejor Trabajo Fin de Máster</strong> de la Universidad de Jaén defendido en 2020.</span>
+                        <span class="award-place" data-i18n="awards.items.bestTfm.place">Universidad de Jaén</span>
+                    </div>
+                </li>
+            </ul>
+
+            <h3 class="subsection-title" data-i18n="awards.thesesTitle">Tesis doctorales dirigidas</h3>
+            <div class="publications">
+                <article class="pub-card" data-type="thesis">
+                    <div class="pub-figure pub-figure-publisher">
+                        <img class="publisher-logo" src="assets/img/publishers/uja.svg" alt="Universidad de Jaén" loading="lazy" />
+                    </div>
+                    <div class="pub-body">
+                        <div class="pub-type-row">
+                            <span class="pub-type"><span data-i18n="publications.types.thesis">Tesis doctoral</span> · 2025</span>
+                            <span class="pub-flag"><i class="fa-solid fa-medal"></i> <span data-i18n="publications.labels.cumLaude">Cum Laude</span></span>
+                        </div>
+                        <h4 class="pub-title" data-i18n="awards.theses.defended.title">Plataformas de salud inteligentes: monitorización de pacientes con diabetes tipo 2 y sostenibilidad</h4>
+                        <p class="pub-authors" data-i18n-html="awards.theses.defended.authors">Doctorando: <strong>David Díaz Jiménez</strong> · Codirectores: Macarena Espinilla Estévez, <strong>López Ruiz, J. L.</strong></p>
+                        <p class="pub-venue"><em data-i18n="awards.theses.defended.venue">Universidad de Jaén · Defendida el 12 de febrero de 2025</em></p>
+                        <div class="pub-metrics">
+                            <span class="metric-chip chip-international"><i class="fa-solid fa-user-graduate"></i> <span data-i18n="publications.labels.coSupervision">Codirección</span></span>
+                            <span class="metric-chip subtle" data-i18n="publications.labels.doctoralProgram">Programa de doctorado en TIC</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="pub-card placeholder" data-type="thesis">
+                    <div class="pub-figure pub-figure-publisher">
+                        <img class="publisher-logo" src="assets/img/publishers/uja.svg" alt="Universidad de Jaén" loading="lazy" />
+                    </div>
+                    <div class="pub-body">
+                        <div class="pub-type-row">
+                            <span class="pub-type"><span data-i18n="publications.types.thesis">Tesis doctoral</span> · <span data-i18n="publications.labels.inProgress">En curso</span></span>
+                        </div>
+                        <h4 class="pub-title" data-i18n="awards.theses.inProgress.title">2 tesis doctorales en codirección</h4>
+                        <p class="pub-authors" data-i18n="awards.theses.inProgress.authors">Pendiente de añadir títulos y doctorandos.</p>
+                        <p class="pub-venue"><em data-i18n="awards.theses.inProgress.venue">Universidad de Jaén · Grupo ASIA TIC-257</em></p>
+                        <div class="pub-metrics">
+                            <span class="metric-chip chip-international"><i class="fa-solid fa-user-graduate"></i> <span data-i18n="publications.labels.coSupervisionActive">Codirección activa</span></span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer-inner">
+            <p>© <span id="year"></span> <span data-i18n="footer.signature">José Luis López Ruiz · Universidad de Jaén</span></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="js/scripts.js" defer></script>
+</body>
 </html>

@@ -1,0 +1,8 @@
+{
+  "_comment": "Métricas mantenidas a mano. Edita aquí los valores cuando cambien. Las claves coinciden con los atributos data-stat de las stat-cards de la sección 'Producción' en index.html.",
+  "updated_at": "2026-05-19",
+  "jcr": null,
+  "conf-int": null,
+  "conf-nac": null,
+  "software": null
+}

@@ -1,0 +1,507 @@
+{
+  "_comment": "Artículos en revistas indexadas. Añade nuevos elementos al inicio del array 'items'. El campo 'quartile' acepta Q1, Q2, Q3, Q4 o null si está pendiente de asignar.",
+  "items": [
+    {
+      "id": "montoya-2026-iomt-stress",
+      "title": "Towards lightweight stress monitoring on biometric data for IoMT environments",
+      "authors": [
+        "Montoya Peña, C.",
+        "Gaitán Guerrero, J. F.",
+        "Espinilla, M.",
+        "López, J. L."
+      ],
+      "myPosition": 4,
+      "corresponding": true,
+      "year": 2026,
+      "journal": "Computer Methods and Programs in Biomedicine",
+      "publisher": "Elsevier B.V.",
+      "volume": "279",
+      "issue": null,
+      "pages": "109287",
+      "issn": "0169-2607",
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 4.8,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1016/j.cmpb.2026.109287",
+      "figureUrl": null,
+      "featured": true,
+      "impactFactorSource": "JCR",
+      "impactFactorOpenAlex": 4.91
+    },
+    {
+      "id": "diaz-2025-adherence-chronic",
+      "title": "Understanding Patient Adherence Through Sensor Data: An Integrated Approach to Chronic Disease Management",
+      "authors": [
+        "Díaz Jiménez, D.",
+        "López Ruiz, J. L.",
+        "Gaitán Guerrero, J. F.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 2,
+      "corresponding": false,
+      "year": 2025,
+      "journal": "Applied Sciences",
+      "publisher": "MDPI",
+      "volume": "15",
+      "issue": "24",
+      "pages": "13226",
+      "issn": "2076-3417",
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 3.18,
+      "indexedIn": [
+        "JCR",
+        "Scopus"
+      ],
+      "doi": "10.3390/app152413226",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "diaz-2025-sdg-evaluation",
+      "title": "Assessing the sustainable alignment of a sensor-based connected health system with SDGs: an evaluation model and case study",
+      "authors": [
+        "Díaz Jiménez, D.",
+        "López Ruiz, J. L.",
+        "González Lama, J.",
+        "Verdejo Espinosa, Á."
+      ],
+      "myPosition": 2,
+      "corresponding": true,
+      "year": 2025,
+      "journal": "Smart and Sustainable Built Environment",
+      "publisher": "Emerald",
+      "volume": "14",
+      "issue": "7",
+      "pages": "2235-2259",
+      "issn": "2046-6099",
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 4.69,
+      "indexedIn": [
+        "JCR",
+        "Scopus"
+      ],
+      "doi": "10.1108/SASBE-03-2024-0091",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "fernandez-2025-fuzzy-multimodal",
+      "title": "Fuzzy processing applied to improve multimodal sensor data fusion to discover frequent behavioral patterns for smart healthcare",
+      "authors": [
+        "Fernández Basso, C.",
+        "Díaz Jiménez, D.",
+        "López Ruiz, J. L.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 3,
+      "corresponding": false,
+      "year": 2025,
+      "journal": "Information Fusion",
+      "publisher": "Elsevier",
+      "volume": "123",
+      "issue": null,
+      "pages": null,
+      "issn": null,
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 15.5,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1016/j.inffus.2025.103307",
+      "figureUrl": null,
+      "featured": true,
+      "impactFactorSource": "JCR",
+      "impactFactorOpenAlex": 10.02
+    },
+    {
+      "id": "diaz-2025-ble-positioning",
+      "title": "BLE-Based Custom Devices for Indoor Positioning in Ambient Assisted Living Systems: Design and Prototyping",
+      "authors": [
+        "Díaz Jiménez, D.",
+        "López Ruiz, J. L.",
+        "Cuevas Martínez, J. C.",
+        "Torres Sospedra, J.",
+        "Navarro, E. A.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 2,
+      "corresponding": true,
+      "year": 2025,
+      "journal": "Sensors",
+      "publisher": "MDPI",
+      "volume": "25",
+      "issue": "20",
+      "pages": "6499",
+      "issn": "1424-8220",
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 4.33,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.3390/s25206499",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "gaitan-2025-llm-rawdmeth",
+      "title": "A novel fine-tuning and evaluation methodology for large language models on IoT raw data summaries (LLM-RawDMeth): A joint perspective in diabetes care",
+      "authors": [
+        "Gaitán Guerrero, J. F.",
+        "Martínez Cruz, C.",
+        "Espinilla Estévez, M.",
+        "Díaz Jiménez, D.",
+        "López Ruiz, J. L."
+      ],
+      "myPosition": 5,
+      "corresponding": false,
+      "year": 2025,
+      "journal": "Computer Methods and Programs in Biomedicine",
+      "publisher": "Elsevier",
+      "volume": "269",
+      "issue": null,
+      "pages": null,
+      "issn": null,
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 4.8,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1016/j.cmpb.2025.108878",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "JCR",
+      "impactFactorOpenAlex": 4.91
+    },
+    {
+      "id": "diaz-2024-adherence-iot-journal",
+      "title": "A New Horizon in Healthcare: An Innovative Methodology for Sensor-Based Adherence Platforms in Home Monitoring of Key Treatment Indicators",
+      "authors": [
+        "Díaz Jiménez, D.",
+        "López Ruiz, J. L.",
+        "González Lama, J.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 2,
+      "corresponding": false,
+      "year": 2024,
+      "journal": "IEEE Internet of Things Journal",
+      "publisher": "IEEE",
+      "volume": "11",
+      "issue": "20",
+      "pages": "33064-33076",
+      "issn": null,
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 8.9,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1109/JIOT.2024.3424905",
+      "figureUrl": null,
+      "featured": true,
+      "impactFactorSource": "JCR",
+      "impactFactorOpenAlex": 5.01
+    },
+    {
+      "id": "gaitan-2024-cgm-interpretable",
+      "title": "Toward an Interpretable Continuous Glucose Monitoring Data Modeling",
+      "authors": [
+        "Gaitán Guerrero, J. F.",
+        "López Ruiz, J. L.",
+        "Espinilla Estévez, M.",
+        "Martínez Cruz, C."
+      ],
+      "myPosition": 2,
+      "corresponding": false,
+      "year": 2024,
+      "journal": "IEEE Internet of Things Journal",
+      "publisher": "IEEE",
+      "volume": "11",
+      "issue": "20",
+      "pages": "31080-31094",
+      "issn": null,
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 8.9,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1109/JIOT.2024.3419260",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "JCR",
+      "impactFactorOpenAlex": 5.01
+    },
+    {
+      "id": "montoro-2023-activa-care",
+      "title": "ACTIVA: Innovation in Quality of Care for Nursing Homes Through Activity Recognition",
+      "authors": [
+        "Montoro Lendínez, A.",
+        "López Ruiz, J. L.",
+        "Nugent, C.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 2,
+      "corresponding": false,
+      "year": 2023,
+      "journal": "IEEE Access",
+      "publisher": "IEEE",
+      "volume": "11",
+      "issue": null,
+      "pages": "123335-123349",
+      "issn": null,
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 5.1,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1109/ACCESS.2023.3329748",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "lopez-2023-oblea-ble",
+      "title": "OBLEA: A New Methodology to Optimise Bluetooth Low Energy Anchors in Multi-occupancy Location Systems",
+      "authors": [
+        "López Ruiz, J. L.",
+        "Verdejo Espinosa, Á.",
+        "Montoro Lendínez, A.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 1,
+      "corresponding": true,
+      "year": 2023,
+      "journal": "Journal of Universal Computer Science",
+      "publisher": "Graz University of Technology",
+      "volume": "29",
+      "issue": "6",
+      "pages": "627-646",
+      "issn": null,
+      "quartile": "Q3",
+      "category": null,
+      "impactFactor": 1.47,
+      "indexedIn": [
+        "JCR",
+        "Scopus"
+      ],
+      "doi": "10.3897/jucs.96878",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "lopez-2023-sdg-activity-platform",
+      "title": "Evaluation of the Impact of the Sustainable Development Goals on an Activity Recognition Platform for Healthcare Systems",
+      "authors": [
+        "López Ruiz, J. L.",
+        "Espinilla Estévez, M.",
+        "Verdejo Espinosa, Á."
+      ],
+      "myPosition": 1,
+      "corresponding": false,
+      "year": 2023,
+      "journal": "Sensors",
+      "publisher": "MDPI",
+      "volume": "23",
+      "issue": "7",
+      "pages": null,
+      "issn": null,
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 4.33,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.3390/s23073563",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "delafuente-2022-wearables-bibliometric",
+      "title": "Past, Present and Future of Research on Wearable Technologies for Healthcare: A Bibliometric Analysis Using Scopus",
+      "authors": [
+        "De la Fuente Robles, Y. M.",
+        "Ricoy Cano, A. J.",
+        "Albín Rodríguez, A. P.",
+        "López Ruiz, J. L.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 4,
+      "corresponding": false,
+      "year": 2022,
+      "journal": "Sensors",
+      "publisher": "MDPI",
+      "volume": "22",
+      "issue": "22",
+      "pages": null,
+      "issn": null,
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 4.33,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.3390/s22228599",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "verdejo-2022-smartlabs-sdg",
+      "title": "Assessment of sustainable development objectives in Smart Labs: technology and sustainability at the service of society",
+      "authors": [
+        "Verdejo Espinosa, Á.",
+        "Espinilla Estévez, M.",
+        "López Ruiz, J. L.",
+        "Jurado Melguizo, F."
+      ],
+      "myPosition": 3,
+      "corresponding": false,
+      "year": 2022,
+      "journal": "Sustainable Cities and Society",
+      "publisher": "Elsevier",
+      "volume": "77",
+      "issue": null,
+      "pages": null,
+      "issn": "2210-6707",
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 11.7,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1016/j.scs.2021.103559",
+      "figureUrl": null,
+      "featured": true,
+      "impactFactorSource": "JCR",
+      "impactFactorOpenAlex": 11.52
+    },
+    {
+      "id": "albin-2021-ujami-fuzzy",
+      "title": "UJAmI Location: A Fuzzy Indoor Location System for the Elderly",
+      "authors": [
+        "Albín Rodríguez, A. P.",
+        "De la Fuente Robles, Y. M.",
+        "López Ruiz, J. L.",
+        "Verdejo Espinosa, Á.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 3,
+      "corresponding": false,
+      "year": 2021,
+      "journal": "International Journal of Environmental Research and Public Health",
+      "publisher": "MDPI",
+      "volume": "18",
+      "issue": "16",
+      "pages": null,
+      "issn": null,
+      "quartile": "Q1",
+      "category": null,
+      "impactFactor": 2.8,
+      "indexedIn": [
+        "JCR",
+        "Scopus"
+      ],
+      "doi": "10.3390/ijerph18168326",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "verdejo-2021-iot-sdg",
+      "title": "Application of IoT in Healthcare: Keys to Implementation of the Sustainable Development Goals",
+      "authors": [
+        "Verdejo Espinosa, Á.",
+        "López Ruiz, J. L.",
+        "Mata Mata, F.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 2,
+      "corresponding": false,
+      "year": 2021,
+      "journal": "Sensors",
+      "publisher": "MDPI",
+      "volume": "21",
+      "issue": "7",
+      "pages": null,
+      "issn": null,
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 4.33,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.3390/s21072330",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    },
+    {
+      "id": "ortega-2020-topological-3d",
+      "title": "Topological Data Models for Virtual Management of Hidden Facilities Through Digital Reality",
+      "authors": [
+        "Ortega Alvarado, L.",
+        "Jurado Rodríguez, J. M.",
+        "López Ruiz, J. L.",
+        "Feito Higueruela, F. R."
+      ],
+      "myPosition": 3,
+      "corresponding": false,
+      "year": 2020,
+      "journal": "IEEE Access",
+      "publisher": "IEEE",
+      "volume": "8",
+      "issue": null,
+      "pages": "62584-62600",
+      "issn": null,
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 5.1,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1109/ACCESS.2020.2984035",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex"
+    }
+  ]
+}
