@@ -1007,20 +1007,16 @@ main {
     100% { transform: translateY(0)   scale(1); }
 }
 
-/* Stagger de las tarjetas de publicaciones — cada una entra ~70 ms después.
-   Base visible: si la animación no llega a ejecutarse (algún navegador
-   móvil con ahorro de batería, reduce-motion agresivo, etc.) las
-   tarjetas siguen viéndose. La animación solo añade el fade-in
-   opcional usando fill-mode 'backwards' para aplicar el estado
-   inicial durante el delay. */
+/* Las tarjetas de publicaciones siempre visibles. Quitamos cualquier
+   animación de entrada por la inestabilidad observada en navegadores
+   móviles (ahorro de batería, optimizaciones para off-screen,
+   reduce-motion). Mejor sin efecto que invisible. */
 .pub-card {
-    opacity: 1;
-    animation: pub-card-in 520ms var(--ease-out-soft) backwards;
-    animation-delay: calc(var(--idx, 0) * 70ms + 60ms);
+    opacity: 1 !important;
+    transform: none !important;
 }
-@keyframes pub-card-in {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
+.publications {
+    opacity: 1 !important;
 }
 
 /* Salida cuando se cambia de filtro o página */
