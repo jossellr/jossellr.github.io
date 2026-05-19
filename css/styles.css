@@ -1202,7 +1202,12 @@ main {
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: .01ms !important;
+        animation-delay: 0ms !important;
         transition-duration: .01ms !important;
+        transition-delay: 0ms !important;
         scroll-behavior: auto !important;
     }
+    /* Garantiza que los elementos con entrada animada queden visibles
+       aunque la animación no llegue a ejecutarse. */
+    .pub-card, .reveal { opacity: 1 !important; transform: none !important; }
 }

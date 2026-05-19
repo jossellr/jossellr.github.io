@@ -59,9 +59,14 @@
             }
         }
 
-        // 4. Geolocalización por IP — ipapi.co devuelve country code en texto plano
-        return fetch("https://ipapi.co/country/", { cache: "default" })
-            .then(function (r) { return r.ok ? r.text() : ""; })
+        // 4. Geolocalización por IP — ipapi.co/country devuelve el código en texto.
+        // Con timeout de 2.5 s para no bloquear si la red móvil filtra el host.
+        var ipFetch = fetch("https://ipapi.co/country/", { cache: "default" })
+            .then(function (r) { return r.ok ? r.text() : ""; });
+        var ipTimeout = new Promise(function (resolve) {
+            setTimeout(function () { resolve(""); }, 2500);
+        });
+        return Promise.race([ipFetch, ipTimeout])
             .then(function (country) {
                 var c = String(country || "").trim().toUpperCase();
                 if (!c) return DEFAULT_LANG;
@@ -161,14 +166,18 @@
         initScrollReveal();
         initLangSwitch();
 
-        // Lanzamos la detección (puede involucrar un fetch a ipapi.co).
-        // Mientras tanto el contenido en castellano del HTML estático ya está
-        // visible; en cuanto resuelve, traducimos al idioma correcto.
-        detectLang().then(function (lang) {
-            return loadLang(lang, { firstLoad: true });
-        }).then(function () {
+        // Cargamos español por defecto inmediatamente (no bloquea nada),
+        // arrancamos métricas + publicaciones en paralelo, y la detección
+        // real de idioma corre aparte: si resuelve a algo distinto,
+        // re-aplica la traducción. Así si la geolocalización por IP se
+        // cuelga en una red móvil, publicaciones y métricas ya están vivas.
+        loadLang(DEFAULT_LANG, { firstLoad: true }).then(function () {
             loadMetrics();
             loadPublications().then(loadManualMetrics);
+        });
+
+        detectLang().then(function (lang) {
+            if (lang !== currentLang) loadLang(lang, { firstLoad: false });
         });
     });
 
