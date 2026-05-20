@@ -307,6 +307,17 @@
           desglose Q1/Q2/Q3/Q4) — todo derivado de los JSON, sin números
           hardcodeados. */
     function loadPublications() {
+        console.log("[publications] inicio de carga");
+        // Failsafe visible: si pasados 6 s el contenedor sigue mostrando el
+        // "Cargando publicaciones…", reemplazamos por un mensaje de error que
+        // se vea sin DevTools.
+        var failsafe = setTimeout(function () {
+            var c = document.getElementById("publicationsList");
+            if (c && c.innerHTML.indexOf("fa-spinner") !== -1) {
+                c.innerHTML = '<p class="muted-note" style="color:#b91c1c">⚠ No se han podido cargar los datos de publicaciones. Revisa la consola.</p>';
+            }
+        }, 6000);
+
         var sources = [
             ["journal", "data/publications/journals.json"],
             ["conference", "data/publications/conferences.json"],
@@ -314,18 +325,35 @@
         ];
         return Promise.all(sources.map(function (s) {
             return fetch(s[1], { cache: "no-cache" })
-                .then(function (r) { return r.ok ? r.json() : { items: [] }; })
-                .catch(function () { return { items: [] }; });
+                .then(function (r) {
+                    console.log("[publications]", s[1], "→", r.status);
+                    return r.ok ? r.json() : { items: [] };
+                })
+                .catch(function (err) {
+                    console.error("[publications] fallo en", s[1], err);
+                    return { items: [] };
+                });
         })).then(function (results) {
+            clearTimeout(failsafe);
             var data = {
                 journals: (results[0].items || []),
                 conferences: (results[1].items || []),
                 software: (results[2].items || [])
             };
+            console.log("[publications] cargado:",
+                data.journals.length, "revistas,",
+                data.conferences.length, "congresos,",
+                data.software.length, "software");
             applyComputedMetrics(data);
-            updateChartPublications(data);
+            try { updateChartPublications(data); } catch (e) { console.warn("[chart] error:", e); }
             renderPublications(data);
             initPublicationFiltersDynamic();
+            console.log("[publications] render completado");
+        }).catch(function (err) {
+            clearTimeout(failsafe);
+            console.error("[publications] error fatal:", err);
+            var c = document.getElementById("publicationsList");
+            if (c) c.innerHTML = '<p class="muted-note" style="color:#b91c1c">⚠ Error al procesar las publicaciones: ' + (err && err.message ? err.message : err) + '</p>';
         });
     }
 
