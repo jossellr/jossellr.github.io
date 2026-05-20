@@ -126,6 +126,17 @@
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="css/styles.css" />
+
+    <!-- Aplica el tema oscuro ANTES de pintar para evitar parpadeo claro→oscuro -->
+    <script>
+        (function () {
+            try {
+                var s = localStorage.getItem("theme_pref");
+                var dark = s === "dark" || (!s && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+                if (dark) document.documentElement.setAttribute("data-theme", "dark");
+            } catch (e) { /* ignore */ }
+        })();
+    </script>
 </head>
 <body id="top">
     <a class="skip-link" href="#contenido" data-i18n="meta.skipLink">Saltar al contenido</a>
@@ -164,6 +175,11 @@
                 <button type="button" class="lang-btn" data-lang="es" data-i18n="lang.es" data-i18n-attr="aria-label:lang.switchToEs">ES</button>
                 <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en" data-i18n-attr="aria-label:lang.switchToEn">EN</button>
             </div>
+
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Cambiar tema" data-i18n-attr="aria-label:theme.toggle|title:theme.toggle" title="Cambiar tema">
+                <i class="fa-solid fa-moon icon-light"></i>
+                <i class="fa-solid fa-sun icon-dark"></i>
+            </button>
 
             <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" data-i18n-attr="aria-label:nav.openMenu" aria-expanded="false" aria-controls="topnav">
                 <i class="fa-solid fa-bars"></i>

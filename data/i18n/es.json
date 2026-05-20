@@ -213,5 +213,9 @@
     "en": "EN",
     "switchToEn": "Cambiar idioma a inglés",
     "switchToEs": "Cambiar idioma a español"
+  },
+
+  "theme": {
+    "toggle": "Cambiar tema (claro/oscuro)"
   }
 }

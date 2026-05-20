@@ -171,6 +171,8 @@
         // real de idioma corre aparte: si resuelve a algo distinto,
         // re-aplica la traducción. Así si la geolocalización por IP se
         // cuelga en una red móvil, publicaciones y métricas ya están vivas.
+        initTheme();
+
         loadLang(DEFAULT_LANG, { firstLoad: true }).then(function () {
             loadMetrics();
             loadPublications().then(loadManualMetrics);
@@ -180,6 +182,53 @@
             if (lang !== currentLang) loadLang(lang, { firstLoad: false });
         });
     });
+
+    /* ---------- Modo oscuro ---------- */
+    var THEME_KEY = "theme_pref";
+
+    function initTheme() {
+        var stored = null;
+        try { stored = localStorage.getItem(THEME_KEY); } catch (e) { /* ignore */ }
+        var theme = stored === "dark" || stored === "light"
+            ? stored
+            : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        applyTheme(theme, false);
+
+        // Escucha al sistema operativo: si el usuario nunca eligió manualmente,
+        // se actualiza al cambiar el OS de claro a oscuro.
+        if (window.matchMedia) {
+            var mq = window.matchMedia("(prefers-color-scheme: dark)");
+            var listener = function (e) {
+                var s = null;
+                try { s = localStorage.getItem(THEME_KEY); } catch (err) { /* ignore */ }
+                if (!s) applyTheme(e.matches ? "dark" : "light", false);
+            };
+            if (mq.addEventListener) mq.addEventListener("change", listener);
+            else if (mq.addListener) mq.addListener(listener);
+        }
+
+        var btn = document.getElementById("themeToggle");
+        if (btn) {
+            btn.addEventListener("click", function () {
+                var cur = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+                applyTheme(cur === "dark" ? "light" : "dark", true);
+            });
+        }
+    }
+
+    function applyTheme(theme, persist) {
+        if (theme === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+            document.documentElement.removeAttribute("data-theme");
+        }
+        // Actualiza meta theme-color para barras de móvil
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#0d1117" : "#047857");
+        if (persist) {
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+        }
+    }
 
     /* Barra de progreso al hacer scroll */
     function initScrollProgress() {

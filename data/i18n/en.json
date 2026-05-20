@@ -213,5 +213,9 @@
     "en": "EN",
     "switchToEn": "Switch language to English",
     "switchToEs": "Switch language to Spanish"
+  },
+
+  "theme": {
+    "toggle": "Toggle theme (light/dark)"
   }
 }
