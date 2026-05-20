@@ -472,7 +472,7 @@
             label: "López Ruiz, J. L.",
             value: Math.max(20, coauthorNames.length),
             color: { background: meColor, border: meColor, highlight: { background: meColor, border: goldColor } },
-            font: { color: "#fff", size: 16, face: "Inter", strokeWidth: 0 },
+            font: { color: "#1a1a1a", size: 15, face: "Inter", bold: true, strokeWidth: 3, strokeColor: "#ffffff" },
             shape: "dot",
             fixed: false
         }];
