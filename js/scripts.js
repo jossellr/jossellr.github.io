@@ -415,7 +415,6 @@
         setChipCount("conference", data.conferences.length);
         setChipCount("software", data.software.length);
 
-        renderFeatured(all);
         renderPubView();
         buildCoauthorNetwork(all);
     }
@@ -432,24 +431,28 @@
             return setTimeout(function () { buildCoauthorNetwork(allItems); }, 500);
         }
 
-        // Patrones para identificar mi propio nombre en distintos formatos.
-        var ME = /(L[óo]pez\s*Ruiz,?\s*J|L[óo]pez,?\s*J\.?\s*L|López\s+Ruiz)/i;
+        // Clave canónica para identificarme a mí mismo: primer apellido + inicial.
+        var ME_KEY = "lopez_j";
 
         // Cuenta de coautores y de pares
-        var counts = {};   // canonName -> coautoría count con López Ruiz
-        var labels = {};   // canonName -> mejor label visible
+        var counts = {};   // canonKey -> coautoría count con López Ruiz
+        var labels = {};   // canonKey -> { text, score } del label preferido
 
         allItems.forEach(function (pub) {
             var authors = (pub.authors || []).map(function (a) { return String(a || "").trim(); });
-            var hasMe = authors.some(function (a) { return ME.test(a); });
+            var keys = authors.map(normalizeAuthorKey);
+            var hasMe = keys.indexOf(ME_KEY) !== -1;
             if (!hasMe) return;
-            authors.forEach(function (a) {
-                if (ME.test(a)) return;
-                var key = normalizeAuthorKey(a);
-                if (!key) return;
+            authors.forEach(function (a, i) {
+                var key = keys[i];
+                if (!key || key === ME_KEY) return;
                 counts[key] = (counts[key] || 0) + 1;
-                // Conservamos la forma más completa del nombre como label
-                if (!labels[key] || a.length > labels[key].length) labels[key] = a;
+                // Conservamos la forma más completa del nombre (más palabras
+                // y más letras = más datos visibles)
+                var score = a.split(/\s+/).length * 10 + a.length;
+                if (!labels[key] || score > labels[key].score) {
+                    labels[key] = { text: a, score: score };
+                }
             });
         });
 
@@ -476,7 +479,7 @@
         coauthorNames.forEach(function (key) {
             nodes.push({
                 id: key,
-                label: labels[key],
+                label: labels[key].text,
                 value: counts[key],
                 color: { background: accentSoft, border: meColor, highlight: { background: meColor, border: goldColor } },
                 font: { color: "#1a1a1a", size: 12, face: "Inter" },
@@ -511,38 +514,36 @@
         }
     }
 
-    /* Normaliza un nombre de autor para usarlo como clave del grafo */
+    /* Clave canónica para identificar a un autor de forma única.
+       Estrategia: primer apellido + inicial del nombre. Así:
+         "Espinilla Estévez, M."  → "espinilla_m"
+         "Espinilla, M."          → "espinilla_m"
+         "Espinilla Estévez, Macarena" → "espinilla_m"
+       Tres nodos colapsan en uno solo. */
     function normalizeAuthorKey(name) {
-        return String(name || "")
+        var s = String(name || "")
             .toLowerCase()
             .normalize("NFD")
-            .replace(/[̀-ͯ]/g, "")  // sin acentos combinantes
-            .replace(/[.,]/g, "")
-            .replace(/\s+/g, " ")
+            .replace(/[̀-ͯ]/g, "")    // diacríticos
             .trim();
-    }
+        if (!s) return "";
 
-    /* Render de la sección "Destacadas": items con featured:true, en grid
-       de 2 columnas en desktop. La tarjeta gana un ribbon dorado. */
-    function renderFeatured(items) {
-        var container = document.getElementById("publicationsFeatured");
-        if (!container) return;
-        var featured = items.filter(function (it) { return it.featured === true; });
-        if (!featured.length) {
-            container.style.display = "none";
-            // ocultar también el subtitle previo
-            var prev = container.previousElementSibling;
-            if (prev && prev.classList.contains("featured-title")) prev.style.display = "none";
-            return;
+        var commaIdx = s.indexOf(",");
+        var lastName, firstInitial;
+        if (commaIdx > 0) {
+            // Formato "Apellido[s], Nombre" → tomamos el primer apellido y
+            // la primera letra del nombre.
+            var lastPart = s.slice(0, commaIdx).trim();
+            var firstPart = s.slice(commaIdx + 1).replace(/[.,]/g, "").trim();
+            lastName = lastPart.split(/\s+/)[0];
+            firstInitial = firstPart.charAt(0) || "";
+        } else {
+            // Formato "Nombre Apellido" → primer apellido = última palabra
+            var parts = s.replace(/[.,]/g, "").split(/\s+/);
+            firstInitial = (parts[0] || "").charAt(0);
+            lastName = parts[parts.length - 1];
         }
-        container.style.display = "";
-        container.innerHTML = featured.map(function (item, idx) {
-            var html = renderCard(item);
-            return html.replace(
-                'class="pub-card"',
-                'class="pub-card pub-card-featured" style="--idx:' + idx + '"'
-            );
-        }).join("");
+        return (lastName + "_" + firstInitial).replace(/[^a-z_]/g, "");
     }
 
     /* Renderiza la "vista actual" según pubState (filtro + página + tamaño). */
