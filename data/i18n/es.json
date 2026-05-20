@@ -104,6 +104,8 @@
     "title": "Investigación",
     "sub": "Miembro del grupo <strong>ASIA TIC-257 · Avances en Sistemas Inteligentes y Aplicaciones</strong>.",
     "intro": "Mis líneas se enmarcan en la tecnología <strong>Internet de las Cosas (IoT)</strong> y combinan lógica difusa, aprendizaje automático supervisado y aprendizaje profundo.",
+    "networkTitle": "Red de coautoría",
+    "networkHint": "<i class=\"fa-solid fa-circle-info\"></i> El tamaño del nodo es proporcional al número de publicaciones conjuntas. Arrastra los nodos para reordenarlos.",
     "lines": {
       "har": {
         "title": "Localización en interiores",
@@ -130,6 +132,8 @@
     "sub": "Selección de artículos en revistas indexadas, capítulos de libro y congresos.",
     "loading": "Cargando publicaciones…",
     "empty": "Sin resultados para este filtro.",
+    "featuredTitle": "Destacadas",
+    "allTitle": "Todas las publicaciones",
     "filters": {
       "all": "Todas",
       "journal": "Revistas",

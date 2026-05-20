@@ -426,6 +426,14 @@
                     <p data-i18n="research.lines.ai.desc">Evaluación de sistemas inteligentes desde un punto de vista sostenible.</p>
                 </div>
             </div>
+
+            <h3 class="subsection-title" data-i18n="research.networkTitle">Red de coautoría</h3>
+            <div class="coauthor-network-wrap">
+                <div id="coauthorNetwork" class="coauthor-network" role="img" aria-label="Grafo de coautoría"></div>
+                <p class="coauthor-network-hint" data-i18n-html="research.networkHint">
+                    <i class="fa-solid fa-circle-info"></i> El tamaño del nodo es proporcional al número de publicaciones conjuntas. Arrastra los nodos para reordenarlos.
+                </p>
+            </div>
         </section>
 
         <!-- Publicaciones -->
@@ -436,6 +444,10 @@
                 <p class="section-sub" data-i18n="publications.sub">Selección de artículos en revistas indexadas, capítulos de libro y congresos.</p>
             </header>
 
+            <h3 class="subsection-title featured-title" data-i18n="publications.featuredTitle">Destacadas</h3>
+            <div class="publications-featured" id="publicationsFeatured" aria-live="polite"></div>
+
+            <h3 class="subsection-title" data-i18n="publications.allTitle">Todas las publicaciones</h3>
             <div class="filter-row" role="tablist" aria-label="Filtrar publicaciones">
                 <button class="filter-chip is-active" data-filter="all"><span data-i18n="publications.filters.all">Todas</span></button>
                 <button class="filter-chip" data-filter="journal"><span data-i18n="publications.filters.journal">Revistas</span></button>
@@ -530,6 +542,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.10/standalone/umd/vis-network.min.js" defer></script>
     <script src="js/scripts.js" defer></script>
 </body>
 </html>

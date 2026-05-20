@@ -104,6 +104,8 @@
     "title": "Research",
     "sub": "Member of the <strong>ASIA TIC-257 · Advances in Intelligent Systems and Applications</strong> group.",
     "intro": "My lines are framed within <strong>Internet of Things (IoT)</strong> technology and combine fuzzy logic, supervised machine learning and deep learning.",
+    "networkTitle": "Coauthor network",
+    "networkHint": "<i class=\"fa-solid fa-circle-info\"></i> Node size is proportional to the number of joint publications. Drag any node to reorganise the layout.",
     "lines": {
       "har": {
         "title": "Indoor positioning",
@@ -130,6 +132,8 @@
     "sub": "Selection of articles in indexed journals, book chapters and conferences.",
     "loading": "Loading publications…",
     "empty": "No results for this filter.",
+    "featuredTitle": "Highlights",
+    "allTitle": "All publications",
     "filters": {
       "all": "All",
       "journal": "Journals",

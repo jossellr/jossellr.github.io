@@ -415,7 +415,134 @@
         setChipCount("conference", data.conferences.length);
         setChipCount("software", data.software.length);
 
+        renderFeatured(all);
         renderPubView();
+        buildCoauthorNetwork(all);
+    }
+
+    /* ---------- Red de coautoría ----------
+       Reúne todos los pares (autor A, autor B) que firman juntos al menos
+       una publicación. El nodo "me" (López Ruiz) es el centro fijo; el
+       resto se ordena con física fuerza-dirigida (vis-network). */
+    function buildCoauthorNetwork(allItems) {
+        var container = document.getElementById("coauthorNetwork");
+        if (!container) return;
+        if (typeof vis === "undefined") {
+            // vis-network todavía cargando, reintenta
+            return setTimeout(function () { buildCoauthorNetwork(allItems); }, 500);
+        }
+
+        // Patrones para identificar mi propio nombre en distintos formatos.
+        var ME = /(L[óo]pez\s*Ruiz,?\s*J|L[óo]pez,?\s*J\.?\s*L|López\s+Ruiz)/i;
+
+        // Cuenta de coautores y de pares
+        var counts = {};   // canonName -> coautoría count con López Ruiz
+        var labels = {};   // canonName -> mejor label visible
+
+        allItems.forEach(function (pub) {
+            var authors = (pub.authors || []).map(function (a) { return String(a || "").trim(); });
+            var hasMe = authors.some(function (a) { return ME.test(a); });
+            if (!hasMe) return;
+            authors.forEach(function (a) {
+                if (ME.test(a)) return;
+                var key = normalizeAuthorKey(a);
+                if (!key) return;
+                counts[key] = (counts[key] || 0) + 1;
+                // Conservamos la forma más completa del nombre como label
+                if (!labels[key] || a.length > labels[key].length) labels[key] = a;
+            });
+        });
+
+        var coauthorNames = Object.keys(counts);
+        if (!coauthorNames.length) {
+            container.innerHTML = '<p style="padding:1rem;color:var(--color-muted)">Sin datos de coautoría todavía.</p>';
+            return;
+        }
+
+        // Nodo central: yo
+        var meColor = getComputedStyle(document.documentElement).getPropertyValue("--color-accent").trim() || "#047857";
+        var accentSoft = getComputedStyle(document.documentElement).getPropertyValue("--color-accent-soft").trim() || "#d1fae5";
+        var goldColor = getComputedStyle(document.documentElement).getPropertyValue("--color-gold").trim() || "#b8860b";
+
+        var nodes = [{
+            id: "__me__",
+            label: "López Ruiz, J. L.",
+            value: Math.max(20, coauthorNames.length),
+            color: { background: meColor, border: meColor, highlight: { background: meColor, border: goldColor } },
+            font: { color: "#fff", size: 16, face: "Inter", strokeWidth: 0 },
+            shape: "dot",
+            fixed: false
+        }];
+        coauthorNames.forEach(function (key) {
+            nodes.push({
+                id: key,
+                label: labels[key],
+                value: counts[key],
+                color: { background: accentSoft, border: meColor, highlight: { background: meColor, border: goldColor } },
+                font: { color: "#1a1a1a", size: 12, face: "Inter" },
+                shape: "dot",
+                title: counts[key] + " publicaciones conjuntas"
+            });
+        });
+
+        var edges = coauthorNames.map(function (key) {
+            return {
+                from: "__me__",
+                to: key,
+                value: counts[key],
+                color: { color: "#a7f3d0", highlight: meColor }
+            };
+        });
+
+        try {
+            new vis.Network(container, { nodes: nodes, edges: edges }, {
+                physics: {
+                    enabled: true,
+                    solver: "forceAtlas2Based",
+                    forceAtlas2Based: { gravitationalConstant: -50, springLength: 90, springConstant: 0.08 },
+                    stabilization: { iterations: 200 }
+                },
+                interaction: { hover: true, tooltipDelay: 250, zoomView: true, dragView: true },
+                nodes: { borderWidth: 2, scaling: { min: 10, max: 38, label: { enabled: true, min: 11, max: 18 } } },
+                edges: { smooth: { type: "continuous" }, scaling: { min: 0.5, max: 4 } }
+            });
+        } catch (e) {
+            console.warn("[coauthor] error construyendo el grafo:", e);
+        }
+    }
+
+    /* Normaliza un nombre de autor para usarlo como clave del grafo */
+    function normalizeAuthorKey(name) {
+        return String(name || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[̀-ͯ]/g, "")  // sin acentos combinantes
+            .replace(/[.,]/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    /* Render de la sección "Destacadas": items con featured:true, en grid
+       de 2 columnas en desktop. La tarjeta gana un ribbon dorado. */
+    function renderFeatured(items) {
+        var container = document.getElementById("publicationsFeatured");
+        if (!container) return;
+        var featured = items.filter(function (it) { return it.featured === true; });
+        if (!featured.length) {
+            container.style.display = "none";
+            // ocultar también el subtitle previo
+            var prev = container.previousElementSibling;
+            if (prev && prev.classList.contains("featured-title")) prev.style.display = "none";
+            return;
+        }
+        container.style.display = "";
+        container.innerHTML = featured.map(function (item, idx) {
+            var html = renderCard(item);
+            return html.replace(
+                'class="pub-card"',
+                'class="pub-card pub-card-featured" style="--idx:' + idx + '"'
+            );
+        }).join("");
     }
 
     /* Renderiza la "vista actual" según pubState (filtro + página + tamaño). */
