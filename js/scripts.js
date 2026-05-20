@@ -187,25 +187,11 @@
     var THEME_KEY = "theme_pref";
 
     function initTheme() {
+        // Por defecto claro. El modo oscuro es opt-in (click manual del usuario),
+        // no se detecta del prefers-color-scheme.
         var stored = null;
         try { stored = localStorage.getItem(THEME_KEY); } catch (e) { /* ignore */ }
-        var theme = stored === "dark" || stored === "light"
-            ? stored
-            : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-        applyTheme(theme, false);
-
-        // Escucha al sistema operativo: si el usuario nunca eligió manualmente,
-        // se actualiza al cambiar el OS de claro a oscuro.
-        if (window.matchMedia) {
-            var mq = window.matchMedia("(prefers-color-scheme: dark)");
-            var listener = function (e) {
-                var s = null;
-                try { s = localStorage.getItem(THEME_KEY); } catch (err) { /* ignore */ }
-                if (!s) applyTheme(e.matches ? "dark" : "light", false);
-            };
-            if (mq.addEventListener) mq.addEventListener("change", listener);
-            else if (mq.addListener) mq.addListener(listener);
-        }
+        applyTheme(stored === "dark" ? "dark" : "light", false);
 
         var btn = document.getElementById("themeToggle");
         if (btn) {
@@ -228,7 +214,33 @@
         if (persist) {
             try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
         }
+        // La gráfica y el grafo guardan sus colores en el momento de
+        // construirse: hay que regenerarlos para que respondan al tema.
+        refreshThemedVisualizations();
     }
+
+    function cssVar(name, fallback) {
+        var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return v || fallback || "";
+    }
+
+    function refreshThemedVisualizations() {
+        // Re-render del Chart.js si ya existe
+        if (chartState && chartState.instance && typeof renderProductionChart === "function") {
+            renderProductionChart();
+        }
+        // Re-render del grafo de coautoría si ya existe
+        if (coauthorState.allItems && typeof vis !== "undefined") {
+            if (coauthorState.instance) {
+                try { coauthorState.instance.destroy(); } catch (e) { /* ignore */ }
+                coauthorState.instance = null;
+            }
+            buildCoauthorNetwork(coauthorState.allItems);
+        }
+    }
+
+    /* Estado del grafo de coautoría (instancia + datos en cache para repintar) */
+    var coauthorState = { instance: null, allItems: null };
 
     /* Barra de progreso al hacer scroll */
     function initScrollProgress() {
@@ -479,6 +491,8 @@
             // vis-network todavía cargando, reintenta
             return setTimeout(function () { buildCoauthorNetwork(allItems); }, 500);
         }
+        // Guarda los items para poder repintar al cambiar de tema
+        coauthorState.allItems = allItems;
 
         // Clave canónica para identificarme a mí mismo: primer apellido + inicial.
         var ME_KEY = "lopez_j";
@@ -511,17 +525,28 @@
             return;
         }
 
-        // Nodo central: yo
-        var meColor = getComputedStyle(document.documentElement).getPropertyValue("--color-accent").trim() || "#047857";
-        var accentSoft = getComputedStyle(document.documentElement).getPropertyValue("--color-accent-soft").trim() || "#d1fae5";
-        var goldColor = getComputedStyle(document.documentElement).getPropertyValue("--color-gold").trim() || "#b8860b";
+        // Colores leídos del tema activo (CSS vars). Si el usuario cambia de
+        // tema, refreshThemedVisualizations() invoca a esta función de nuevo
+        // y los valores se reevalúan.
+        var meColor      = cssVar("--color-accent",        "#047857");
+        var accentSoft   = cssVar("--color-accent-soft",   "#d1fae5");
+        var goldColor    = cssVar("--color-gold",          "#b8860b");
+        var textColor    = cssVar("--color-text",          "#1a1a1a");
+        var surfaceColor = cssVar("--color-surface",       "#ffffff");
+        var edgeColor    = cssVar("--color-border",        "#a7f3d0");
+        var isDark       = document.documentElement.getAttribute("data-theme") === "dark";
 
         var nodes = [{
             id: "__me__",
             label: "López Ruiz, J. L.",
             value: Math.max(20, coauthorNames.length),
             color: { background: meColor, border: meColor, highlight: { background: meColor, border: goldColor } },
-            font: { color: "#1a1a1a", size: 15, face: "Inter", bold: true, strokeWidth: 3, strokeColor: "#ffffff" },
+            font: {
+                color: isDark ? "#ffffff" : textColor,
+                size: 15, face: "Inter", bold: true,
+                strokeWidth: 3,
+                strokeColor: isDark ? "#000000" : "#ffffff"
+            },
             shape: "dot",
             fixed: false
         }];
@@ -530,8 +555,17 @@
                 id: key,
                 label: labels[key].text,
                 value: counts[key],
-                color: { background: accentSoft, border: meColor, highlight: { background: meColor, border: goldColor } },
-                font: { color: "#1a1a1a", size: 12, face: "Inter" },
+                color: {
+                    background: isDark ? meColor : accentSoft,
+                    border: isDark ? goldColor : meColor,
+                    highlight: { background: meColor, border: goldColor }
+                },
+                font: {
+                    color: isDark ? "#ffffff" : textColor,
+                    size: 12, face: "Inter",
+                    strokeWidth: isDark ? 2 : 0,
+                    strokeColor: isDark ? "#0d1117" : "transparent"
+                },
                 shape: "dot",
                 title: counts[key] + " publicaciones conjuntas"
             });
@@ -542,7 +576,7 @@
                 from: "__me__",
                 to: key,
                 value: counts[key],
-                color: { color: "#a7f3d0", highlight: meColor }
+                color: { color: edgeColor, highlight: meColor }
             };
         });
 
@@ -558,6 +592,7 @@
                 nodes: { borderWidth: 2, scaling: { min: 10, max: 38, label: { enabled: true, min: 11, max: 18 } } },
                 edges: { smooth: { type: "continuous" }, scaling: { min: 0.5, max: 4 } }
             });
+            coauthorState.instance = network;
 
             // Botón de reset: re-corre la física y encuadra todos los nodos.
             var resetBtn = document.getElementById("coauthorReset");
@@ -1054,6 +1089,18 @@
             chartState.instance.destroy();
         }
 
+        // Colores leídos del tema activo (CSS vars). Cambian al togglear.
+        var isDark        = document.documentElement.getAttribute("data-theme") === "dark";
+        var textColor     = cssVar("--color-text",       "#1a1a1a");
+        var textSoftColor = cssVar("--color-text-soft",  "#6b7280");
+        var mutedColor    = cssVar("--color-muted",      "#6b7280");
+        var accentColor   = cssVar("--color-accent",     "#047857");
+        var accentStrong  = cssVar("--color-accent-strong", "#065f46");
+        var gridColor     = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
+        var lineColor     = isDark ? "#f0f6fc" : "#1a1a1a";
+        var lineBg        = isDark ? "rgba(240, 246, 252, 0.08)" : "rgba(26, 26, 26, 0.08)";
+        var pointBorder   = isDark ? "#0d1117" : "#fff";
+
         chartState.instance = new Chart(canvas, {
             data: {
                 labels: labels,
@@ -1062,7 +1109,7 @@
                         type: "bar",
                         label: "Revistas",
                         data: journalData,
-                        backgroundColor: "#047857",
+                        backgroundColor: accentColor,
                         borderRadius: 4,
                         stack: "pubs",
                         yAxisID: "y",
@@ -1092,14 +1139,14 @@
                         type: "line",
                         label: "Citas",
                         data: citationsData,
-                        borderColor: "#1a1a1a",
-                        backgroundColor: "rgba(26, 26, 26, 0.08)",
+                        borderColor: lineColor,
+                        backgroundColor: lineBg,
                         tension: 0.35,
                         yAxisID: "y1",
                         pointRadius: 4,
                         pointHoverRadius: 7,
-                        pointBackgroundColor: "#1a1a1a",
-                        pointBorderColor: "#fff",
+                        pointBackgroundColor: lineColor,
+                        pointBorderColor: pointBorder,
                         pointBorderWidth: 2,
                         fill: false,
                         spanGaps: false,
@@ -1122,11 +1169,11 @@
                             boxWidth: 8,
                             padding: 16,
                             font: { family: "Inter", size: 12, weight: "500" },
-                            color: "#1a1a1a"
+                            color: textColor
                         }
                     },
                     tooltip: {
-                        backgroundColor: "#1a1a1a",
+                        backgroundColor: isDark ? "#1c2129" : "#1a1a1a",
                         titleFont: { family: "Inter", weight: "600" },
                         bodyFont: { family: "Inter" },
                         padding: 12,
@@ -1148,7 +1195,7 @@
                     x: {
                         stacked: true,
                         grid: { display: false, drawBorder: false },
-                        ticks: { color: "#6b7280", font: { family: "Inter", size: 12, weight: "500" } }
+                        ticks: { color: mutedColor, font: { family: "Inter", size: 12, weight: "500" } }
                     },
                     y: {
                         stacked: true,
@@ -1157,12 +1204,12 @@
                         title: {
                             display: true,
                             text: "# Publicaciones",
-                            color: "#047857",
+                            color: accentColor,
                             font: { family: "Inter", size: 12, weight: "600" }
                         },
-                        grid: { color: "rgba(0,0,0,0.06)", drawBorder: false },
+                        grid: { color: gridColor, drawBorder: false },
                         ticks: {
-                            color: "#6b7280",
+                            color: mutedColor,
                             font: { family: "Inter", size: 11 },
                             precision: 0
                         }
@@ -1173,11 +1220,11 @@
                         title: {
                             display: true,
                             text: "# Citas",
-                            color: "#1a1a1a",
+                            color: textColor,
                             font: { family: "Inter", size: 12, weight: "600" }
                         },
                         grid: { drawOnChartArea: false, drawBorder: false },
-                        ticks: { color: "#6b7280", font: { family: "Inter", size: 11 } }
+                        ticks: { color: mutedColor, font: { family: "Inter", size: 11 } }
                     }
                 }
             }

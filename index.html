@@ -127,13 +127,14 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="css/styles.css" />
 
-    <!-- Aplica el tema oscuro ANTES de pintar para evitar parpadeo claro→oscuro -->
+    <!-- Aplica el tema oscuro ANTES de pintar para evitar parpadeo si el
+         usuario lo eligió previamente. Por defecto: claro. -->
     <script>
         (function () {
             try {
-                var s = localStorage.getItem("theme_pref");
-                var dark = s === "dark" || (!s && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
-                if (dark) document.documentElement.setAttribute("data-theme", "dark");
+                if (localStorage.getItem("theme_pref") === "dark") {
+                    document.documentElement.setAttribute("data-theme", "dark");
+                }
             } catch (e) { /* ignore */ }
         })();
     </script>
