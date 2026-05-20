@@ -498,7 +498,7 @@
         });
 
         try {
-            new vis.Network(container, { nodes: nodes, edges: edges }, {
+            var network = new vis.Network(container, { nodes: nodes, edges: edges }, {
                 physics: {
                     enabled: true,
                     solver: "forceAtlas2Based",
@@ -509,6 +509,18 @@
                 nodes: { borderWidth: 2, scaling: { min: 10, max: 38, label: { enabled: true, min: 11, max: 18 } } },
                 edges: { smooth: { type: "continuous" }, scaling: { min: 0.5, max: 4 } }
             });
+
+            // Botón de reset: re-corre la física y encuadra todos los nodos.
+            var resetBtn = document.getElementById("coauthorReset");
+            if (resetBtn) {
+                resetBtn.addEventListener("click", function () {
+                    try {
+                        network.setOptions({ physics: { enabled: true } });
+                        network.stabilize(200);
+                        network.fit({ animation: { duration: 600, easingFunction: "easeInOutQuad" } });
+                    } catch (e) { /* ignore */ }
+                });
+            }
         } catch (e) {
             console.warn("[coauthor] error construyendo el grafo:", e);
         }

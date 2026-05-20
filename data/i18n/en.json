@@ -106,6 +106,7 @@
     "intro": "My lines are framed within <strong>Internet of Things (IoT)</strong> technology and combine fuzzy logic, supervised machine learning and deep learning.",
     "networkTitle": "Coauthor network",
     "networkHint": "<i class=\"fa-solid fa-circle-info\"></i> Node size is proportional to the number of joint publications. Drag any node to reorganise the layout.",
+    "networkReset": "Reset the graph layout",
     "lines": {
       "har": {
         "title": "Indoor positioning",

@@ -106,6 +106,7 @@
     "intro": "Mis líneas se enmarcan en la tecnología <strong>Internet de las Cosas (IoT)</strong> y combinan lógica difusa, aprendizaje automático supervisado y aprendizaje profundo.",
     "networkTitle": "Red de coautoría",
     "networkHint": "<i class=\"fa-solid fa-circle-info\"></i> El tamaño del nodo es proporcional al número de publicaciones conjuntas. Arrastra los nodos para reordenarlos.",
+    "networkReset": "Reorganizar el grafo",
     "lines": {
       "har": {
         "title": "Localización en interiores",
