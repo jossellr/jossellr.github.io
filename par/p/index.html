@@ -17,16 +17,21 @@
     <canvas id="particleCanvas"></canvas>
 
     <main class="main-container">
-        <!-- Header -->
+        <!-- Header (dinámico por fase) -->
         <header class="header">
             <h1 class="title">
-                <span class="title-line">Cuenta atrás para ver a</span>
+                <span class="title-line" id="phaseTitle">Cuenta atrás para ver a</span>
                 <span class="name-highlight">Piñanessa</span>
             </h1>
-            <p class="subtitle">Cada segundo que pasa es un segundo menos sin ti 💕</p>
+            <p class="subtitle" id="phaseSubtitle">Cada segundo que pasa es un segundo menos sin ti 💕</p>
         </header>
 
-        <!-- Countdown -->
+        <!-- Roadmap del viaje (5 fases, generadas por JS desde SEGMENTS) -->
+        <section class="phase-timeline-section" aria-label="Fases del viaje">
+            <div class="phase-timeline" id="phaseTimeline"></div>
+        </section>
+
+        <!-- Countdown principal -->
         <section class="countdown-section" id="countdownSection">
             <div class="countdown-grid">
                 <div class="countdown-card" id="daysCard">
@@ -55,10 +60,10 @@
             </div>
         </section>
 
-        <!-- Progress bar -->
+        <!-- Progress bar de la fase actual -->
         <section class="progress-section">
             <div class="progress-info">
-                <span class="progress-text">Progreso hasta verte</span>
+                <span class="progress-text" id="progressText">Progreso hasta verte</span>
                 <span class="progress-percent" id="progressPercent">0%</span>
             </div>
             <div class="progress-bar-container">
@@ -67,7 +72,21 @@
             </div>
         </section>
 
-        <!-- Love message -->
+        <!-- Stats secundarias (cambian por fase) -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card" id="statPrimary">
+                    <span class="stat-label" id="statPrimaryLabel">Días sin verte</span>
+                    <span class="stat-value" id="statPrimaryValue">—</span>
+                </div>
+                <div class="stat-card" id="statSecondary">
+                    <span class="stat-label" id="statSecondaryLabel">Días juntos este viaje</span>
+                    <span class="stat-value" id="statSecondaryValue">—</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mensaje de amor -->
         <section class="message-section">
             <div class="message-card" id="messageCard">
                 <div class="quote-icon">💌</div>
@@ -81,11 +100,11 @@
         </footer>
     </main>
 
-    <!-- Celebration overlay (hidden by default) -->
+    <!-- Overlay de celebración (solo fase final) -->
     <div class="celebration-overlay" id="celebrationOverlay">
         <div class="celebration-content">
-            <h2 class="celebration-title">🎉 ¡ES HOY! 🎉</h2>
-            <p class="celebration-text">¡Por fin puedo abrazar a mi Piñanessa!</p>
+            <h2 class="celebration-title">🎉 ¡EN CASA PARA SIEMPRE! 🎉</h2>
+            <p class="celebration-text">Ya no cuento más días, mi sitio es contigo 🏠💖</p>
             <div class="celebration-hearts">💖💗💝💘💕</div>
         </div>
     </div>

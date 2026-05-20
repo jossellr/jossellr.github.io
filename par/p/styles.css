@@ -85,3 +85,158 @@ body::before{content:'';position:fixed;inset:0;background:var(--gradient-bg);z-i
 @media(min-width:901px){.countdown-card{min-width:140px;padding:2.5rem 2rem}.main-container{gap:3rem}}
 @media(max-height:500px) and (orientation:landscape){.main-container{padding:1rem;gap:1rem;justify-content:flex-start;min-height:auto}.countdown-card{padding:0.75rem 0.5rem;min-width:80px}.header{margin-top:0.5rem}.name-highlight{font-size:2.5rem}.message-card{padding:1rem}.progress-section{max-width:500px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}.floating-heart{display:none}}
+
+/* ─── Multi-phase additions ─── */
+.phase-timeline-section { width: 100%; max-width: 720px; animation: fadeInUp 1s ease-out 0.3s both; }
+.phase-timeline {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--border-glass);
+    border-radius: var(--radius-lg);
+    padding: 1rem .75rem;
+    overflow: hidden;
+}
+.phase-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+    padding: .5rem .4rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: var(--transition);
+    opacity: .45;
+    position: relative;
+}
+.phase-item.is-past { opacity: .65; }
+.phase-item.is-active {
+    opacity: 1;
+    background: linear-gradient(145deg, rgba(255,107,157,0.18), rgba(168,85,247,0.18));
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+}
+.phase-icon {
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    line-height: 1;
+}
+.phase-item.is-active .phase-icon {
+    animation: floatBounce 2s ease-in-out infinite;
+}
+.phase-label {
+    font-size: clamp(.72rem, 1.8vw, .85rem);
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+.phase-sublabel {
+    font-size: clamp(.6rem, 1.5vw, .7rem);
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+.phase-connector {
+    flex: 0 0 18px;
+    align-self: center;
+    height: 1px;
+    background: rgba(255,255,255,.08);
+    margin: 0 .15rem;
+}
+
+.stats-section { width: 100%; max-width: 600px; animation: fadeInUp 1s ease-out 0.75s both; }
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.stat-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    text-align: center;
+    transition: var(--transition);
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+.stat-label {
+    display: block;
+    font-size: .75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .35rem;
+}
+.stat-value {
+    display: block;
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    font-weight: 700;
+    background: var(--gradient-love);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Tema sutil distinto en fase 'together_first' (estamos juntos) */
+body[data-phase="together_first"] { 
+    --gradient-love: linear-gradient(135deg, #34d399, #10b981, #a855f7); 
+}
+body[data-phase="together_first"] .name-highlight {
+    background: var(--gradient-love);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+@media (max-width: 600px) {
+    .phase-timeline { padding: .65rem .35rem; }
+    .phase-connector { flex-basis: 8px; }
+    .stats-grid { grid-template-columns: 1fr; }
+}
+
+/* Diferenciación visual por tipo de fase (juntos / separados / en casa) */
+.phase-item[data-type="together"] .phase-icon { filter: hue-rotate(0deg); }
+.phase-item.is-active[data-type="together"] {
+    background: linear-gradient(145deg, rgba(52,211,153,0.22), rgba(255,107,157,0.18));
+}
+.phase-item.is-active[data-type="reunited"] {
+    background: linear-gradient(145deg, rgba(168,85,247,0.25), rgba(255,107,157,0.2));
+}
+
+/* Tema general cuando estamos JUNTOS (los dos segmentos "together") */
+body[data-phase-type="together"] {
+    --gradient-love: linear-gradient(135deg, #34d399, #10b981, #a855f7);
+}
+
+/* En la fase final */
+body[data-phase-type="reunited"] {
+    --gradient-love: linear-gradient(135deg, #fbbf24, #f97316, #a855f7);
+}
+
+/* Móvil: timeline con 5 items necesita un poco más de squeeze */
+@media (max-width: 700px) {
+    .phase-item .phase-label { font-size: .68rem; }
+    .phase-item .phase-sublabel { font-size: .55rem; }
+    .phase-connector { flex-basis: 6px; margin: 0 .05rem; }
+    .phase-timeline { padding: .55rem .25rem; }
+}
+@media (max-width: 420px) {
+    .phase-item { padding: .35rem .2rem; }
+    .phase-item .phase-icon { font-size: 1.1rem; }
+    .phase-item .phase-sublabel { display: none; }
+}
+
+/* Si la fase oculta la stat secundaria, la primaria se centra y ocupa
+   todo el ancho disponible para no quedar desproporcionada. */
+.stats-grid:has(.stat-card[style*="display: none"]) {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin: 0 auto;
+}
