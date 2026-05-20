@@ -966,16 +966,18 @@ main {
     pointer-events: none;
 }
 
-/* Reveal al hacer scroll: fade + slide + zoom sutil */
+/* Reveal al hacer scroll: SIEMPRE visible por defecto. La animación
+   de entrada es opt-in y no esconde nada si el IntersectionObserver
+   falla en algún navegador móvil (era la causa de secciones enteras
+   invisibles en el flujo de Publicaciones). */
 .reveal {
-    opacity: 0;
-    transform: translateY(22px) scale(.97);
+    opacity: 1 !important;
+    transform: none !important;
     transition: opacity 750ms var(--ease-out-soft), transform 750ms var(--ease-out-soft);
-    will-change: opacity, transform;
 }
 .reveal.is-revealed {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: none;
 }
 
 /* Línea de acento que se dibuja sobre la cabecera de cada sección al entrar */
