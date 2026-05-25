@@ -1,1 +1,6 @@
 scholarly[free-proxies]==1.7.11
+# httpx 0.28 eliminó el kwarg `proxies=` que scholarly 1.7.11 sigue usando
+# internamente en ProxyGenerator.FreeProxies(). Sin este pin, FreeProxies
+# revienta con "Client.__init__() got an unexpected keyword argument 'proxies'"
+# y todas las peticiones acaban yendo directas → CAPTCHA de Google Scholar.
+httpx<0.28

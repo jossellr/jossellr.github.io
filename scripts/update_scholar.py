@@ -62,7 +62,9 @@ def _fetch_author():
     for attempt in range(1, MAX_ATTEMPTS + 1):
         print(f"Intento {attempt}/{MAX_ATTEMPTS}: buscando perfil id={SCHOLAR_ID}...")
         # Cada intento configura su propio proxy (los gratuitos caen rápido).
-        _try_enable_free_proxies()
+        proxied = _try_enable_free_proxies()
+        if not proxied:
+            print("  · sin proxy: este intento sale directo desde el runner (alto riesgo de CAPTCHA)")
         try:
             author = scholarly.search_author_id(SCHOLAR_ID)
             return scholarly.fill(author, sections=["basics", "indices", "counts"])
