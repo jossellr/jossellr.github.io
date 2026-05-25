@@ -31,7 +31,7 @@
       "figureUrl": null,
       "featured": true,
       "impactFactorSource": "JCR",
-      "impactFactorOpenAlex": 4.91
+      "impactFactorOpenAlex": 4.94
     },
     {
       "id": "diaz-2025-adherence-chronic",
@@ -61,7 +61,8 @@
       "doi": "10.3390/app152413226",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 3.22
     },
     {
       "id": "diaz-2025-sdg-evaluation",
@@ -91,7 +92,8 @@
       "doi": "10.1108/SASBE-03-2024-0091",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 4.78
     },
     {
       "id": "fernandez-2025-fuzzy-multimodal",
@@ -123,7 +125,7 @@
       "figureUrl": null,
       "featured": true,
       "impactFactorSource": "JCR",
-      "impactFactorOpenAlex": 10.02
+      "impactFactorOpenAlex": 10.14
     },
     {
       "id": "diaz-2025-ble-positioning",
@@ -156,7 +158,8 @@
       "doi": "10.3390/s25206499",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 4.39
     },
     {
       "id": "gaitan-2025-llm-rawdmeth",
@@ -189,7 +192,7 @@
       "figureUrl": null,
       "featured": false,
       "impactFactorSource": "JCR",
-      "impactFactorOpenAlex": 4.91
+      "impactFactorOpenAlex": 4.94
     },
     {
       "id": "diaz-2024-adherence-iot-journal",
@@ -221,7 +224,7 @@
       "figureUrl": null,
       "featured": true,
       "impactFactorSource": "JCR",
-      "impactFactorOpenAlex": 5.01
+      "impactFactorOpenAlex": 5.0
     },
     {
       "id": "gaitan-2024-cgm-interpretable",
@@ -253,7 +256,7 @@
       "figureUrl": null,
       "featured": false,
       "impactFactorSource": "JCR",
-      "impactFactorOpenAlex": 5.01
+      "impactFactorOpenAlex": 5.0
     },
     {
       "id": "montoro-2023-activa-care",
@@ -284,7 +287,8 @@
       "doi": "10.1109/ACCESS.2023.3329748",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 5.16
     },
     {
       "id": "lopez-2023-oblea-ble",
@@ -314,7 +318,8 @@
       "doi": "10.3897/jucs.96878",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 1.46
     },
     {
       "id": "lopez-2023-sdg-activity-platform",
@@ -344,7 +349,8 @@
       "doi": "10.3390/s23073563",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 4.39
     },
     {
       "id": "delafuente-2022-wearables-bibliometric",
@@ -376,7 +382,8 @@
       "doi": "10.3390/s22228599",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 4.39
     },
     {
       "id": "verdejo-2022-smartlabs-sdg",
@@ -408,7 +415,7 @@
       "figureUrl": null,
       "featured": true,
       "impactFactorSource": "JCR",
-      "impactFactorOpenAlex": 11.52
+      "impactFactorOpenAlex": 11.68
     },
     {
       "id": "albin-2021-ujami-fuzzy",
@@ -439,7 +446,8 @@
       "doi": "10.3390/ijerph18168326",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 2.81
     },
     {
       "id": "verdejo-2021-iot-sdg",
@@ -470,7 +478,8 @@
       "doi": "10.3390/s21072330",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 4.39
     },
     {
       "id": "ortega-2020-topological-3d",
@@ -501,7 +510,8 @@
       "doi": "10.1109/ACCESS.2020.2984035",
       "figureUrl": null,
       "featured": false,
-      "impactFactorSource": "OpenAlex"
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 5.16
     }
   ]
 }
