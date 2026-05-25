@@ -31,7 +31,7 @@ jobs:
           cache: pip
 
       - name: Instalar dependencias
-        run: pip install scholarly==1.7.11
+        run: pip install -r requirements.txt
 
       - name: Raspar perfil de Google Scholar
         run: python scripts/update_scholar.py
