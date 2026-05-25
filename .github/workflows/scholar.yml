@@ -8,6 +8,13 @@ on:
     - cron: "0 7 * * 1"
   workflow_dispatch:    # Permite lanzar el workflow a mano desde la pestaña Actions
 
+# Fuerza a las actions JavaScript (checkout, setup-python, ...) a ejecutarse
+# sobre Node.js 24. Desde el 2 de junio de 2026 GitHub lo hace por defecto, y
+# así silenciamos el warning de deprecación de Node.js 20 que mostraban las
+# versiones actuales de actions/checkout@v4 y actions/setup-python@v5.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: write
 
