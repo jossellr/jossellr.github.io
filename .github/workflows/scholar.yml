@@ -1,4 +1,4 @@
-name: Actualizar métricas (Scholar + OpenAlex IFs)
+name: Actualizar métricas (Google Scholar)
 
 on:
   schedule:
@@ -42,24 +42,19 @@ jobs:
 
       - name: Raspar perfil de Google Scholar
         run: python scripts/update_scholar.py
-        continue-on-error: true   # si Scholar mete CAPTCHA, seguimos con IFs
-
-      - name: Refrescar IFs desde OpenAlex
-        run: python scripts/update_journal_metrics.py
+        # Si Google Scholar nos mete CAPTCHA pese a los reintentos con
+        # FreeProxies, dejamos pasar el fallo: data/scholar.json se queda
+        # como estaba y el próximo lunes (o un workflow_dispatch a mano)
+        # lo vuelve a intentar.
+        continue-on-error: true
 
       - name: Commitear cambios si los hay
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          CHANGED=""
-          for f in data/scholar.json data/publications/journals.json; do
-            if [[ -n "$(git status --porcelain "$f")" ]]; then
-              git add "$f"
-              CHANGED="$CHANGED $f"
-            fi
-          done
-          if [[ -n "$CHANGED" ]]; then
-            git commit -m "chore(metrics): refresco semanal de Scholar e IFs OpenAlex"
+          if [[ -n "$(git status --porcelain data/scholar.json)" ]]; then
+            git add data/scholar.json
+            git commit -m "chore(metrics): refresco semanal de Google Scholar"
             git push
           else
             echo "Sin cambios."

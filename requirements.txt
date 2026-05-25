@@ -1,1 +1,1 @@
-scholarly==1.7.11
+scholarly[free-proxies]==1.7.11
