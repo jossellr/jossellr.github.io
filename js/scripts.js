@@ -16,7 +16,7 @@
        Pega aquí tus identificadores cuando los tengas (ver docs/analytics.md).
        Mientras sigan con el valor de ejemplo, NO se carga nada: el banner
        funciona igual para que puedas probar la experiencia. */
-    var GA_MEASUREMENT_ID = "G-XXXXXXXXXX";        // Google Analytics 4 (requiere consentimiento)
+    var GA_MEASUREMENT_ID = "G-SHY1P0ENF6";        // Google Analytics 4 (requiere consentimiento)
     var CF_BEACON_TOKEN   = "__CLOUDFLARE_TOKEN__"; // Cloudflare Web Analytics (sin cookies, siempre activo)
     var CONSENT_KEY = "analytics_consent";          // "granted" | "denied"
     var gaLoaded = false;
