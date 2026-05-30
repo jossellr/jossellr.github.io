@@ -28,10 +28,10 @@ var CF_BEACON_TOKEN   = "__CLOUDFLARE_TOKEN__"; // Cloudflare Web Analytics
 
 1. Entra en <https://analytics.google.com/> con tu cuenta de Google.
 2. *Administrar* (rueda dentada) → *Crear* → **Propiedad**.
-   - Nombre: p. ej. `jossellr.github.io`.
+   - Nombre: p. ej. `jllopezruiz.com`.
    - Zona horaria: España. Moneda: EUR.
 3. En *Flujos de datos* → *Añadir flujo* → **Web**.
-   - URL del sitio web: `https://jossellr.github.io`
+   - URL del sitio web: `https://jllopezruiz.com` (el dominio propio, no el `*.github.io`)
    - Nombre del flujo: `Web personal`.
 4. Copia el **ID de medición** con formato `G-XXXXXXXXXX`.
 5. Pégalo en `GA_MEASUREMENT_ID`.
@@ -46,7 +46,7 @@ cualquier web (también en GitHub Pages).
 
 1. Entra en <https://dash.cloudflare.com/> (crea cuenta gratis si no tienes).
 2. Menú lateral → **Analytics & Logs** → **Web Analytics** → *Add a site*.
-3. Hostname: `jossellr.github.io`.
+3. Hostname: `jllopezruiz.com`.
 4. Cloudflare te da un snippet como este:
    ```html
    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'

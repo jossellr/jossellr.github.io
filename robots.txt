@@ -5,4 +5,4 @@ Disallow: /.docker/
 Disallow: /.github/
 Disallow: /.claude/
 
-Sitemap: https://jossellr.github.io/sitemap.xml
+Sitemap: https://jllopezruiz.com/sitemap.xml
