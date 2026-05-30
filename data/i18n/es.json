@@ -217,5 +217,18 @@
 
   "theme": {
     "toggle": "Cambiar tema (claro/oscuro)"
+  },
+
+  "cookies": {
+    "ariaLabel": "Aviso de cookies",
+    "title": "Cookies y privacidad",
+    "message": "Uso herramientas de analítica para saber cómo se visita la web. Las estadísticas básicas son anónimas y no usan cookies. <strong>Google Analytics</strong> solo se activa si lo aceptas, y puedes cambiar de opinión cuando quieras.",
+    "detailsToggle": "Más información",
+    "detailsIntro": "Esto es lo que se carga en cada caso:",
+    "detailsCloudflare": "<strong>Cloudflare Web Analytics</strong>: métricas agregadas de visitas sin cookies ni datos personales. Está siempre activo porque no requiere consentimiento.",
+    "detailsGa": "<strong>Google Analytics 4</strong>: mide audiencia mediante cookies. Solo se carga tras tu aceptación; si lo rechazas, no se ejecuta.",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "prefsLink": "Preferencias de cookies"
   }
 }

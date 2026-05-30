@@ -554,8 +554,36 @@
     <footer class="site-footer">
         <div class="site-footer-inner">
             <p>© <span id="year"></span> <span data-i18n="footer.signature">José Luis López Ruiz · Universidad de Jaén</span></p>
+            <p class="site-footer-meta">
+                <button type="button" class="footer-link-btn" id="cookiePrefsOpen" data-i18n="cookies.prefsLink">Preferencias de cookies</button>
+            </p>
         </div>
     </footer>
+
+    <!-- Banner de consentimiento de cookies (RGPD / AEPD).
+         Oculto por CSS hasta que el JS decide mostrarlo (sin decisión previa)
+         o el usuario reabre las preferencias desde el pie. -->
+    <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Aviso de cookies" data-i18n-attr="aria-label:cookies.ariaLabel">
+        <div class="cookie-banner-head">
+            <i class="fa-solid fa-cookie-bite" aria-hidden="true"></i>
+            <span class="cookie-banner-title" data-i18n="cookies.title">Cookies y privacidad</span>
+        </div>
+        <p class="cookie-banner-text" data-i18n-html="cookies.message">
+            Uso herramientas de analítica para saber cómo se visita la web. Las estadísticas básicas son anónimas y no usan cookies. <strong>Google Analytics</strong> solo se activa si lo aceptas, y puedes cambiar de opinión cuando quieras.
+        </p>
+        <div class="cookie-details" id="cookieDetails" hidden>
+            <p data-i18n="cookies.detailsIntro">Esto es lo que se carga en cada caso:</p>
+            <ul>
+                <li data-i18n-html="cookies.detailsCloudflare"><strong>Cloudflare Web Analytics</strong>: métricas agregadas de visitas sin cookies ni datos personales. Está siempre activo porque no requiere consentimiento.</li>
+                <li data-i18n-html="cookies.detailsGa"><strong>Google Analytics 4</strong>: mide audiencia mediante cookies. Solo se carga tras tu aceptación; si lo rechazas, no se ejecuta.</li>
+            </ul>
+        </div>
+        <div class="cookie-actions">
+            <button type="button" class="btn btn-ghost" id="cookieReject" data-i18n="cookies.reject">Rechazar</button>
+            <button type="button" class="btn btn-primary" id="cookieAccept" data-i18n="cookies.accept">Aceptar</button>
+            <button type="button" class="cookie-link-btn" id="cookieDetailsToggle" aria-expanded="false" aria-controls="cookieDetails" data-i18n="cookies.detailsToggle">Más información</button>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.10/standalone/umd/vis-network.min.js" defer></script>

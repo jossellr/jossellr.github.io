@@ -12,6 +12,15 @@
     var ACCENT = "#047857";       // verde esmeralda 700
     var ACCENT_SOFT = "#a7f3d0";  // verde esmeralda 200
 
+    /* ---------- Analítica + consentimiento (RGPD) ----------
+       Pega aquí tus identificadores cuando los tengas (ver docs/analytics.md).
+       Mientras sigan con el valor de ejemplo, NO se carga nada: el banner
+       funciona igual para que puedas probar la experiencia. */
+    var GA_MEASUREMENT_ID = "G-XXXXXXXXXX";        // Google Analytics 4 (requiere consentimiento)
+    var CF_BEACON_TOKEN   = "__CLOUDFLARE_TOKEN__"; // Cloudflare Web Analytics (sin cookies, siempre activo)
+    var CONSENT_KEY = "analytics_consent";          // "granted" | "denied"
+    var gaLoaded = false;
+
     /* ---------------- i18n ---------------- */
     var SUPPORTED_LANGS = ["es", "en"];
     var DEFAULT_LANG = "es";
@@ -172,6 +181,7 @@
         // re-aplica la traducción. Así si la geolocalización por IP se
         // cuelga en una red móvil, publicaciones y métricas ya están vivas.
         initTheme();
+        initAnalyticsConsent();
 
         loadLang(DEFAULT_LANG, { firstLoad: true }).then(function () {
             loadMetrics();
@@ -182,6 +192,125 @@
             if (lang !== currentLang) loadLang(lang, { firstLoad: false });
         });
     });
+
+    /* ---------- Analítica + consentimiento de cookies ---------- */
+    function isPlaceholder(v) {
+        // Valores de ejemplo aún sin sustituir.
+        return !v || v.indexOf("XXXX") !== -1 || v.indexOf("__") === 0;
+    }
+
+    function getConsent() {
+        try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; }
+    }
+    function setConsent(v) {
+        try { localStorage.setItem(CONSENT_KEY, v); } catch (e) { /* ignore */ }
+    }
+
+    // Cloudflare Web Analytics: sin cookies ni datos personales → no requiere
+    // consentimiento, se carga siempre que haya token configurado.
+    function loadCloudflareAnalytics() {
+        if (isPlaceholder(CF_BEACON_TOKEN)) return;
+        if (document.getElementById("cf-beacon")) return;
+        var s = document.createElement("script");
+        s.id = "cf-beacon";
+        s.defer = true;
+        s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+        s.setAttribute("data-cf-beacon", JSON.stringify({ token: CF_BEACON_TOKEN }));
+        document.head.appendChild(s);
+    }
+
+    // Google Analytics 4: usa cookies → solo tras consentimiento explícito.
+    function loadGoogleAnalytics() {
+        if (gaLoaded || isPlaceholder(GA_MEASUREMENT_ID)) return;
+        gaLoaded = true;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag("js", new Date());
+        window.gtag("config", GA_MEASUREMENT_ID, { anonymize_ip: true });
+    }
+
+    // Borra las cookies que deja GA4 (_ga, _ga_*, _gid, _gat) al retirar consentimiento.
+    function deleteGaCookies() {
+        var host = location.hostname;
+        var domains = ["", "; domain=" + host, "; domain=." + host];
+        document.cookie.split(";").forEach(function (c) {
+            var name = c.split("=")[0].trim();
+            if (name.indexOf("_ga") === 0 || name === "_gid" || name === "_gat") {
+                domains.forEach(function (d) {
+                    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/" + d;
+                });
+            }
+        });
+    }
+
+    function showCookieBanner() {
+        var b = document.getElementById("cookieBanner");
+        if (b) b.classList.add("is-visible");
+    }
+    function hideCookieBanner() {
+        var b = document.getElementById("cookieBanner");
+        if (b) b.classList.remove("is-visible");
+    }
+
+    function initAnalyticsConsent() {
+        // Cloudflare siempre (cookieless).
+        loadCloudflareAnalytics();
+
+        var consent = getConsent();
+        if (consent === "granted") {
+            loadGoogleAnalytics();
+        } else if (consent !== "denied") {
+            showCookieBanner();   // sin decisión previa
+        }
+
+        var accept = document.getElementById("cookieAccept");
+        var reject = document.getElementById("cookieReject");
+        var toggle = document.getElementById("cookieDetailsToggle");
+        var details = document.getElementById("cookieDetails");
+        var prefsOpen = document.getElementById("cookiePrefsOpen");
+
+        if (accept) {
+            accept.addEventListener("click", function () {
+                setConsent("granted");
+                loadGoogleAnalytics();
+                hideCookieBanner();
+            });
+        }
+        if (reject) {
+            reject.addEventListener("click", function () {
+                var wasActive = getConsent() === "granted" || gaLoaded;
+                setConsent("denied");
+                hideCookieBanner();
+                // Si GA ya estaba activo (consentimiento previo), lo paramos de
+                // verdad: borramos sus cookies y recargamos.
+                if (wasActive) {
+                    deleteGaCookies();
+                    location.reload();
+                }
+            });
+        }
+        if (toggle && details) {
+            toggle.addEventListener("click", function () {
+                var open = !details.hasAttribute("hidden");
+                if (open) {
+                    details.setAttribute("hidden", "");
+                    toggle.setAttribute("aria-expanded", "false");
+                } else {
+                    details.removeAttribute("hidden");
+                    toggle.setAttribute("aria-expanded", "true");
+                }
+            });
+        }
+        if (prefsOpen) {
+            prefsOpen.addEventListener("click", function () {
+                showCookieBanner();
+            });
+        }
+    }
 
     /* ---------- Modo oscuro ---------- */
     var THEME_KEY = "theme_pref";
