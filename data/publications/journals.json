@@ -2,6 +2,37 @@
   "_comment": "Artículos en revistas indexadas. Añade nuevos elementos al inicio del array 'items'. El campo 'quartile' acepta Q1, Q2, Q3, Q4 o null si está pendiente de asignar.",
   "items": [
     {
+      "id": "morcillo-2026-wearables-acceptance",
+      "title": "Perceptions of Non-Invasive Wearable Technologies for Elderly Care: A Mixed Methods Study on User Acceptance and Ethical Implications",
+      "authors": [
+        "Morcillo Martínez, J. M.",
+        "López Ruiz, J. L.",
+        "Díaz Jiménez, D.",
+        "Párraga Vico, M. M.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 2,
+      "corresponding": false,
+      "year": 2026,
+      "journal": "Journal of Universal Computer Science",
+      "publisher": "Graz University of Technology",
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "issn": "0948-6968",
+      "quartile": "Q3",
+      "category": null,
+      "impactFactor": "1.0",
+      "indexedIn": [
+        "JCR",
+        "Scopus"
+      ],
+      "doi": null,
+      "figureUrl": null,
+      "featured": false,
+      "status": "accepted"
+    },
+    {
       "id": "montoya-2026-iomt-stress",
       "title": "Towards lightweight stress monitoring on biometric data for IoMT environments",
       "authors": [
@@ -21,7 +52,7 @@
       "issn": "0169-2607",
       "quartile": "Q1",
       "category": null,
-      "impactFactor": 4.8,
+      "impactFactor": 6.4,
       "indexedIn": [
         "JCR",
         "Scopus",
@@ -53,7 +84,7 @@
       "issn": "2076-3417",
       "quartile": "Q2",
       "category": null,
-      "impactFactor": 3.18,
+      "impactFactor": 2.9,
       "indexedIn": [
         "JCR",
         "Scopus"
@@ -84,7 +115,7 @@
       "issn": "2046-6099",
       "quartile": "Q1",
       "category": null,
-      "impactFactor": 4.69,
+      "impactFactor": 5.7,
       "indexedIn": [
         "JCR",
         "Scopus"
@@ -115,7 +146,7 @@
       "issn": null,
       "quartile": "Q1",
       "category": null,
-      "impactFactor": 15.5,
+      "impactFactor": 17.4,
       "indexedIn": [
         "JCR",
         "Scopus",
@@ -149,7 +180,7 @@
       "issn": "1424-8220",
       "quartile": "Q2",
       "category": null,
-      "impactFactor": 4.33,
+      "impactFactor": 4.0,
       "indexedIn": [
         "JCR",
         "Scopus",
@@ -182,7 +213,7 @@
       "issn": null,
       "quartile": "Q1",
       "category": null,
-      "impactFactor": 4.8,
+      "impactFactor": 6.4,
       "indexedIn": [
         "JCR",
         "Scopus",

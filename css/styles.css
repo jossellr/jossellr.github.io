@@ -703,7 +703,56 @@ main {
 .line-card p { margin: 0; font-size: .9rem; color: var(--color-text-soft); }
 
 /* ---------- Filtros ---------- */
-.filter-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; }
+.filter-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .85rem; }
+
+/* Buscador de publicaciones (título / revista / congreso) */
+.pub-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    max-width: 460px;
+}
+.pub-search-icon {
+    position: absolute;
+    left: .85rem;
+    color: var(--color-muted);
+    font-size: .9rem;
+    pointer-events: none;
+}
+.pub-search-input {
+    width: 100%;
+    padding: .6rem 2.4rem .6rem 2.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: .9rem;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.pub-search-input::placeholder { color: var(--color-muted); }
+.pub-search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+.pub-search-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.pub-search-clear {
+    position: absolute;
+    right: .55rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 999px;
+    background: var(--color-surface-soft);
+    color: var(--color-text-soft);
+    cursor: pointer;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+.pub-search-clear:hover { background: var(--color-accent-soft); color: var(--color-accent-strong); }
 .filter-chip {
     border: 1px solid var(--color-border);
     background: var(--color-surface);
@@ -806,6 +855,26 @@ main {
 .metric-chip.chip-national i { color: #b8860b; }
 .metric-chip.chip-software { background: #ede9fe; color: #5b21b6; }
 .metric-chip.chip-software i { color: #5b21b6; }
+/* Estado "Aceptado" (en prensa) */
+.metric-chip.chip-accepted { background: #dcfce7; color: #166534; font-weight: 600; }
+.metric-chip.chip-accepted i { color: #16a34a; }
+
+/* Ranking CORE de congresos: A (oro), B (azul), C (pizarra) */
+.metric-chip.chip-core { font-weight: 700; letter-spacing: .01em; }
+a.metric-chip.chip-core { text-decoration: none; cursor: pointer; transition: filter var(--t-fast), box-shadow var(--t-fast); }
+a.metric-chip.chip-core:hover { filter: brightness(.95); box-shadow: 0 1px 4px rgba(0,0,0,.15); text-decoration: none; }
+.metric-chip.chip-core-a { background: #fde68a; color: #7c4a03; }
+.metric-chip.chip-core-a i { color: #b45309; }
+.metric-chip.chip-core-b { background: #dbeafe; color: #1e40af; }
+.metric-chip.chip-core-b i { color: #1e40af; }
+.metric-chip.chip-core-c { background: #e2e8f0; color: #475569; }
+.metric-chip.chip-core-c i { color: #475569; }
+
+/* Resalte de la tarjeta de congreso según su rango CORE (borde de color) */
+.pub-card[data-core] { border-color: var(--color-border); }
+.pub-card[data-core="A*"], .pub-card[data-core="A"] { border-color: #f59e0b; box-shadow: inset 3px 0 0 #f59e0b; }
+.pub-card[data-core="B"] { border-color: #60a5fa; box-shadow: inset 3px 0 0 #60a5fa; }
+.pub-card[data-core="C"] { border-color: #cbd5e1; box-shadow: inset 3px 0 0 #cbd5e1; }
 
 .metric-chip.chip-if-jcr {
     background: var(--color-accent-soft);
@@ -840,6 +909,18 @@ main {
     width: auto;
     height: auto;
     object-fit: contain;
+}
+/* Portada vertical real de la revista: ocupa todo el recuadro */
+.pub-figure-cover {
+    background: #fff;
+    padding: 0;
+    border-right: 1px solid var(--color-border);
+}
+.journal-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .pub-type-row {
@@ -1258,7 +1339,8 @@ main {
         /* Sin aspect-ratio: hay móviles antiguos que no lo soportan
            y dejan el cuadro a 0 px, lo que empuja el body fuera. */
     }
-    .pub-figure-publisher { border-right: none; border-bottom: 1px solid var(--color-border); }
+    .pub-figure-publisher,
+    .pub-figure-cover { border-right: none; border-bottom: 1px solid var(--color-border); }
     .pub-body {
         padding: 1rem 1.25rem 1.25rem;
         min-height: 160px;  /* asegura que el cuerpo se ve */
@@ -1325,7 +1407,8 @@ main {
 /* Las cards de revistas tienen el logo del editor sobre fondo blanco
    (mejor contraste de los logos). En dark añadimos un borde para que
    no se vea como un "agujero" blanco. */
-:root[data-theme="dark"] .pub-figure-publisher {
+:root[data-theme="dark"] .pub-figure-publisher,
+:root[data-theme="dark"] .pub-figure-cover {
     border-right-color: var(--color-border);
 }
 

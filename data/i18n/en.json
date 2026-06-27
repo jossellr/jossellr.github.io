@@ -133,6 +133,10 @@
     "sub": "Selection of articles in indexed journals, book chapters and conferences.",
     "loading": "Loading publications…",
     "empty": "No results for this filter.",
+    "search": {
+      "placeholder": "Search by title, journal or conference…",
+      "clear": "Clear search"
+    },
     "featuredTitle": "Highlights",
     "allTitle": "All publications",
     "filters": {
@@ -158,7 +162,8 @@
       "doctoralProgram": "Doctoral programme in ICT",
       "inProgress": "In progress",
       "quartileUnknown": "Quartile to be assigned",
-      "ifTitle": "Impact Factor"
+      "ifTitle": "Impact Factor",
+      "accepted": "Accepted"
     },
     "pager": {
       "showing": "Showing",

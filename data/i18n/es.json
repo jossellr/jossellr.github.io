@@ -133,6 +133,10 @@
     "sub": "Selección de artículos en revistas indexadas, capítulos de libro y congresos.",
     "loading": "Cargando publicaciones…",
     "empty": "Sin resultados para este filtro.",
+    "search": {
+      "placeholder": "Buscar por título, revista o congreso…",
+      "clear": "Limpiar búsqueda"
+    },
     "featuredTitle": "Destacadas",
     "allTitle": "Todas las publicaciones",
     "filters": {
@@ -158,7 +162,8 @@
       "doctoralProgram": "Programa de doctorado en TIC",
       "inProgress": "En curso",
       "quartileUnknown": "Pendiente de asignar",
-      "ifTitle": "Impact Factor"
+      "ifTitle": "Impact Factor",
+      "accepted": "Aceptado"
     },
     "pager": {
       "showing": "Mostrando",

@@ -2,6 +2,38 @@
   "_comment": "Trabajos presentados en congresos. scope = 'international' | 'national'. Añade nuevos elementos al inicio del array 'items'.",
   "items": [
     {
+      "id": "caepia-2026-ble-nlos",
+      "title": "Real-world NLOS validation of novel low-power BLE devices for Indoor Localization",
+      "authors": ["López Ruiz, J. L.", "Díaz Jiménez, D.", "Gaitán Guerrero, J. F.", "Torres Sospedra, J.", "Espinilla Estévez, M."],
+      "myPosition": 1,
+      "corresponding": false,
+      "year": 2026,
+      "conference": "Conferencia de la Asociación Española para la Inteligencia Artificial",
+      "acronym": "CAEPIA",
+      "scope": "national",
+      "location": "Jaén, Andalucía, España",
+      "date": "2026-11-11",
+      "status": "accepted",
+      "doi": null,
+      "figureUrl": null
+    },
+    {
+      "id": "caepia-2026-glucose-har",
+      "title": "On the characterization of glucose data through HAR: An integrated IoMT architecture",
+      "authors": ["Gaitán Guerrero, J. F.", "Serrano Chica, J. M.", "Fernández García, E.", "López Ruiz, J. L.", "Martínez Cruz, C.", "Díaz Jiménez, D.", "González Lama, J.", "Espinilla Estévez, M."],
+      "myPosition": 4,
+      "corresponding": false,
+      "year": 2026,
+      "conference": "Conferencia de la Asociación Española para la Inteligencia Artificial",
+      "acronym": "CAEPIA",
+      "scope": "national",
+      "location": "Jaén, Andalucía, España",
+      "date": "2026-11-11",
+      "status": "accepted",
+      "doi": null,
+      "figureUrl": null
+    },
+    {
       "id": "hicss-2026-fuzzy-har",
       "title": "Embracing uncertainty in human activity recognition: A fuzzy logic framework for interpretable and context-aware reasoning",
       "authors": ["Díaz Jiménez, D.", "López Ruiz, J. L.", "Martínez Cruz, C.", "Albín Rodríguez, A. P.", "Gaitán Guerrero, J. F.", "Espinilla Estévez, M."],
@@ -74,7 +106,7 @@
       "location": "Granada, Andalucía, España",
       "date": "2025-11-12",
       "doi": null,
-      "figureUrl": null
+      "figureUrl": "assets/img/conferences/sacasi-2025.jpg"
     },
     {
       "id": "soco-2025-ai2epd-visualisation",
@@ -180,6 +212,22 @@
       "date": "2025-07-06",
       "doi": "10.1109/FUZZ62266.2025.11152124",
       "figureUrl": null
+    },
+    {
+      "id": "fuzz-ieee-2025-fuzzy-llm",
+      "title": "The role of Fuzzy Logic in the era of Large Language Models",
+      "authors": ["Martínez Cruz, C.", "Gaitán Guerrero, J. F.", "Díaz Jiménez, D.", "López Ruiz, J. L.", "Espinilla Estévez, M."],
+      "myPosition": 4,
+      "corresponding": false,
+      "year": 2025,
+      "conference": "IEEE International Conference on Fuzzy Systems",
+      "acronym": "FUZZ-IEEE",
+      "scope": "international",
+      "location": "Reims, Francia",
+      "date": "2025-07-06",
+      "specialSession": "Celebrating 60 Years of Fuzzy Sets",
+      "doi": null,
+      "figureUrl": "assets/img/conferences/fuzz-ieee-2025-60years.jpg"
     },
     {
       "id": "ict4awe-2025-sensor-acceptance",
@@ -409,7 +457,7 @@
       "date": "2024-03-22",
       "presentationType": "Póster",
       "doi": null,
-      "figureUrl": null
+      "figureUrl": "assets/img/conferences/ods-2024.jpg"
     },
     {
       "id": "hicss-2024-protoforms-diabetes",
@@ -545,7 +593,7 @@
       "date": "2023-05-11",
       "presentationType": "Póster",
       "doi": null,
-      "figureUrl": null
+      "figureUrl": "assets/img/conferences/egprn-2023.jpg"
     },
     {
       "id": "hicss-2023-fuzzyiot",
@@ -576,7 +624,7 @@
       "date": "2022-12-15",
       "presentationType": "Póster",
       "doi": null,
-      "figureUrl": null
+      "figureUrl": "assets/img/conferences/ods-jaen-2022.jpg"
     },
     {
       "id": "ucami-2022-energy-poverty-summaries",
@@ -696,7 +744,7 @@
       "location": "Almería, Andalucía, España",
       "date": "2021-09-15",
       "doi": null,
-      "figureUrl": null
+      "figureUrl": "assets/img/conferences/ciise-2021.jpg"
     },
     {
       "id": "egch-2020-archaeology-3d",

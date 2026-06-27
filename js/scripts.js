@@ -162,9 +162,24 @@
     var pubState = {
         items: [],          // todos los items unificados (journals+conferences+software)
         filter: "all",
+        search: "",         // texto de búsqueda (título / revista / congreso)
         page: 1,
         pageSize: 10
     };
+
+    // Normaliza texto para búsqueda insensible a mayúsculas y acentos.
+    var DIACRITICS_RE = new RegExp("[\\u0300-\\u036f]", "g");
+    function normalizeText(s) {
+        return String(s == null ? "" : s)
+            .normalize("NFD").replace(DIACRITICS_RE, "")
+            .toLowerCase();
+    }
+    // Cadena buscable de un item (título, revista, congreso, acrónimo, autores).
+    function pubSearchText(it) {
+        var parts = [it.title, it.journal, it.conference, it.acronym, it.productType, it.registry];
+        if (it.authors) parts = parts.concat(it.authors);
+        return normalizeText(parts.filter(Boolean).join(" "));
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
         initYear();
@@ -593,8 +608,16 @@
             .concat(data.conferences.map(function (c) { c._type = "conference"; return c; }))
             .concat(data.software.map(function (s) { s._type = "software"; return s; }));
 
+        // Orden: año descendente y, dentro del año, por fecha real (más reciente
+        // primero). Los artículos de revista no tienen fecha exacta: se usa un
+        // punto medio del año como respaldo, y el id como desempate final.
+        function pubSortDate(it) {
+            return it.date || it.registryDate || (it.year + "-06-30");
+        }
         all.sort(function (a, b) {
             if (b.year !== a.year) return b.year - a.year;
+            var da = pubSortDate(a), db = pubSortDate(b);
+            if (da !== db) return db < da ? -1 : 1;
             return (b.id || "").localeCompare(a.id || "");
         });
 
@@ -782,6 +805,11 @@
             ? pubState.items
             : pubState.items.filter(function (it) { return it._type === pubState.filter; });
 
+        var q = normalizeText(pubState.search).trim();
+        if (q) {
+            filtered = filtered.filter(function (it) { return pubSearchText(it).indexOf(q) !== -1; });
+        }
+
         var pageSize = pubState.pageSize === "all" ? filtered.length || 1 : pubState.pageSize;
         var totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
         if (pubState.page > totalPages) pubState.page = totalPages;
@@ -936,6 +964,78 @@
         return PUBLISHER_LOGOS[String(name).trim().toLowerCase()] || null;
     }
 
+    // Portada propia de cada revista. kind: "cover" = portada vertical real
+    // (se muestra a sangre); "logo" = logotipo horizontal de la revista
+    // (se muestra sobre fondo blanco con margen). Las revistas sin entrada
+    // aquí recaen en el logo de la editorial (publisherLogo).
+    var JOURNAL_COVERS = {
+        "information fusion": { src: "assets/img/journals/information-fusion.jpg", kind: "cover" },
+        "computer methods and programs in biomedicine": { src: "assets/img/journals/computer-methods-programs-biomedicine.jpg", kind: "cover" },
+        "sustainable cities and society": { src: "assets/img/journals/sustainable-cities-and-society.jpg", kind: "cover" },
+        "ieee internet of things journal": { src: "assets/img/journals/ieee-internet-of-things-journal.jpg", kind: "cover" },
+        "ieee access": { src: "assets/img/journals/ieee-access.jpg", kind: "cover" },
+        "smart and sustainable built environment": { src: "assets/img/journals/smart-sustainable-built-environment.jpg", kind: "cover" },
+        "sensors": { src: "assets/img/journals/sensors-cover.png", kind: "cover" },
+        "journal of universal computer science": { src: "assets/img/journals/journal-universal-computer-science.jpg", kind: "logo" },
+        "applied sciences": { src: "assets/img/journals/applied-sciences-cover.png", kind: "cover" },
+        "international journal of environmental research and public health": { src: "assets/img/journals/ijerph-cover.png", kind: "cover" }
+    };
+    function journalCover(name) {
+        if (!name) return null;
+        return JOURNAL_COVERS[String(name).trim().toLowerCase()] || null;
+    }
+
+    // Portada de las actas (proceedings) de cada congreso, clave = acronimo-año
+    // (varias ponencias comparten el mismo volumen). kind igual que en revistas.
+    // Los congresos sin entrada muestran el icono genérico.
+    var CONFERENCE_COVERS = {
+        "ucami-2025": { src: "assets/img/conferences/ucami-2025.jpg", kind: "cover" },
+        "ucami-2024": { src: "assets/img/conferences/ucami-2024.jpg", kind: "cover" },
+        "ucami-2023": { src: "assets/img/conferences/ucami-2023.jpg", kind: "cover" },
+        "ucami-2022": { src: "assets/img/conferences/ucami-2022.jpg", kind: "cover" },
+        "soco-2025": { src: "assets/img/conferences/soco-2025.jpg", kind: "cover" },
+        "iwann-2023": { src: "assets/img/conferences/iwann-2023.jpg", kind: "cover" },
+        "iwbbio-2022": { src: "assets/img/conferences/iwbbio-2022.jpg", kind: "cover" },
+        "iciap-2022": { src: "assets/img/conferences/iciap-2022.jpg", kind: "cover" },
+        "ipin-2025": { src: "assets/img/conferences/ipin-2025.jpg", kind: "cover" },
+        "fuzz-ieee-2025": { src: "assets/img/conferences/fuzz-ieee-2025.jpg", kind: "cover" },
+        "fuzz-ieee-2024": { src: "assets/img/conferences/fuzz-ieee-2024.jpg", kind: "cover" },
+        "ijcnn-2024": { src: "assets/img/conferences/ijcnn-2024.jpg", kind: "cover" },
+        "cec-2024": { src: "assets/img/conferences/cec-2024.jpg", kind: "cover" },
+        "ict4awe-2025": { src: "assets/img/conferences/ict4awe-2025.png", kind: "cover" },
+        "ichi-2025": { src: "assets/img/conferences/ichi-2025.png", kind: "cover" },
+        "gch-2020": { src: "assets/img/conferences/gch-2020.jpg", kind: "cover" },
+        "ceig-2019": { src: "assets/img/conferences/ceig-2019.jpg", kind: "cover" },
+        "ceig-2018": { src: "assets/img/conferences/ceig-2018.jpg", kind: "cover" },
+        "estylf-2022": { src: "assets/img/conferences/estylf-2022.jpg", kind: "cover" },
+        "sarteco-2024": { src: "assets/img/conferences/sarteco-2024.jpg", kind: "cover" },
+        "sarteco-2022": { src: "assets/img/conferences/sarteco-2022.jpg", kind: "cover" },
+        "egprn-2023": { src: "assets/img/conferences/egprn-2023.jpg", kind: "cover" },
+        "hicss-2023": { src: "assets/img/conferences/hicss-2023.jpg", kind: "cover" },
+        "hicss-2024": { src: "assets/img/conferences/hicss-2024.jpg", kind: "cover" },
+        "taee-2022": { src: "assets/img/conferences/taee-2022.png", kind: "cover" },
+        "estylf-2025": { src: "assets/img/conferences/estylf-2025.jpg", kind: "cover" }
+    };
+    function conferenceCover(acronym, year) {
+        if (!acronym) return null;
+        return CONFERENCE_COVERS[(String(acronym).trim().toLowerCase() + "-" + year)] || null;
+    }
+
+    // Ranking CORE (portal.core.edu.au) de congresos internacionales, usando la
+    // edición vigente en el periodo de cada congreso (estos mantienen el mismo
+    // rango entre ediciones). Solo A/A*/B/C; el resto no figura en CORE.
+    var CONFERENCE_CORE = {
+        "fuzz-ieee": { rank: "B", id: 649 },
+        "ijcnn": { rank: "B", id: 685 },
+        "cec": { rank: "B", id: 2061 },
+        "ipin": { rank: "C", id: 2244 },
+        "ict4awe": { rank: "C", id: 2241 }
+    };
+    function conferenceCore(acronym) {
+        if (!acronym) return null;
+        return CONFERENCE_CORE[String(acronym).trim().toLowerCase()] || null;
+    }
+
     function renderJournalCard(j) {
         var doiLink = j.doi ? "https://doi.org/" + j.doi : null;
         var quartileChip = j.quartile
@@ -944,27 +1044,40 @@
 
         var ifChip = "";
         if (j.impactFactor != null) {
-            var src = (j.impactFactorSource || "JCR");
-            var srcClass = src === "JCR" ? "chip-if-jcr" : "chip-if-oa";
-            var srcLabel = src === "JCR" ? "" : ' <span class="if-src">OA</span>';
-            ifChip = '<span class="metric-chip ' + srcClass + '" title="' + escapeHtml(t("publications.labels.ifTitle")) + ' (' + escapeHtml(src) + ')"><i class="fa-solid fa-chart-line"></i> IF ' + escapeHtml(j.impactFactor) + srcLabel + "</span>";
+            // El IF mostrado es el valor curado manualmente; se presenta como
+            // oficial (sin distinción de fuente ni badge "OA").
+            ifChip = '<span class="metric-chip chip-if-jcr" title="' + escapeHtml(t("publications.labels.ifTitle")) + '"><i class="fa-solid fa-chart-line"></i> IF ' + escapeHtml(j.impactFactor) + "</span>";
         }
         var indexedHtml = (j.indexedIn || []).map(function (x) {
             return '<span class="metric-chip subtle">' + escapeHtml(x) + "</span>";
         }).join("");
+        var acceptedChip = j.status === "accepted"
+            ? '<span class="metric-chip chip-accepted" title="' + escapeHtml(t("publications.labels.accepted")) + '"><i class="fa-solid fa-circle-check"></i> ' + escapeHtml(t("publications.labels.accepted")) + "</span>"
+            : "";
         var vol = j.volume ? escapeHtml(j.volume) + (j.issue ? "(" + escapeHtml(j.issue) + ")" : "") : "";
         var venueParts = [escapeHtml(j.journal), vol, escapeHtml(j.pages || ""), j.year].filter(Boolean).join(" · ");
         var title = doiLink
             ? '<a href="' + doiLink + '" target="_blank" rel="noopener">' + escapeHtml(j.title) + "</a>"
             : escapeHtml(j.title);
 
-        var logo = publisherLogo(j.publisher);
-        var figureInner = logo
-            ? '<img class="publisher-logo" src="' + logo + '" alt="' + escapeHtml(j.publisher) + '" loading="lazy" />'
-            : '<i class="fa-solid fa-book-open"></i>';
+        var cover = journalCover(j.journal);
+        var figureClass, figureInner;
+        if (cover && cover.kind === "cover") {
+            figureClass = "pub-figure-cover";
+            figureInner = '<img class="journal-cover" src="' + cover.src + '" alt="' + escapeHtml(j.journal) + '" loading="lazy" />';
+        } else if (cover) {
+            figureClass = "pub-figure-publisher";
+            figureInner = '<img class="publisher-logo" src="' + cover.src + '" alt="' + escapeHtml(j.journal) + '" loading="lazy" />';
+        } else {
+            var logo = publisherLogo(j.publisher);
+            figureClass = "pub-figure-publisher";
+            figureInner = logo
+                ? '<img class="publisher-logo" src="' + logo + '" alt="' + escapeHtml(j.publisher) + '" loading="lazy" />'
+                : '<i class="fa-solid fa-book-open"></i>';
+        }
 
-        return '<article class="pub-card" data-type="journal" data-quartile="' + (j.quartile || "") + '">' +
-            '<div class="pub-figure pub-figure-publisher">' + figureInner + "</div>" +
+        return '<article class="pub-card" data-type="journal" data-quartile="' + (j.quartile || "") + '"' + (j.status ? ' data-status="' + j.status + '"' : "") + '>' +
+            '<div class="pub-figure ' + figureClass + '">' + figureInner + "</div>" +
             '<div class="pub-body">' +
                 '<div class="pub-type-row"><span class="pub-type">' + escapeHtml(t("publications.types.journal")) + ' · ' + j.year + "</span>" +
                     (j.corresponding ? '<span class="pub-flag"><i class="fa-solid fa-envelope-circle-check"></i> ' + escapeHtml(t("publications.labels.corresponding")) + '</span>' : "") +
@@ -972,7 +1085,7 @@
                 '<h4 class="pub-title">' + title + "</h4>" +
                 '<p class="pub-authors">' + highlightAuthor(j.authors, j.myPosition) + "</p>" +
                 '<p class="pub-venue"><em>' + venueParts + "</em></p>" +
-                '<div class="pub-metrics">' + quartileChip + ifChip + indexedHtml + "</div>" +
+                '<div class="pub-metrics">' + acceptedChip + quartileChip + ifChip + indexedHtml + "</div>" +
                 (doiLink ? '<div class="pub-actions"><a class="btn btn-sm btn-ghost" href="' + doiLink + '" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> ' + escapeHtml(t("publications.labels.doi")) + '</a></div>' : "") +
             "</div>" +
         "</article>";
@@ -984,13 +1097,35 @@
         var scopeChip = '<span class="metric-chip chip-' + c.scope + '"><i class="fa-solid fa-globe"></i> ' + escapeHtml(scopeLabel) + "</span>";
         var acronymChip = c.acronym ? '<span class="metric-chip">' + escapeHtml(c.acronym) + "</span>" : "";
         var presChip = c.presentationType ? '<span class="metric-chip subtle">' + escapeHtml(c.presentationType) + "</span>" : "";
+        var specialChip = c.specialSession ? '<span class="metric-chip subtle"><i class="fa-solid fa-star"></i> ' + escapeHtml(c.specialSession) + "</span>" : "";
+        var acceptedChip = c.status === "accepted"
+            ? '<span class="metric-chip chip-accepted" title="' + escapeHtml(t("publications.labels.accepted")) + '"><i class="fa-solid fa-circle-check"></i> ' + escapeHtml(t("publications.labels.accepted")) + "</span>"
+            : "";
+        var core = conferenceCore(c.acronym);
+        var coreRank = core && core.rank;
+        var coreChip = core ? '<a class="metric-chip chip-core chip-core-' + core.rank.toLowerCase().replace("*", "s") + '" href="https://portal.core.edu.au/conf-ranks/' + core.id + '/" target="_blank" rel="noopener" title="Ranking CORE ' + core.rank + (core.edition ? " (edición CORE" + core.edition + ")" : "") + ' — ver ficha en el portal CORE"><i class="fa-solid fa-ranking-star"></i> CORE ' + core.rank + (core.edition ? ' · ' + core.edition : "") + "</a>" : "";
         var venueParts = [escapeHtml(c.conference), escapeHtml(c.location || ""), c.year].filter(Boolean).join(" · ");
         var title = doiLink
             ? '<a href="' + doiLink + '" target="_blank" rel="noopener">' + escapeHtml(c.title) + "</a>"
             : escapeHtml(c.title);
 
-        return '<article class="pub-card" data-type="conference" data-scope="' + c.scope + '">' +
-            '<div class="pub-figure"><i class="fa-solid fa-microphone-lines"></i></div>' +
+        // figureUrl (por ponencia) tiene prioridad sobre el mapa por acrónimo-año;
+        // útil cuando una ponencia tiene su propia portada (p. ej. un booklet de
+        // sesión especial) distinta a la del volumen general de actas.
+        var cover = conferenceCover(c.acronym, c.year);
+        var coverSrc = c.figureUrl || (cover && cover.src) || null;
+        var coverKind = c.figureUrl ? "cover" : (cover && cover.kind);
+        var figureBlock;
+        if (coverSrc && coverKind === "cover") {
+            figureBlock = '<div class="pub-figure pub-figure-cover"><img class="journal-cover" src="' + coverSrc + '" alt="' + escapeHtml(c.conference) + '" loading="lazy" /></div>';
+        } else if (coverSrc) {
+            figureBlock = '<div class="pub-figure pub-figure-publisher"><img class="publisher-logo" src="' + coverSrc + '" alt="' + escapeHtml(c.conference) + '" loading="lazy" /></div>';
+        } else {
+            figureBlock = '<div class="pub-figure"><i class="fa-solid fa-microphone-lines"></i></div>';
+        }
+
+        return '<article class="pub-card" data-type="conference" data-scope="' + c.scope + '"' + (coreRank ? ' data-core="' + coreRank + '"' : "") + (c.status ? ' data-status="' + c.status + '"' : "") + '>' +
+            figureBlock +
             '<div class="pub-body">' +
                 '<div class="pub-type-row"><span class="pub-type">' + escapeHtml(t("publications.types.conference")) + ' · ' + c.year + "</span>" +
                     (c.corresponding ? '<span class="pub-flag"><i class="fa-solid fa-envelope-circle-check"></i> ' + escapeHtml(t("publications.labels.corresponding")) + '</span>' : "") +
@@ -998,7 +1133,7 @@
                 '<h4 class="pub-title">' + title + "</h4>" +
                 '<p class="pub-authors">' + highlightAuthor(c.authors, c.myPosition) + "</p>" +
                 '<p class="pub-venue"><em>' + venueParts + "</em></p>" +
-                '<div class="pub-metrics">' + scopeChip + acronymChip + presChip + "</div>" +
+                '<div class="pub-metrics">' + acceptedChip + coreChip + scopeChip + acronymChip + presChip + specialChip + "</div>" +
                 (doiLink ? '<div class="pub-actions"><a class="btn btn-sm btn-ghost" href="' + doiLink + '" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> ' + escapeHtml(t("publications.labels.doi")) + '</a></div>' : "") +
             "</div>" +
         "</article>";
@@ -1010,8 +1145,13 @@
         var rightsChip = s.rightsHolder ? '<span class="metric-chip subtle">' + escapeHtml(s.rightsHolder) + "</span>" : "";
         var meta = [escapeHtml(s.registry) + " · Nº " + escapeHtml(s.registryNumber), escapeHtml(s.country)].filter(Boolean).join(" · ");
 
+        // Imagen general para registros de propiedad intelectual (override por
+        // figureUrl si un registro concreto tuviera su propia portada).
+        var coverSrc = s.figureUrl || "assets/img/software/registro-propiedad-intelectual.svg";
+        var figureBlock = '<div class="pub-figure pub-figure-cover"><img class="journal-cover" src="' + coverSrc + '" alt="' + escapeHtml(t("publications.types.software")) + '" loading="lazy" /></div>';
+
         return '<article class="pub-card" data-type="software">' +
-            '<div class="pub-figure"><i class="fa-solid fa-code"></i></div>' +
+            figureBlock +
             '<div class="pub-body">' +
                 '<div class="pub-type-row"><span class="pub-type">' + escapeHtml(t("publications.types.software")) + ' · ' + s.year + "</span></div>" +
                 '<h4 class="pub-title">' + escapeHtml(s.title) + "</h4>" +
@@ -1026,7 +1166,6 @@
 
     function initPublicationFiltersDynamic() {
         var chips = document.querySelectorAll(".filter-chip");
-        if (!chips.length) return;
         chips.forEach(function (chip) {
             chip.addEventListener("click", function () {
                 if (chip.classList.contains("is-active")) return;
@@ -1037,6 +1176,30 @@
                 renderPubView();
             });
         });
+
+        var input = document.getElementById("pubSearch");
+        var clearBtn = document.getElementById("pubSearchClear");
+        if (input) {
+            var debounce;
+            var applySearch = function () {
+                pubState.search = input.value;
+                pubState.page = 1;
+                if (clearBtn) clearBtn.hidden = !input.value;
+                renderPubView({ animate: false });
+            };
+            input.addEventListener("input", function () {
+                clearTimeout(debounce);
+                debounce = setTimeout(applySearch, 160);
+            });
+            input.addEventListener("search", applySearch);
+            if (clearBtn) {
+                clearBtn.addEventListener("click", function () {
+                    input.value = "";
+                    applySearch();
+                    input.focus();
+                });
+            }
+        }
     }
 
     /* ---------- Métricas ----------

@@ -471,6 +471,17 @@
                 <button class="filter-chip" data-filter="software"><span data-i18n="publications.filters.software">Software</span></button>
             </div>
 
+            <div class="pub-search">
+                <i class="fa-solid fa-magnifying-glass pub-search-icon" aria-hidden="true"></i>
+                <input type="search" id="pubSearch" class="pub-search-input" autocomplete="off"
+                       placeholder="Buscar por título, revista o congreso…"
+                       aria-label="Buscar publicaciones por título, revista o congreso"
+                       data-i18n-attr="placeholder:publications.search.placeholder|aria-label:publications.search.placeholder" />
+                <button type="button" id="pubSearchClear" class="pub-search-clear" hidden
+                        aria-label="Limpiar búsqueda"
+                        data-i18n-attr="aria-label:publications.search.clear"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
             <div class="publications" id="publicationsList" aria-live="polite">
                 <p class="muted-note"><i class="fa-solid fa-spinner fa-spin"></i> <span data-i18n="publications.loading">Cargando publicaciones…</span></p>
             </div>
