@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 540" role="img" aria-label="Comunicación a congreso: ponencias, comunicaciones y pósters">
+  <rect width="600" height="540" fill="#ffffff"/>
+
+  <!-- Panel informativo -->
+  <rect x="90" y="70" width="420" height="360" rx="24" fill="#ecfdf5"/>
+
+  <!-- Pantalla de presentación -->
+  <rect x="180" y="112" width="240" height="128" rx="12" fill="#ffffff" stroke="#bbf7d0" stroke-width="1.5"/>
+  <path d="M180 124 a12 12 0 0 1 12 -12 h216 a12 12 0 0 1 12 12 v14 h-240 Z" fill="#047857"/>
+  <rect x="196" y="120" width="72" height="6" rx="3" fill="#a7f3d0"/>
+
+  <!-- Contenido de la diapositiva: viñetas + gráfico -->
+  <rect x="196" y="158" width="96" height="7" rx="3.5" fill="#94a3b8"/>
+  <rect x="196" y="174" width="74" height="7" rx="3.5" fill="#cbd5e1"/>
+  <rect x="196" y="190" width="86" height="7" rx="3.5" fill="#cbd5e1"/>
+  <rect x="196" y="206" width="62" height="7" rx="3.5" fill="#cbd5e1"/>
+  <line x1="316" y1="224" x2="408" y2="224" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="322" y="196" width="16" height="28" rx="2" fill="#34d399"/>
+  <rect x="346" y="182" width="16" height="42" rx="2" fill="#047857"/>
+  <rect x="370" y="204" width="16" height="20" rx="2" fill="#34d399"/>
+  <rect x="394" y="190" width="14" height="34" rx="2" fill="#047857"/>
+
+  <!-- Micrófono -->
+  <line x1="300" y1="312" x2="300" y2="338" stroke="#065f46" stroke-width="4"/>
+  <ellipse cx="300" cy="340" rx="28" ry="6" fill="#065f46"/>
+  <rect x="293" y="300" width="14" height="12" fill="#065f46"/>
+  <rect x="282" y="248" width="36" height="54" rx="18" fill="#047857"/>
+  <line x1="289" y1="264" x2="311" y2="264" stroke="#ecfdf5" stroke-width="2"/>
+  <line x1="289" y1="274" x2="311" y2="274" stroke="#ecfdf5" stroke-width="2"/>
+  <line x1="289" y1="284" x2="311" y2="284" stroke="#ecfdf5" stroke-width="2"/>
+
+  <!-- Ondas de sonido -->
+  <path d="M332 260 q11 15 0 30" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+  <path d="M344 251 q19 24 0 48" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Título informativo -->
+  <text x="300" y="478" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#065f46">Comunicación a congreso</text>
+  <text x="300" y="512" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#047857" letter-spacing="0.5">Ponencias · Comunicaciones · Pósters</text>
+</svg>

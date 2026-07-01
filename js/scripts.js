@@ -1121,7 +1121,7 @@
         } else if (coverSrc) {
             figureBlock = '<div class="pub-figure pub-figure-publisher"><img class="publisher-logo" src="' + coverSrc + '" alt="' + escapeHtml(c.conference) + '" loading="lazy" /></div>';
         } else {
-            figureBlock = '<div class="pub-figure"><i class="fa-solid fa-microphone-lines"></i></div>';
+            figureBlock = '<div class="pub-figure pub-figure-cover"><img class="journal-cover" src="assets/img/conferences/comunicacion-congreso.svg" alt="' + escapeHtml(t("publications.types.conference")) + '" loading="lazy" /></div>';
         }
 
         return '<article class="pub-card" data-type="conference" data-scope="' + c.scope + '"' + (coreRank ? ' data-core="' + coreRank + '"' : "") + (c.status ? ' data-status="' + c.status + '"' : "") + '>' +
