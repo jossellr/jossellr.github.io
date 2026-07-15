@@ -200,6 +200,7 @@
 
         loadLang(DEFAULT_LANG, { firstLoad: true }).then(function () {
             loadMetrics();
+            loadTramos();
             loadPublications().then(loadManualMetrics);
         });
 
@@ -1263,6 +1264,50 @@
                 });
             })
             .catch(function () { /* fichero ausente: las cards quedan en — */ });
+    }
+
+    /* Tramos de evaluación reconocidos (sexenios de investigación / quinquenios
+       docentes). Los datos viven en data/tramos.json; cada categoría sin tramos
+       no pinta tarjeta, y si no hay ninguno se oculta la subsección entera.
+       Las etiquetas llevan data-i18n para que applyI18n() las retraduzca al
+       cambiar de idioma. */
+    function loadTramos() {
+        var wrap = document.getElementById("statsTramos");
+        var title = document.getElementById("tramosTitle");
+        if (!wrap) return;
+        fetch("data/tramos.json", { cache: "no-cache" })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) { renderTramos(wrap, title, d); })
+            .catch(function () { hideTramos(wrap, title); });
+    }
+
+    function hideTramos(wrap, title) {
+        if (wrap) wrap.style.display = "none";
+        if (title) title.style.display = "none";
+    }
+
+    function renderTramos(wrap, title, d) {
+        if (!d) return hideTramos(wrap, title);
+        var groups = [
+            { items: d.sexenios || [], key: "metrics.tramos.sexenios" },
+            { items: d.quinquenios || [], key: "metrics.tramos.quinquenios" }
+        ].filter(function (g) { return g.items.length > 0; });
+
+        if (!groups.length) return hideTramos(wrap, title);
+
+        wrap.innerHTML = groups.map(function (g) {
+            var periods = g.items.map(function (it) {
+                return '<span class="tramo-chip">' + escapeHtml(it.period) + "</span>";
+            }).join("");
+            var bodies = g.items.map(function (it) { return it.body; }).filter(Boolean);
+            var source = bodies.length ? escapeHtml(bodies[0]) : "";
+            return '<div class="stat-card">' +
+                '<span class="stat-value">' + g.items.length + "</span>" +
+                '<span class="stat-label" data-i18n="' + g.key + '">' + escapeHtml(t(g.key)) + "</span>" +
+                '<div class="tramo-periods">' + periods + "</div>" +
+                (source ? '<span class="stat-source">' + source + "</span>" : "") +
+            "</div>";
+        }).join("");
     }
 
     function applyOpenAlexMetrics(d) {

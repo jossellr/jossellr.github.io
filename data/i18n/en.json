@@ -76,7 +76,12 @@
   "metrics": {
     "kicker": "01 — Indicators",
     "title": "Quality metrics",
-    "sub": "Bibliometric impact and detailed scientific production by type.",
+    "sub": "Official assessment periods, bibliometric impact and detailed scientific production by type.",
+    "tramosTitle": "Official assessment periods",
+    "tramos": {
+      "sexenios": "Six-year research periods",
+      "quinquenios": "Five-year teaching periods"
+    },
     "impactTitle": "Bibliometric impact",
     "productionTitle": "Production",
     "stats": {

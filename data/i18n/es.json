@@ -76,7 +76,12 @@
   "metrics": {
     "kicker": "01 — Indicadores",
     "title": "Métricas de calidad",
-    "sub": "Impacto bibliométrico y producción científica detallada por tipo.",
+    "sub": "Tramos oficiales reconocidos, impacto bibliométrico y producción científica detallada por tipo.",
+    "tramosTitle": "Tramos reconocidos",
+    "tramos": {
+      "sexenios": "Sexenios de investigación",
+      "quinquenios": "Quinquenios docentes"
+    },
     "impactTitle": "Impacto bibliométrico",
     "productionTitle": "Producción",
     "stats": {

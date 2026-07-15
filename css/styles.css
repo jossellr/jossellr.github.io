@@ -979,6 +979,26 @@ a.metric-chip.chip-core:hover { filter: brightness(.95); box-shadow: 0 1px 4px r
 .stat-source { display: block; font-size: .75rem; color: var(--color-muted); margin-top: .25rem; }
 .stat-grid { align-items: start; }
 
+/* Tramos reconocidos: chips con el periodo evaluado */
+.tramo-periods {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .35rem;
+    margin: .75rem 0 .25rem;
+}
+.tramo-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: .18rem .55rem;
+    border-radius: 999px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent-strong);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+}
+
 /* Card de JCR con desglose por cuartil */
 .stat-card-jcr .quartile-breakdown {
     display: flex;

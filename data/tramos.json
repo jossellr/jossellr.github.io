@@ -1,0 +1,11 @@
+{
+  "_comment": "Tramos de evaluación reconocidos. 'sexenios' = tramos de investigación (periodos de 6 años evaluados por la CNEAI, dentro de ANECA). 'quinquenios' = tramos docentes (periodos de 5 años evaluados por la propia universidad). Añade cada tramo nuevo a su array: la web actualiza el recuento y los periodos automáticamente. Si un array queda vacío, su tarjeta no se muestra.",
+  "updated_at": "2026-06-27",
+  "sexenios": [
+    {
+      "period": "2019-2025",
+      "body": "CNEAI · ANECA"
+    }
+  ],
+  "quinquenios": []
+}
