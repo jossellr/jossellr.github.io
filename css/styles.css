@@ -651,7 +651,7 @@ main {
 .coauthor-reset:active { transform: scale(.93); }
 .coauthor-network {
     width: 100%;
-    height: 480px;
+    height: 520px;
     background:
         radial-gradient(circle at 50% 50%, rgba(4,120,87,.04), transparent 70%),
         var(--color-surface);
@@ -978,6 +978,18 @@ a.metric-chip.chip-core:hover { filter: brightness(.95); box-shadow: 0 1px 4px r
 .stat-label { display: block; font-weight: 600; color: var(--color-text); font-size: .92rem; }
 .stat-source { display: block; font-size: .75rem; color: var(--color-muted); margin-top: .25rem; }
 .stat-grid { align-items: start; }
+
+/* Produccion: las cuatro tarjetas comparten altura. El grid general usa
+   align-items:start, asi que cada tarjeta tomaba su alto natural y la de
+   JCR sobresalia por el desglose de cuartiles. Aqui se estiran todas al
+   alto de la mas alta y el contenido se centra, para que las que tienen
+   menos lineas no queden descolgadas arriba. */
+#statsProduction { align-items: stretch; }
+#statsProduction .stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 /* Tramos reconocidos: chips con el periodo evaluado */
 .tramo-periods {
@@ -1581,4 +1593,391 @@ a.metric-chip.chip-core:hover { filter: brightness(.95); box-shadow: 0 1px 4px r
         transition: opacity 200ms ease, visibility 0s;
         transform: translateX(-50%);
     }
+}
+
+/* ============================================
+   Líneas de investigación: línea liderada y eje transversal
+   ============================================ */
+/* La linea mas reciente se resalta solo con el borde y un fondo tenue: sin
+   etiquetas ni distintivos, el enfasis lo da el propio diseno. */
+.line-card.is-lead {
+    border-color: var(--color-accent);
+    background: linear-gradient(180deg, var(--color-accent-soft) 0%, var(--color-surface) 55%);
+}
+.line-transversal {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+    padding: 1.2rem 1.4rem;
+    background: var(--color-surface-soft);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+}
+.line-transversal .line-icon { margin-bottom: 0; flex-shrink: 0; }
+.line-transversal-body h4 { font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; }
+.line-transversal-body p { margin: 0; font-size: .9rem; color: var(--color-text-soft); }
+
+/* ============================================
+   Facetas de publicaciones (cuartil y año)
+   ============================================ */
+.pub-facets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    margin: .85rem 0 1.2rem;
+}
+.pub-facet { display: flex; align-items: center; gap: .5rem; }
+/* El display:flex de arriba gana al [hidden] del navegador, asi que la
+   faceta de cuartil no se ocultaria sin esta regla. */
+.pub-facet[hidden] { display: none; }
+.pub-facet label,
+.pub-facet-label {
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--color-text-soft);
+}
+
+/* Chips de cuartil: se activan y desactivan de forma independiente y solo
+   aparecen con el filtro de revistas. Encendidos reproducen exactamente el
+   color que lleva ese cuartil en la ficha de cada publicacion; apagados,
+   el mismo tono en version contorno. */
+.q-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.q-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: .3rem .72rem;
+    border-radius: 999px;
+    border: 1px solid var(--q-off-fg);
+    background: transparent;
+    color: var(--q-off-fg);
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    cursor: pointer;
+    opacity: .65;
+    transition: all var(--t-fast);
+}
+.q-chip:hover { opacity: 1; transform: translateY(-1px); }
+.q-chip.is-on {
+    opacity: 1;
+    background: var(--q-bg);
+    border-color: var(--q-on-fg);
+    color: var(--q-on-fg);
+}
+.q-chip:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+/* --q-bg y --q-on-fg replican .metric-chip.chip-qN; --q-off-fg es el tono
+   del contorno cuando el chip esta apagado. */
+.q-chip-q1 { --q-bg: #d1fae5; --q-on-fg: #065f46; --q-off-fg: #065f46; }
+.q-chip-q2 { --q-bg: #dbeafe; --q-on-fg: #1e40af; --q-off-fg: #1e40af; }
+.q-chip-q3 { --q-bg: #fef3c7; --q-on-fg: #92400e; --q-off-fg: #92400e; }
+.q-chip-q4 { --q-bg: #fee2e2; --q-on-fg: #991b1b; --q-off-fg: #991b1b; }
+
+/* En oscuro el contorno necesita un tono claro para verse, pero el chip
+   encendido conserva el fondo pastel, asi que su texto sigue siendo el
+   oscuro: si no, quedaria claro sobre claro. */
+:root[data-theme="dark"] .q-chip-q1 { --q-off-fg: #6ee7b7; }
+:root[data-theme="dark"] .q-chip-q2 { --q-off-fg: #93c5fd; }
+:root[data-theme="dark"] .q-chip-q3 { --q-off-fg: #fcd34d; }
+:root[data-theme="dark"] .q-chip-q4 { --q-off-fg: #fca5a5; }
+.pub-facets-reset {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font: inherit;
+    font-size: .85rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: .35rem 0;
+    cursor: pointer;
+}
+.pub-facets-reset:hover { color: var(--color-accent-strong); }
+
+/* ============================================
+   Botón de cita en BibTeX
+   ============================================ */
+.pub-cite { cursor: pointer; font-family: inherit; }
+.pub-cite.is-copied {
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+    background: var(--color-accent-soft);
+}
+.pub-cite.is-error {
+    border-color: #b91c1c;
+    color: #b91c1c;
+}
+
+/* ============================================
+   Proyectos
+   ============================================ */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.1rem;
+    margin-top: 1.4rem;
+}
+.project-card {
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+    padding: 1.4rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all var(--t-fast);
+}
+.project-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+.project-card.is-active { border-left-color: var(--color-accent); }
+.project-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .6rem;
+}
+.project-acronym {
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    font-weight: 500;
+    letter-spacing: .03em;
+    color: var(--color-accent-strong);
+    background: var(--color-accent-soft);
+    border-radius: var(--radius-sm);
+    padding: .2rem .5rem;
+}
+.project-title {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0;
+}
+.project-title a { color: inherit; text-decoration: none; }
+.project-title a:hover { color: var(--color-accent); text-decoration: underline; }
+.project-meta {
+    margin: 0;
+    font-size: .85rem;
+    color: var(--color-muted);
+}
+.project-desc {
+    margin: 0;
+    font-size: .9rem;
+    color: var(--color-text-soft);
+}
+.project-partners,
+.project-related {
+    margin: 0;
+    font-size: .82rem;
+    color: var(--color-muted);
+}
+.project-partners span { font-weight: 600; }
+.project-related i { color: var(--color-accent); margin-right: .25rem; }
+.project-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: auto;
+    padding-top: .5rem;
+}
+
+@media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .pub-facets { gap: .75rem; }
+    .pub-facet { width: 100%; justify-content: space-between; }
+    .pub-facet .per-page-input { flex: 1; margin-left: .5rem; }
+    .pub-facet-quartile { flex-wrap: wrap; justify-content: flex-start; gap: .5rem; }
+    .line-transversal { flex-direction: column; gap: .8rem; }
+}
+
+/* ============================================
+   Red de coautoría: grafo + lista de colaboradores
+   ============================================ */
+.coauthor-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: start;
+}
+.coauthor-canvas-wrap { position: relative; }
+
+/* Bloqueo táctil: hasta pulsar, el dedo hace scroll de la página en vez de
+   desplazar el grafo. En escritorio no se muestra. */
+.coauthor-unlock {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    border: none;
+    background: rgba(255, 255, 255, .55);
+    backdrop-filter: blur(1px);
+    color: var(--color-accent-strong);
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.coauthor-unlock[hidden] { display: none; }
+:root[data-theme="dark"] .coauthor-unlock { background: rgba(13, 17, 23, .55); }
+
+.coauthor-empty { padding: 1rem; color: var(--color-muted); }
+
+/* Pie del grafo: leyenda de actividad + interruptor de la cola larga */
+.coauthor-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .7rem 1.1rem;
+    border-top: 1px solid var(--color-border);
+}
+.coauthor-legend { display: flex; flex-wrap: wrap; gap: .9rem; }
+.coauthor-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .78rem;
+    color: var(--color-text-soft);
+}
+.coauthor-legend-n { color: var(--color-muted); font-variant-numeric: tabular-nums; }
+.coauthor-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--era-bg);
+    border: 1.5px solid var(--era-border);
+    flex-shrink: 0;
+}
+/* Mismos colores que usan los nodos del grafo */
+.coauthor-era-active { --era-bg: #a7f3d0; --era-border: #047857; }
+.coauthor-era-recent { --era-bg: #bfdbfe; --era-border: #1d4ed8; }
+.coauthor-era-past   { --era-bg: #e5e7eb; --era-border: #6b7280; }
+:root[data-theme="dark"] .coauthor-era-active { --era-bg: #065f46; --era-border: #34d399; }
+:root[data-theme="dark"] .coauthor-era-recent { --era-bg: #1e3a8a; --era-border: #93c5fd; }
+:root[data-theme="dark"] .coauthor-era-past   { --era-bg: #374151; --era-border: #9ca3af; }
+
+.coauthor-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    font-size: .8rem;
+    color: var(--color-text-soft);
+    cursor: pointer;
+}
+.coauthor-toggle[hidden] { display: none; }
+.coauthor-toggle input { accent-color: var(--color-accent); cursor: pointer; }
+.coauthor-toggle-count {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+    font-weight: 600;
+}
+
+/* Lista de principales colaboradores: leyenda navegable y, a la vez, la
+   alternativa accesible al canvas (botones alcanzables con el teclado). */
+.coauthor-top {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.1rem;
+}
+.coauthor-top-title {
+    margin: 0 0 .75rem;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+.coauthor-top-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    max-height: 360px;
+    overflow-y: auto;
+}
+.coauthor-top-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .4rem .5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: none;
+    font-family: inherit;
+    font-size: .82rem;
+    color: var(--color-text-soft);
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--t-fast);
+}
+.coauthor-top-btn:hover {
+    background: var(--color-surface-soft);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+.coauthor-top-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+.coauthor-top-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.coauthor-top-n {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: .78rem;
+}
+
+/* Aviso de "estás viendo lo firmado con X" sobre la lista de publicaciones */
+.pub-coauthor-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-bottom: 1rem;
+    padding: .6rem .9rem;
+    background: var(--color-accent-soft);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    font-size: .88rem;
+    color: var(--color-accent-strong);
+}
+.pub-coauthor-note[hidden] { display: none; }
+.pub-coauthor-note i { margin-right: .35rem; }
+.pub-coauthor-clear {
+    border: none;
+    background: none;
+    color: inherit;
+    font-size: 1rem;
+    line-height: 1;
+    padding: .2rem .35rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+.pub-coauthor-clear:hover { background: rgba(0, 0, 0, .08); }
+
+/* Por debajo de este ancho el grafo necesita el ancho completo: con la
+   lista al lado se quedaba en ~740px y las etiquetas chocaban. */
+@media (max-width: 1100px) {
+    .coauthor-layout { grid-template-columns: 1fr; }
+    .coauthor-top { order: 2; }
+    .coauthor-top-list { max-height: 260px; }
+}
+
+/* Siglas que no caben desarrolladas en una etiqueta corta: se marcan con
+   <abbr> para que el significado esté disponible al pasar por encima y para
+   los lectores de pantalla. En prosa las siglas van desarrolladas al vuelo. */
+abbr[title] {
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: help;
 }

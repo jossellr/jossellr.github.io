@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /par/
 Disallow: /.docker/
 Disallow: /.github/
 Disallow: /.claude/

@@ -94,6 +94,15 @@
         return (typeof node === "string") ? node : key;
     }
 
+    /* Traduce una cadena con marcador {n}, eligiendo singular o plural.
+       Si existe la clave "<key>One" se usa cuando n === 1; asi no salen
+       cosas como "1 publicaciones conjuntas", que es justo el caso mas
+       frecuente (34 coautores tienen una sola publicacion conmigo). */
+    function tCount(key, n) {
+        var k = (n === 1 && t(key + "One") !== key + "One") ? key + "One" : key;
+        return String(t(k)).replace("{n}", n);
+    }
+
     function applyI18n() {
         // text content (textContent → safe)
         document.querySelectorAll("[data-i18n]").forEach(function (el) {
@@ -145,6 +154,11 @@
                 if (pubState && pubState.items && pubState.items.length) {
                     renderPubView({ animate: !opts.firstLoad });
                 }
+                repaintProjects();
+                renderCoauthorNote();
+                if (coauthorState.allItems && typeof vis !== "undefined" && !opts.firstLoad) {
+                    rebuildCoauthorNetwork();
+                }
             });
     }
 
@@ -163,6 +177,9 @@
         items: [],          // todos los items unificados (journals+conferences+software)
         filter: "all",
         search: "",         // texto de búsqueda (título / revista / congreso)
+        quartiles: [],      // cuartiles activos; vacio = sin filtrar (solo revistas)
+        coauthor: null,     // clave canonica de coautor al pinchar en el grafo
+        year: "all",        // "all" | año concreto
         page: 1,
         pageSize: 10
     };
@@ -189,6 +206,7 @@
         initScrollSpy();
         initScrollReveal();
         initLangSwitch();
+        initCoauthorControls();
 
         // Cargamos español por defecto inmediatamente (no bloquea nada),
         // arrancamos métricas + publicaciones en paralelo, y la detección
@@ -201,7 +219,10 @@
         loadLang(DEFAULT_LANG, { firstLoad: true }).then(function () {
             loadMetrics();
             loadTramos();
-            loadPublications().then(loadManualMetrics);
+            loadPublications().then(function () {
+                loadManualMetrics();
+                loadProjects();
+            });
         });
 
         detectLang().then(function (lang) {
@@ -376,16 +397,12 @@
         }
         // Re-render del grafo de coautoría si ya existe
         if (coauthorState.allItems && typeof vis !== "undefined") {
-            if (coauthorState.instance) {
-                try { coauthorState.instance.destroy(); } catch (e) { /* ignore */ }
-                coauthorState.instance = null;
-            }
-            buildCoauthorNetwork(coauthorState.allItems);
+            rebuildCoauthorNetwork();
         }
     }
 
     /* Estado del grafo de coautoría (instancia + datos en cache para repintar) */
-    var coauthorState = { instance: null, allItems: null };
+    var coauthorState = { instance: null, allItems: null, data: null, showAll: false, unlocked: false };
 
     /* Barra de progreso al hacer scroll */
     function initScrollProgress() {
@@ -629,90 +646,227 @@
         setChipCount("conference", data.conferences.length);
         setChipCount("software", data.software.length);
 
+        populateYearFacet(all);
         renderPubView();
         buildCoauthorNetwork(all);
     }
 
     /* ---------- Red de coautoría ----------
-       Reúne todos los pares (autor A, autor B) que firman juntos al menos
-       una publicación. El nodo "me" (López Ruiz) es el centro fijo; el
-       resto se ordena con física fuerza-dirigida (vis-network). */
-    function buildCoauthorNetwork(allItems) {
-        var container = document.getElementById("coauthorNetwork");
-        if (!container) return;
-        if (typeof vis === "undefined") {
-            // vis-network todavía cargando, reintenta
-            return setTimeout(function () { buildCoauthorNetwork(allItems); }, 500);
-        }
-        // Guarda los items para poder repintar al cambiar de tema
-        coauthorState.allItems = allItems;
+       Antes era una estrella: 62 aristas, todas desde mi nodo. Ahora se
+       dibujan también las aristas entre coautores (en los datos hay 250
+       relaciones reales), así la maraña pasa a tener estructura.
 
-        // Clave canónica para identificarme a mí mismo: primer apellido + inicial.
-        var ME_KEY = "lopez_j";
+       Dos umbrales mantienen el grafo legible:
+         NODE_MIN  publicaciones conmigo para entrar por defecto. La mitad
+                   de los coautores tiene una sola y solo aportaban ruido;
+                   se muestran con el interruptor de colaboradores puntuales.
+         EDGE_MIN  publicaciones compartidas para unir a dos coautores.
+       Y LABEL_RULES decide cuántos nombres se escriben y con qué cuerpo:
+       con las 62 etiquetas a la vez no se leía ninguna. */
+    var ME_KEY = "lopez_j";
+    var NODE_MIN = 2;
+    var EDGE_MIN = 2;
+    /* Cuantas etiquetas se escriben y a que tamaño. Son dos regimenes
+       distintos porque la densidad no tiene nada que ver:
+         podado (28 nodos)  el encuadre deja el zoom en ~0,84, asi que
+                            caben 22 nombres a cuerpo normal.
+         desplegado (62)    el zoom cae a ~0,55 y a ese tamaño el texto se
+                            vuelve ilegible. Se etiquetan solo los principales
+                            y con cuerpo mayor, que al reducirse sigue leyendose.
+       Sin esta distincion, desplegar dejaba el grafo practicamente sin
+       nombres: el umbral de dibujo se los comia todos menos uno. */
+    var LABEL_RULES = {
+        // nameThreshold = publicaciones conjuntas a partir de las cuales se
+        // escribe el apellido; por debajo van solo las iniciales.
+        // null = iniciales para todos, que es lo unico que cabe con 62 nodos:
+        // con apellidos, aun los de los principales acababan pisandose.
+        pruned:   { nameThreshold: 3,    fontMin: 13, fontMax: 16 },
+        expanded: { nameThreshold: null, fontMin: 16, fontMax: 20 }
+    };
+    // El cuerpo minimo no es cosmetico: multiplicado por el zoom del encuadre
+    // tiene que quedar por encima de drawThreshold (8 px), o vis deja de
+    // dibujar la etiqueta. Con 11 y un zoom de 0,72 se perdian la mitad.
 
-        // Cuenta de coautores y de pares
-        var counts = {};   // canonKey -> coautoría count con López Ruiz
-        var labels = {};   // canonKey -> { text, score } del label preferido
+    function labelRules() {
+        return coauthorState.showAll ? LABEL_RULES.expanded : LABEL_RULES.pruned;
+    }
+
+    /* Reparte a cada coautor en un tramo según su última publicación
+       conjunta. Se probó agrupar por comunidades detectadas en el grafo,
+       pero 26 de 28 nodos caían en el mismo grupo (casi todo el mundo
+       firma con Espinilla), así que no distinguía nada. La actividad sí:
+       27 activos, 15 recientes y 20 anteriores. */
+    function coauthorEra(lastYear) {
+        var thisYear = new Date().getFullYear();
+        if (lastYear >= thisYear - 1) return "active";
+        if (lastYear >= thisYear - 3) return "recent";
+        return "past";
+    }
+
+    var ERA_ORDER = ["active", "recent", "past"];
+
+    function eraColors(era, isDark) {
+        var palette = {
+            active: { light: { bg: "#a7f3d0", border: "#047857" }, dark: { bg: "#065f46", border: "#34d399" } },
+            recent: { light: { bg: "#bfdbfe", border: "#1d4ed8" }, dark: { bg: "#1e3a8a", border: "#93c5fd" } },
+            past:   { light: { bg: "#e5e7eb", border: "#6b7280" }, dark: { bg: "#374151", border: "#9ca3af" } }
+        };
+        return palette[era][isDark ? "dark" : "light"];
+    }
+
+    /* Recorre las publicaciones una sola vez y deja preparado todo lo que
+       necesitan el grafo, la lista lateral y la leyenda. */
+    function computeCoauthorData(allItems) {
+        var counts = {}, labels = {}, lastYear = {}, pairs = {};
 
         allItems.forEach(function (pub) {
             var authors = (pub.authors || []).map(function (a) { return String(a || "").trim(); });
             var keys = authors.map(normalizeAuthorKey);
-            var hasMe = keys.indexOf(ME_KEY) !== -1;
-            if (!hasMe) return;
+            if (keys.indexOf(ME_KEY) === -1) return;
+
+            var others = [];
             authors.forEach(function (a, i) {
                 var key = keys[i];
                 if (!key || key === ME_KEY) return;
+                if (others.indexOf(key) === -1) others.push(key);
                 counts[key] = (counts[key] || 0) + 1;
-                // Conservamos la forma más completa del nombre (más palabras
-                // y más letras = más datos visibles)
+                lastYear[key] = Math.max(lastYear[key] || 0, pub.year || 0);
+                // Nos quedamos con la forma más completa del nombre.
                 var score = a.split(/\s+/).length * 10 + a.length;
                 if (!labels[key] || score > labels[key].score) {
                     labels[key] = { text: a, score: score };
                 }
             });
+
+            // Pares de coautores que firman juntos esta publicación.
+            others.sort();
+            for (var i = 0; i < others.length; i++) {
+                for (var j = i + 1; j < others.length; j++) {
+                    var id = others[i] + "|" + others[j];
+                    pairs[id] = (pairs[id] || 0) + 1;
+                }
+            }
         });
 
-        var coauthorNames = Object.keys(counts);
-        if (!coauthorNames.length) {
-            container.innerHTML = '<p style="padding:1rem;color:var(--color-muted)">Sin datos de coautoría todavía.</p>';
+        return { counts: counts, labels: labels, lastYear: lastYear, pairs: pairs };
+    }
+
+    /* Etiqueta corta para el nodo: primer apellido + iniciales. Los
+       nombres completos llegaban a 136 px y se pisaban unos con otros.
+       No introduce ambiguedad: la clave canonica de un autor ya es
+       "primer apellido + inicial", asi que dos personas que compartieran
+       forma corta serian el mismo nodo de todas formas.
+         "Espinilla Estevez, M."      -> "Espinilla, M."
+         "De la Fuente Robles, Y. M." -> "De la Fuente, Y. M."
+       Las particulas (de, la, del, van...) cuentan como parte del
+       apellido para no dejar cosas como "De, Y. M.". */
+    var NAME_PARTICLES = ["de", "del", "la", "las", "los", "y", "van", "von", "der", "da", "do", "dos"];
+
+    function shortName(full) {
+        var txt = String(full || "").trim();
+        var comma = txt.indexOf(",");
+        if (comma === -1) return txt;
+        var surnames = txt.slice(0, comma).trim().split(/\s+/);
+        var initials = txt.slice(comma + 1).trim();
+        var kept = [];
+        for (var i = 0; i < surnames.length; i++) {
+            var w = surnames[i];
+            kept.push(w);
+            if (NAME_PARTICLES.indexOf(w.toLowerCase()) === -1) break;
+        }
+        return kept.join(" ") + ", " + initials;
+    }
+
+    /* Iniciales de nombre y apellidos: "López Ruiz, J. L." -> "J.L.L.R.".
+       Se usan para los nodos pequeños, donde un nombre no cabe sin pisar al
+       vecino. Las particulas no cuentan, para no sacar cosas como "D.L.F.R."
+       de "De la Fuente Robles". El nombre completo sigue en el tooltip. */
+    function initials(full) {
+        var txt = String(full || "").trim();
+        var comma = txt.indexOf(",");
+        var surnames = comma === -1 ? txt : txt.slice(0, comma);
+        var given    = comma === -1 ? ""  : txt.slice(comma + 1);
+
+        function letters(part, dropParticles) {
+            return String(part).split(/\s+/).filter(Boolean).filter(function (w) {
+                return !dropParticles || NAME_PARTICLES.indexOf(w.toLowerCase()) === -1;
+            }).map(function (w) {
+                var c = w.replace(/[^A-Za-zÀ-ÿ]/g, "").charAt(0);
+                return c ? c.toUpperCase() : "";
+            }).filter(Boolean);
+        }
+
+        var out = letters(given, false).concat(letters(surnames, true));
+        return out.length ? out.join(".") + "." : txt;
+    }
+
+    function coauthorLabel(key) {
+        var d = coauthorState.data;
+        return (d && d.labels[key] && d.labels[key].text) || key;
+    }
+
+    /* Claves visibles según el interruptor de colaboradores puntuales. */
+    function visibleCoauthors() {
+        var d = coauthorState.data;
+        if (!d) return [];
+        return Object.keys(d.counts).filter(function (k) {
+            return coauthorState.showAll || d.counts[k] >= NODE_MIN;
+        }).sort(function (a, b) { return d.counts[b] - d.counts[a]; });
+    }
+
+    function buildCoauthorNetwork(allItems) {
+        var container = document.getElementById("coauthorNetwork");
+        if (!container) return;
+        if (typeof vis === "undefined") {
+            return setTimeout(function () { buildCoauthorNetwork(allItems); }, 500);
+        }
+        coauthorState.allItems = allItems;
+        if (!coauthorState.data) coauthorState.data = computeCoauthorData(allItems);
+
+        var d = coauthorState.data;
+        var keys = visibleCoauthors();
+        if (!keys.length) {
+            container.innerHTML = '<p class="coauthor-empty">' + escapeHtml(t("research.networkEmpty")) + "</p>";
             return;
         }
 
-        // Colores leídos del tema activo (CSS vars). Si el usuario cambia de
-        // tema, refreshThemedVisualizations() invoca a esta función de nuevo
-        // y los valores se reevalúan.
-        var meColor      = cssVar("--color-accent",        "#047857");
-        var accentSoft   = cssVar("--color-accent-soft",   "#d1fae5");
-        var goldColor    = cssVar("--color-gold",          "#b8860b");
-        var textColor    = cssVar("--color-text",          "#1a1a1a");
-        var surfaceColor = cssVar("--color-surface",       "#ffffff");
-        var edgeColor    = cssVar("--color-border",        "#a7f3d0");
-        var isDark       = document.documentElement.getAttribute("data-theme") === "dark";
+        var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+        var meColor   = cssVar("--color-accent", "#047857");
+        var goldColor = cssVar("--color-gold",   "#b8860b");
+        var textColor = cssVar("--color-text",   "#1a1a1a");
+        var edgeColor = cssVar("--color-border", "#a7f3d0");
+
+        // Mi nodo debe ser el mayor: antes valía el número de coautores (62)
+        // y Espinilla, con 74, se dibujaba más grande que el propio centro.
+        var maxCount = keys.reduce(function (m, k) { return Math.max(m, d.counts[k]); }, 1);
 
         var nodes = [{
             id: "__me__",
-            label: "López Ruiz, J. L.",
-            value: Math.max(20, coauthorNames.length),
-            color: { background: meColor, border: meColor, highlight: { background: meColor, border: goldColor } },
+            label: "López, J. L.",
+            value: Math.round(maxCount * 1.25),
+            color: { background: meColor, border: goldColor, highlight: { background: meColor, border: goldColor } },
             font: {
                 color: isDark ? "#ffffff" : textColor,
                 size: 15, face: "Inter", bold: true,
-                strokeWidth: 3,
-                strokeColor: isDark ? "#000000" : "#ffffff"
+                strokeWidth: 3, strokeColor: isDark ? "#000000" : "#ffffff"
             },
-            shape: "dot",
-            fixed: false
+            shape: "dot"
         }];
-        coauthorNames.forEach(function (key) {
+
+        keys.forEach(function (key) {
+            var n = d.counts[key];
+            var era = coauthorEra(d.lastYear[key]);
+            var c = eraColors(era, isDark);
+            var rules = labelRules();
+            // Por encima del umbral, apellido + iniciales; por debajo, solo
+            // iniciales. Antes estos se quedaban mudos, que era peor: al
+            // desplegar los puntuales el grafo se llenaba de nodos anonimos.
+            var named = rules.nameThreshold !== null && n >= rules.nameThreshold;
             nodes.push({
                 id: key,
-                label: labels[key].text,
-                value: counts[key],
-                color: {
-                    background: isDark ? meColor : accentSoft,
-                    border: isDark ? goldColor : meColor,
-                    highlight: { background: meColor, border: goldColor }
-                },
+                label: named ? shortName(d.labels[key].text) : initials(d.labels[key].text),
+                value: n,
+                color: { background: c.bg, border: c.border, highlight: { background: meColor, border: goldColor } },
                 font: {
                     color: isDark ? "#ffffff" : textColor,
                     size: 12, face: "Inter",
@@ -720,17 +874,32 @@
                     strokeColor: isDark ? "#0d1117" : "transparent"
                 },
                 shape: "dot",
-                title: counts[key] + " publicaciones conjuntas"
+                // El tooltip se arma con la clave traducida: antes estaba en
+                // español fijo y en la versión inglesa seguía en castellano.
+                title: d.labels[key].text + " — " + tCount("research.jointPubs", n)
             });
         });
 
-        var edges = coauthorNames.map(function (key) {
+        var edges = keys.map(function (key) {
             return {
-                from: "__me__",
-                to: key,
-                value: counts[key],
+                from: "__me__", to: key, value: d.counts[key],
                 color: { color: edgeColor, highlight: meColor }
             };
+        });
+
+        // Aristas entre coautores: lo que convierte la estrella en una red.
+        var shown = {};
+        keys.forEach(function (k) { shown[k] = true; });
+        Object.keys(d.pairs).forEach(function (id) {
+            var w = d.pairs[id];
+            if (w < EDGE_MIN) return;
+            var ab = id.split("|");
+            if (!shown[ab[0]] || !shown[ab[1]]) return;
+            edges.push({
+                from: ab[0], to: ab[1], value: w,
+                color: { color: edgeColor, opacity: isDark ? 0.35 : 0.5, highlight: meColor },
+                dashes: [4, 4]
+            });
         });
 
         try {
@@ -738,29 +907,307 @@
                 physics: {
                     enabled: true,
                     solver: "forceAtlas2Based",
-                    forceAtlas2Based: { gravitationalConstant: -50, springLength: 90, springConstant: 0.08 },
+                    // avoidOverlap separa los nodos contando su radio. Ojo con
+                    // pasarse: al esparcirlos mucho, el fit() posterior baja el
+                    // zoom y las etiquetas quedan ilegibles aunque no choquen.
+                    // Estos valores mantienen el zoom en torno a 0,8.
+                    forceAtlas2Based: {
+                        gravitationalConstant: -62,
+                        springLength: 110,
+                        springConstant: 0.07,
+                        avoidOverlap: 0.45
+                    },
                     stabilization: { iterations: 200 }
                 },
-                interaction: { hover: true, tooltipDelay: 250, zoomView: true, dragView: true },
-                nodes: { borderWidth: 2, scaling: { min: 10, max: 38, label: { enabled: true, min: 11, max: 18 } } },
-                edges: { smooth: { type: "continuous" }, scaling: { min: 0.5, max: 4 } }
+                interaction: {
+                    hover: true, tooltipDelay: 250,
+                    // En táctil el grafo no captura el dedo hasta que se
+                    // desbloquea: si no, deslizar para bajar por la página
+                    // desplazaba el grafo en lugar de hacer scroll.
+                    zoomView: coauthorState.unlocked,
+                    dragView: coauthorState.unlocked
+                },
+                nodes: {
+                    borderWidth: 2,
+                    scaling: {
+                        min: 10, max: 36,
+                        // drawThreshold: por debajo de ese tamaño en pantalla,
+                        // vis oculta la etiqueta en lugar de dibujar un borron
+                        // ilegible. Salta sobre todo al desplegar los 62 nodos,
+                        // donde el encuadre baja el zoom; el nombre sigue
+                        // disponible al pasar por encima y en la lista lateral.
+                        label: {
+                            enabled: true,
+                            min: labelRules().fontMin,
+                            max: labelRules().fontMax,
+                            drawThreshold: 8
+                        }
+                    }
+                },
+                edges: { smooth: { type: "continuous" }, scaling: { min: 0.5, max: 5 } }
             });
             coauthorState.instance = network;
 
-            // Botón de reset: re-corre la física y encuadra todos los nodos.
-            var resetBtn = document.getElementById("coauthorReset");
-            if (resetBtn) {
-                resetBtn.addEventListener("click", function () {
-                    try {
-                        network.setOptions({ physics: { enabled: true } });
-                        network.stabilize(200);
-                        network.fit({ animation: { duration: 600, easingFunction: "easeInOutQuad" } });
-                    } catch (e) { /* ignore */ }
-                });
-            }
+            // Congelar la física al estabilizar: antes seguía corriendo
+            // indefinidamente, con los nodos temblando y gastando CPU.
+            // Con "on" y no "once", el botón de reorganizar puede reactivarla
+            // y al terminar vuelve a congelarse; con "once" se habría quedado
+            // encendida para siempre tras el primer reset.
+            network.on("stabilizationIterationsDone", function () {
+                try {
+                    network.setOptions({ physics: { enabled: false } });
+                    // Con la fisica ya parada se pueden recolocar nodos sin
+                    // que la simulacion los devuelva a su sitio.
+                    spreadLabels(network, nodes);
+                    network.fit({ animation: false });
+                } catch (e) { /* ignore */ }
+            });
+
+            network.on("click", function (params) {
+                if (!params.nodes || !params.nodes.length) return;
+                var id = params.nodes[0];
+                if (id === "__me__") return;
+                filterByCoauthor(id);
+            });
         } catch (e) {
             console.warn("[coauthor] error construyendo el grafo:", e);
         }
+
+        renderCoauthorLegend();
+        renderCoauthorTop();
+        syncCoauthorToggle();
+    }
+
+    /* ---------- Separación de etiquetas ----------
+       La física por sí sola no garantiza que dos nombres no se pisen: es
+       una simulación entre nodos, no entre textos, y vis-network no evita
+       colisiones de etiquetas. Con ciertas disposiciones seguían saliendo
+       solapes sueltos.
+
+       Tras estabilizar, se mide la caja de cada etiqueta y se separan las
+       que chocan, desplazando ambos nodos por el eje donde el solape es
+       menor (el vector de separación mínimo). Así se corrige lo justo y la
+       forma general del grafo no se altera.
+
+       Las medidas van en coordenadas de lienzo, no de pantalla: vis define
+       el cuerpo de letra en esas unidades, de modo que el resultado no
+       depende del zoom con el que se acabe encuadrando. */
+    function spreadLabels(network, nodes) {
+        var ctx = document.createElement("canvas").getContext("2d");
+        var rules = labelRules();
+        var values = nodes.map(function (n) { return n.value; });
+        var vmin = Math.min.apply(null, values);
+        var vmax = Math.max.apply(null, values);
+        var pos = network.getPositions();
+
+        var boxes = [];
+        nodes.forEach(function (n) {
+            var txt = String(n.label || "").trim();
+            if (!txt) return;
+            var p = pos[n.id];
+            if (!p) return;
+            var f = vmax > vmin ? (n.value - vmin) / (vmax - vmin) : 0;
+            var size = rules.fontMin + f * (rules.fontMax - rules.fontMin);
+            // Radio aproximado del nodo, con la misma escala que usa vis.
+            var radius = 10 + f * 26;
+            ctx.font = size + "px Inter, sans-serif";
+            boxes.push({
+                id: n.id,
+                x: p.x,
+                y: p.y,
+                w: ctx.measureText(txt).width + 6,
+                h: size * 1.25,
+                // La etiqueta se dibuja bajo el nodo
+                cy: p.y + radius + size * 0.7
+            });
+        });
+
+        var MARGIN = 4;
+        for (var pass = 0; pass < 14; pass++) {
+            var moved = false;
+            for (var i = 0; i < boxes.length; i++) {
+                for (var j = i + 1; j < boxes.length; j++) {
+                    var a = boxes[i], b = boxes[j];
+                    var dx = (a.w + b.w) / 2 + MARGIN - Math.abs(a.x - b.x);
+                    var dy = (a.h + b.h) / 2 + MARGIN - Math.abs(a.cy - b.cy);
+                    if (dx <= 0 || dy <= 0) continue;   // no se tocan
+
+                    moved = true;
+                    // Se resuelve por el eje de menor penetración.
+                    if (dx < dy) {
+                        var sx = (a.x <= b.x ? -1 : 1) * dx / 2;
+                        a.x += sx; b.x -= sx;
+                    } else {
+                        var sy = (a.cy <= b.cy ? -1 : 1) * dy / 2;
+                        a.y += sy; a.cy += sy;
+                        b.y -= sy; b.cy -= sy;
+                    }
+                }
+            }
+            if (!moved) break;
+        }
+
+        boxes.forEach(function (b) {
+            try { network.moveNode(b.id, b.x, b.y); } catch (e) { /* ignore */ }
+        });
+    }
+
+    /* Leyenda de los tramos de actividad. */
+    function renderCoauthorLegend() {
+        var wrap = document.getElementById("coauthorLegend");
+        if (!wrap) return;
+        var d = coauthorState.data;
+        if (!d) return;
+        var byEra = {};
+        visibleCoauthors().forEach(function (k) {
+            var e = coauthorEra(d.lastYear[k]);
+            byEra[e] = (byEra[e] || 0) + 1;
+        });
+        wrap.innerHTML = ERA_ORDER.filter(function (e) { return byEra[e]; }).map(function (e) {
+            return '<span class="coauthor-legend-item coauthor-era-' + e + '">' +
+                '<span class="coauthor-legend-dot"></span>' +
+                escapeHtml(t("research.eras." + e)) +
+                ' <span class="coauthor-legend-n">' + byEra[e] + "</span></span>";
+        }).join("");
+    }
+
+    /* Lista de principales colaboradores. Además de leyenda navegable, es
+       la alternativa accesible al canvas: son botones reales, alcanzables
+       con el teclado, cosa que el grafo no ofrece. */
+    function renderCoauthorTop() {
+        var list = document.getElementById("coauthorTopList");
+        if (!list) return;
+        var d = coauthorState.data;
+        if (!d) return;
+        // La lista va completa, no recortada: el canvas esta marcado como
+        // aria-hidden, asi que esta es la unica via para quien navega con
+        // lector de pantalla o teclado. Se desplaza si no cabe.
+        list.innerHTML = visibleCoauthors().map(function (k) {
+            var era = coauthorEra(d.lastYear[k]);
+            return '<li>' +
+                '<button type="button" class="coauthor-top-btn coauthor-era-' + era + '" data-coauthor="' + escapeHtml(k) + '">' +
+                    '<span class="coauthor-legend-dot"></span>' +
+                    '<span class="coauthor-top-name">' + escapeHtml(d.labels[k].text) + "</span>" +
+                    '<span class="coauthor-top-n">' + d.counts[k] + "</span>" +
+                "</button></li>";
+        }).join("");
+    }
+
+    function syncCoauthorToggle() {
+        var d = coauthorState.data;
+        if (!d) return;
+        var occasional = Object.keys(d.counts).filter(function (k) { return d.counts[k] < NODE_MIN; }).length;
+        var box = document.getElementById("coauthorShowAll");
+        var count = document.getElementById("coauthorShowAllCount");
+        if (box) box.checked = coauthorState.showAll;
+        if (count) count.textContent = occasional ? "+" + occasional : "";
+        var label = document.querySelector(".coauthor-toggle");
+        if (label) label.hidden = occasional === 0;
+    }
+
+    /* Redibuja el grafo desde cero (cambio de umbral o de tema). */
+    function rebuildCoauthorNetwork() {
+        if (!coauthorState.allItems) return;
+        if (coauthorState.instance) {
+            try { coauthorState.instance.destroy(); } catch (e) { /* ignore */ }
+            coauthorState.instance = null;
+        }
+        buildCoauthorNetwork(coauthorState.allItems);
+    }
+
+    /* Los listeners de los controles se enlazan UNA vez. Antes el del botón
+       de reorganizar vivía dentro de buildCoauthorNetwork, que se reejecuta
+       en cada cambio de tema: cada alternancia claro/oscuro acumulaba otro
+       manejador sobre el mismo botón. */
+    function initCoauthorControls() {
+        var resetBtn = document.getElementById("coauthorReset");
+        if (resetBtn) {
+            resetBtn.addEventListener("click", function () {
+                var n = coauthorState.instance;
+                if (!n) return;
+                try {
+                    n.setOptions({ physics: { enabled: true } });
+                    n.stabilize(200);
+                    n.fit({ animation: { duration: 600, easingFunction: "easeInOutQuad" } });
+                } catch (e) { /* ignore */ }
+            });
+        }
+
+        var showAll = document.getElementById("coauthorShowAll");
+        if (showAll) {
+            showAll.addEventListener("change", function () {
+                coauthorState.showAll = showAll.checked;
+                rebuildCoauthorNetwork();
+            });
+        }
+
+        var unlock = document.getElementById("coauthorUnlock");
+        if (unlock) {
+            unlock.addEventListener("click", function () {
+                coauthorState.unlocked = true;
+                unlock.hidden = true;
+                var n = coauthorState.instance;
+                if (n) { try { n.setOptions({ interaction: { zoomView: true, dragView: true } }); } catch (e) { /* ignore */ } }
+            });
+        }
+
+        var topList = document.getElementById("coauthorTopList");
+        if (topList) {
+            topList.addEventListener("click", function (ev) {
+                var btn = ev.target.closest(".coauthor-top-btn");
+                if (btn) filterByCoauthor(btn.getAttribute("data-coauthor"));
+            });
+        }
+
+        var clear = document.getElementById("pubCoauthorClear");
+        if (clear) clear.addEventListener("click", function () { filterByCoauthor(null); });
+
+        // El bloqueo táctil solo estorbaría donde hay ratón.
+        if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+            if (unlock) unlock.hidden = false;
+        } else {
+            coauthorState.unlocked = true;
+        }
+    }
+
+    /* Clic en un coautor: la lista de publicaciones de abajo se queda con
+       los trabajos que firmáis juntos. Es lo que convierte el grafo en algo
+       navegable en vez de decorativo. */
+    function filterByCoauthor(key) {
+        pubState.coauthor = key || null;
+        pubState.page = 1;
+        if (key) {
+            // Un filtro de tipo, cuartil o año activo enmascararía el resultado.
+            pubState.filter = "all";
+            pubState.quartiles = [];
+            pubState.year = "all";
+            document.querySelectorAll(".filter-chip").forEach(function (c) {
+                c.classList.toggle("is-active", c.getAttribute("data-filter") === "all");
+            });
+            var ySel = document.getElementById("pubYear");
+            if (ySel) ySel.value = "all";
+            paintQuartileChips();
+            syncQuartileFacet();
+            var reset = document.getElementById("pubFacetsReset");
+            if (reset) reset.hidden = true;
+        }
+        renderCoauthorNote();
+        renderPubView();
+        if (key) {
+            var sec = document.getElementById("publicaciones");
+            if (sec && sec.scrollIntoView) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }
+
+    function renderCoauthorNote() {
+        var note = document.getElementById("pubCoauthorNote");
+        var text = document.getElementById("pubCoauthorText");
+        if (!note || !text) return;
+        if (!pubState.coauthor) { note.hidden = true; return; }
+        note.hidden = false;
+        text.innerHTML = '<i class="fa-solid fa-diagram-project"></i> ' +
+            escapeHtml(t("publications.coauthor.filtering"))
+                .replace("{name}", "<strong>" + escapeHtml(coauthorLabel(pubState.coauthor)) + "</strong>");
     }
 
     /* Clave canónica para identificar a un autor de forma única.
@@ -809,6 +1256,26 @@
         var q = normalizeText(pubState.search).trim();
         if (q) {
             filtered = filtered.filter(function (it) { return pubSearchText(it).indexOf(q) !== -1; });
+        }
+
+        // El cuartil solo existe en revistas: al filtrar por él, los congresos
+        // y el software quedan fuera por definición.
+        if (pubState.coauthor) {
+            filtered = filtered.filter(function (it) {
+                return (it.authors || []).some(function (a) {
+                    return normalizeAuthorKey(a) === pubState.coauthor;
+                });
+            });
+        }
+
+        if (pubState.quartiles.length) {
+            filtered = filtered.filter(function (it) {
+                return pubState.quartiles.indexOf(it.quartile) !== -1;
+            });
+        }
+
+        if (pubState.year !== "all") {
+            filtered = filtered.filter(function (it) { return String(it.year) === String(pubState.year); });
         }
 
         var pageSize = pubState.pageSize === "all" ? filtered.length || 1 : pubState.pageSize;
@@ -939,6 +1406,102 @@
             var esc = escapeHtml(a);
             return (i + 1) === position ? "<strong>" + esc + "</strong>" : esc;
         }).join("; ");
+    }
+
+    /* ---------- Cita en BibTeX ----------
+       Genera la entrada a partir del propio item del JSON, sin llamadas
+       externas: @article para revistas, @inproceedings para congresos y
+       @misc para los registros de software. La clave de cita es el `id`
+       del item, que el validador ya garantiza unico entre los tres
+       ficheros. */
+    function bibtexEscape(v) {
+        // Llaves y barras invertidas romperian la entrada; el resto de
+        // caracteres (acentos incluidos) se dejan tal cual, en UTF-8.
+        return String(v == null ? "" : v).replace(/[\\{}]/g, "");
+    }
+
+    function bibtexField(name, value) {
+        if (value == null || value === "") return "";
+        return "  " + name + " = {" + bibtexEscape(value) + "},\n";
+    }
+
+    function bibtexAuthors(authors) {
+        if (!authors || !authors.length) return "";
+        return authors.map(bibtexEscape).join(" and ");
+    }
+
+    function buildBibtex(it) {
+        var key = it.id || "ref";
+        var out;
+        if (it._type === "journal") {
+            out = "@article{" + key + ",\n" +
+                bibtexField("author", bibtexAuthors(it.authors)) +
+                bibtexField("title", it.title) +
+                bibtexField("journal", it.journal) +
+                bibtexField("volume", it.volume) +
+                bibtexField("number", it.issue) +
+                bibtexField("pages", it.pages) +
+                bibtexField("year", it.year) +
+                bibtexField("issn", it.issn) +
+                bibtexField("publisher", it.publisher) +
+                bibtexField("doi", it.doi);
+        } else if (it._type === "conference") {
+            var booktitle = it.acronym && it.conference !== it.acronym
+                ? it.conference + " (" + it.acronym + ")"
+                : it.conference;
+            out = "@inproceedings{" + key + ",\n" +
+                bibtexField("author", bibtexAuthors(it.authors)) +
+                bibtexField("title", it.title) +
+                bibtexField("booktitle", booktitle) +
+                bibtexField("address", it.location) +
+                bibtexField("year", it.year) +
+                bibtexField("isbn", it.isbn) +
+                bibtexField("doi", it.doi);
+        } else {
+            var note = [it.registry, it.registryNumber ? "N.o " + it.registryNumber : null]
+                .filter(Boolean).join(", ");
+            out = "@misc{" + key + ",\n" +
+                bibtexField("author", bibtexAuthors(it.authors)) +
+                bibtexField("title", it.title) +
+                bibtexField("year", it.year) +
+                bibtexField("howpublished", it.productType) +
+                bibtexField("note", note) +
+                bibtexField("doi", it.doi);
+        }
+        // Quita la coma sobrante del ultimo campo y cierra la entrada.
+        return out.replace(/,\n$/, "\n") + "}";
+    }
+
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+        }
+        // Respaldo para navegadores sin Clipboard API o sin contexto seguro.
+        return new Promise(function (resolve, reject) {
+            try {
+                var ta = document.createElement("textarea");
+                ta.value = text;
+                ta.setAttribute("readonly", "");
+                ta.style.position = "fixed";
+                ta.style.opacity = "0";
+                document.body.appendChild(ta);
+                ta.select();
+                var ok = document.execCommand("copy");
+                document.body.removeChild(ta);
+                ok ? resolve() : reject(new Error("execCommand copy falló"));
+            } catch (e) { reject(e); }
+        });
+    }
+
+    /* Fila de acciones común a las tres plantillas de ficha: enlace al DOI
+       cuando existe y botón de cita en BibTeX siempre. */
+    function pubActions(item, doiLink) {
+        var doiBtn = doiLink
+            ? '<a class="btn btn-sm btn-ghost" href="' + doiLink + '" target="_blank" rel="noopener" title="' + escapeHtml(t("publications.labels.doiTitle")) + '"><i class="fa-solid fa-link"></i> ' + escapeHtml(t("publications.labels.doi")) + "</a>"
+            : "";
+        var citeBtn = '<button type="button" class="btn btn-sm btn-ghost pub-cite" data-cite="' + escapeHtml(item.id || "") + '">' +
+            '<i class="fa-solid fa-quote-right"></i> <span class="pub-cite-label">' + escapeHtml(t("publications.labels.cite")) + "</span></button>";
+        return '<div class="pub-actions">' + doiBtn + citeBtn + "</div>";
     }
 
     function renderCard(item) {
@@ -1087,7 +1650,7 @@
                 '<p class="pub-authors">' + highlightAuthor(j.authors, j.myPosition) + "</p>" +
                 '<p class="pub-venue"><em>' + venueParts + "</em></p>" +
                 '<div class="pub-metrics">' + acceptedChip + quartileChip + ifChip + indexedHtml + "</div>" +
-                (doiLink ? '<div class="pub-actions"><a class="btn btn-sm btn-ghost" href="' + doiLink + '" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> ' + escapeHtml(t("publications.labels.doi")) + '</a></div>' : "") +
+                pubActions(j, doiLink) +
             "</div>" +
         "</article>";
     }
@@ -1135,7 +1698,7 @@
                 '<p class="pub-authors">' + highlightAuthor(c.authors, c.myPosition) + "</p>" +
                 '<p class="pub-venue"><em>' + venueParts + "</em></p>" +
                 '<div class="pub-metrics">' + acceptedChip + coreChip + scopeChip + acronymChip + presChip + specialChip + "</div>" +
-                (doiLink ? '<div class="pub-actions"><a class="btn btn-sm btn-ghost" href="' + doiLink + '" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> ' + escapeHtml(t("publications.labels.doi")) + '</a></div>' : "") +
+                pubActions(c, doiLink) +
             "</div>" +
         "</article>";
     }
@@ -1160,7 +1723,7 @@
                 '<p class="pub-venue"><em>' + meta + "</em></p>" +
                 (s.description ? '<p class="pub-summary">' + escapeHtml(s.description) + "</p>" : "") +
                 '<div class="pub-metrics">' + productChip + rightsChip + "</div>" +
-                (doiLink ? '<div class="pub-actions"><a class="btn btn-sm btn-ghost" href="' + doiLink + '" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> ' + escapeHtml(t("publications.labels.doi")) + '</a></div>' : "") +
+                pubActions(s, doiLink) +
             "</div>" +
         "</article>";
     }
@@ -1174,6 +1737,7 @@
                 chip.classList.add("is-active");
                 pubState.filter = chip.getAttribute("data-filter");
                 pubState.page = 1;
+                syncQuartileFacet();
                 renderPubView();
             });
         });
@@ -1201,6 +1765,299 @@
                 });
             }
         }
+
+        initPubFacets();
+        initPubCite();
+    }
+
+    /* ---------- Facetas de cuartil y año ----------
+       El cuartil solo tiene sentido sobre revistas, así que el desplegable
+       se deshabilita cuando el filtro de tipo activo es congresos o
+       software (donde el campo no existe y el resultado sería vacío). */
+    function initPubFacets() {
+        var chipsWrap = document.getElementById("pubQuartileChips");
+        var ySel = document.getElementById("pubYear");
+        var reset = document.getElementById("pubFacetsReset");
+
+        if (chipsWrap) {
+            chipsWrap.addEventListener("click", function (ev) {
+                var chip = ev.target.closest(".q-chip");
+                if (!chip) return;
+                var q = chip.getAttribute("data-quartile");
+                var i = pubState.quartiles.indexOf(q);
+                if (i === -1) pubState.quartiles.push(q);
+                else pubState.quartiles.splice(i, 1);
+                paintQuartileChips();
+                refreshFacets();
+            });
+        }
+        if (ySel) {
+            ySel.addEventListener("change", function () {
+                pubState.year = ySel.value;
+                refreshFacets();
+            });
+        }
+        if (reset) {
+            reset.addEventListener("click", function () {
+                pubState.quartiles = [];
+                pubState.year = "all";
+                if (ySel) ySel.value = "all";
+                paintQuartileChips();
+                refreshFacets();
+            });
+        }
+        syncQuartileFacet();
+    }
+
+    function facetsAreClean() {
+        return pubState.quartiles.length === 0 && pubState.year === "all";
+    }
+
+    function refreshFacets() {
+        pubState.page = 1;
+        var reset = document.getElementById("pubFacetsReset");
+        if (reset) reset.hidden = facetsAreClean();
+        renderPubView();
+    }
+
+    /* Refleja en los chips que cuartiles estan activos. */
+    function paintQuartileChips() {
+        document.querySelectorAll("#pubQuartileChips .q-chip").forEach(function (chip) {
+            var on = pubState.quartiles.indexOf(chip.getAttribute("data-quartile")) !== -1;
+            chip.classList.toggle("is-on", on);
+            chip.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+    }
+
+    /* El cuartil solo existe en revistas: la faceta aparece unicamente con
+       ese filtro activo y, al salir de el, se limpia para no dejar un
+       criterio aplicandose sin control visible. */
+    function syncQuartileFacet() {
+        var facet = document.getElementById("pubQuartileFacet");
+        if (!facet) return;
+        var applies = pubState.filter === "journal";
+        facet.hidden = !applies;
+        if (!applies && pubState.quartiles.length) {
+            pubState.quartiles = [];
+            paintQuartileChips();
+            var reset = document.getElementById("pubFacetsReset");
+            if (reset) reset.hidden = facetsAreClean();
+        }
+    }
+
+    function populateYearFacet(items) {
+        var ySel = document.getElementById("pubYear");
+        if (!ySel) return;
+        var years = [];
+        items.forEach(function (it) {
+            if (it.year && years.indexOf(it.year) === -1) years.push(it.year);
+        });
+        years.sort(function (a, b) { return b - a; });
+        ySel.innerHTML = '<option value="all" data-i18n="publications.facets.any">' + escapeHtml(t("publications.facets.any")) + "</option>" +
+            years.map(function (y) {
+                return '<option value="' + y + '"' + (String(pubState.year) === String(y) ? " selected" : "") + ">" + y + "</option>";
+            }).join("");
+    }
+
+    /* ---------- Botón "Citar" ----------
+       Delegado en el contenedor porque las fichas se repintan enteras en
+       cada cambio de filtro o página. */
+    function initPubCite() {
+        var list = document.getElementById("publicationsList");
+        if (!list || list.dataset.citeBound === "1") return;
+        list.dataset.citeBound = "1";
+
+        list.addEventListener("click", function (ev) {
+            var btn = ev.target.closest(".pub-cite");
+            if (!btn) return;
+            var id = btn.getAttribute("data-cite");
+            var item = null;
+            for (var i = 0; i < pubState.items.length; i++) {
+                if (pubState.items[i].id === id) { item = pubState.items[i]; break; }
+            }
+            if (!item) return;
+
+            var label = btn.querySelector(".pub-cite-label");
+            copyToClipboard(buildBibtex(item))
+                .then(function () { flashCiteLabel(btn, label, t("publications.labels.citeCopied"), "is-copied"); })
+                .catch(function () { flashCiteLabel(btn, label, t("publications.labels.citeError"), "is-error"); });
+        });
+    }
+
+    function flashCiteLabel(btn, label, text, cls) {
+        if (!label) return;
+        if (btn.dataset.restoring === "1") return;
+        btn.dataset.restoring = "1";
+        var original = label.textContent;
+        label.textContent = text;
+        btn.classList.add(cls);
+        setTimeout(function () {
+            label.textContent = original;
+            btn.classList.remove(cls);
+            btn.dataset.restoring = "0";
+        }, 1800);
+    }
+
+    /* ---------- Proyectos ----------
+       Datos en data/projects.json. La sección entera se oculta si el
+       fichero falta o no tiene entradas, igual que hacen los tramos: así
+       nunca se queda un bloque vacío en la página. */
+    var projectsData = null;
+
+    function loadProjects() {
+        var section = document.getElementById("proyectos");
+        if (!section) return;
+        fetch("data/projects.json", { cache: "no-cache" })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+                projectsData = (d && d.items) || [];
+                renderProjects(section, projectsData);
+            })
+            .catch(function () { setProjectsVisible(section, false); });
+    }
+
+    /* Sin proyectos que mostrar, la seccion se oculta y con ella su enlace del
+       menu: si no, quedaria un enlace que no lleva a ninguna parte. */
+    function setProjectsVisible(section, visible) {
+        if (section) section.style.display = visible ? "" : "none";
+        var link = document.querySelector('.topnav-link[href="#proyectos"]');
+        if (link) link.hidden = !visible;
+    }
+
+    /* Repinta las tarjetas al cambiar de idioma: sus etiquetas (rol, ámbito,
+       estado) y el formato de importe se resuelven en tiempo de render. */
+    function repaintProjects() {
+        if (!projectsData) return;
+        var section = document.getElementById("proyectos");
+        if (section) renderProjects(section, projectsData);
+    }
+
+    /* Un proyecto está activo si lo dice explícitamente o si su fecha de
+       fin aún no ha pasado. */
+    function projectIsActive(p) {
+        if (p.status) return p.status === "active";
+        if (!p.endDate) return false;
+        return new Date(p.endDate) >= new Date();
+    }
+
+    function formatProjectDates(p) {
+        function ym(d) {
+            if (!d) return "";
+            var parts = String(d).split("-");
+            return parts.length >= 2 ? parts[1] + "/" + parts[0] : parts[0];
+        }
+        return [ym(p.startDate), ym(p.endDate)].filter(Boolean).join(" – ");
+    }
+
+    function formatBudget(value) {
+        if (value == null) return "";
+        var n = Number(value);
+        if (!Number.isFinite(n)) return "";
+        return n.toLocaleString(currentLang === "en" ? "en-GB" : "es-ES", {
+            style: "currency", currency: "EUR", maximumFractionDigits: 0
+        });
+    }
+
+    function renderProjects(section, items) {
+        var list = document.getElementById("projectsList");
+        var summary = document.getElementById("projectsSummary");
+        if (!list) return;
+
+        if (!items.length) {
+            setProjectsVisible(section, false);
+            return;
+        }
+        setProjectsVisible(section, true);
+
+        // Activos primero; dentro de cada grupo, los que terminan más tarde.
+        var sorted = items.slice().sort(function (a, b) {
+            var aa = projectIsActive(a), ba = projectIsActive(b);
+            if (aa !== ba) return aa ? -1 : 1;
+            return String(b.endDate || b.startDate || "").localeCompare(String(a.endDate || a.startDate || ""));
+        });
+
+        if (summary) {
+            var active = sorted.filter(projectIsActive).length;
+            var asPi = sorted.filter(function (p) { return p.role === "pi" || p.role === "co-pi"; }).length;
+            var cards = [
+                { value: sorted.length, key: "projects.summary.total" },
+                { value: active, key: "projects.summary.active" }
+            ];
+            if (asPi > 0) cards.push({ value: asPi, key: "projects.summary.asPi" });
+            summary.innerHTML = cards.map(function (c) {
+                return '<div class="stat-card">' +
+                    '<span class="stat-value">' + c.value + "</span>" +
+                    '<span class="stat-label" data-i18n="' + c.key + '">' + escapeHtml(t(c.key)) + "</span>" +
+                "</div>";
+            }).join("");
+        }
+
+        list.innerHTML = sorted.map(renderProjectCard).join("");
+    }
+
+    function renderProjectCard(p) {
+        var active = projectIsActive(p);
+        var statusChip = '<span class="metric-chip ' + (active ? "chip-accepted" : "subtle") + '">' +
+            '<i class="fa-solid ' + (active ? "fa-circle-play" : "fa-circle-check") + '"></i> ' +
+            escapeHtml(t(active ? "projects.status.active" : "projects.status.finished")) + "</span>";
+
+        var roleChip = p.role
+            ? '<span class="metric-chip chip-international"><i class="fa-solid fa-user-tie"></i> ' +
+              escapeHtml(t("projects.roles." + p.role)) + "</span>"
+            : "";
+
+        var scopeChip = p.scope
+            ? '<span class="metric-chip subtle"><i class="fa-solid fa-globe"></i> ' +
+              escapeHtml(t("projects.scopes." + p.scope)) + "</span>"
+            : "";
+
+        var budget = formatBudget(p.budget);
+        var budgetChip = budget
+            ? '<span class="metric-chip subtle"><i class="fa-solid fa-euro-sign"></i> ' + escapeHtml(budget) + "</span>"
+            : "";
+
+        var dates = formatProjectDates(p);
+        var datesChip = dates
+            ? '<span class="metric-chip subtle"><i class="fa-regular fa-calendar"></i> ' + escapeHtml(dates) + "</span>"
+            : "";
+
+        var acronym = p.acronym
+            ? '<span class="project-acronym">' + escapeHtml(p.acronym) + "</span>"
+            : "";
+
+        var title = p.url
+            ? '<a href="' + escapeHtml(p.url) + '" target="_blank" rel="noopener">' + escapeHtml(p.title) + "</a>"
+            : escapeHtml(p.title);
+
+        var meta = [p.funder, p.programme, p.reference].filter(Boolean).map(escapeHtml).join(" · ");
+
+        var partners = (p.partners && p.partners.length)
+            ? '<p class="project-partners"><span>' + escapeHtml(t("projects.partners")) + ":</span> " +
+              p.partners.map(escapeHtml).join(", ") + "</p>"
+            : "";
+
+        // Enlaza con las fichas de publicación ya cargadas, para que se vea
+        // qué ha producido cada proyecto.
+        var related = "";
+        if (p.relatedPublications && p.relatedPublications.length && pubState.items.length) {
+            var found = p.relatedPublications.filter(function (id) {
+                return pubState.items.some(function (it) { return it.id === id; });
+            });
+            if (found.length) {
+                related = '<p class="project-related"><i class="fa-solid fa-book"></i> ' +
+                    escapeHtml(t("projects.related").replace("{n}", found.length)) + "</p>";
+            }
+        }
+
+        return '<article class="project-card' + (active ? " is-active" : "") + '">' +
+            '<div class="project-head">' + acronym + statusChip + "</div>" +
+            '<h4 class="project-title">' + title + "</h4>" +
+            (meta ? '<p class="project-meta">' + meta + "</p>" : "") +
+            (p.description ? '<p class="project-desc">' + escapeHtml(p.description) + "</p>" : "") +
+            partners +
+            related +
+            '<div class="project-chips">' + roleChip + scopeChip + datesChip + budgetChip + "</div>" +
+        "</article>";
     }
 
     /* ---------- Métricas ----------
@@ -1247,9 +2104,17 @@
         setStat("citations", d.citations);
         setStat("hindex", d.h_index);
         setStat("i10", d.i10_index);
-        // Solo cambia la etiqueta de fuente de las cards de impacto, no de las manuales
+        setImpactSource("metrics.source.scholar");
+    }
+
+    /* Reetiqueta la procedencia de las cards de impacto segun la fuente que
+       haya respondido. Cambia la clave de i18n, no solo el texto: si se
+       tocase el textContent, el siguiente applyI18n() (cambio de idioma o
+       deteccion tardia) lo revertiria al valor del HTML. */
+    function setImpactSource(key) {
         document.querySelectorAll("#statsImpact .stat-source").forEach(function (el) {
-            el.textContent = "Google Scholar";
+            el.setAttribute("data-i18n", key);
+            el.textContent = t(key);
         });
     }
 
@@ -1300,12 +2165,16 @@
                 return '<span class="tramo-chip">' + escapeHtml(it.period) + "</span>";
             }).join("");
             var bodies = g.items.map(function (it) { return it.body; }).filter(Boolean);
+            // El organismo puede venir en siglas; si el JSON trae "bodyFull"
+            // se cuelga como title para aclararlas sin romper la tarjeta.
             var source = bodies.length ? escapeHtml(bodies[0]) : "";
+            var fulls = g.items.map(function (it) { return it.bodyFull; }).filter(Boolean);
+            var sourceTitle = fulls.length ? ' title="' + escapeHtml(fulls[0]) + '"' : "";
             return '<div class="stat-card">' +
                 '<span class="stat-value">' + g.items.length + "</span>" +
                 '<span class="stat-label" data-i18n="' + g.key + '">' + escapeHtml(t(g.key)) + "</span>" +
                 '<div class="tramo-periods">' + periods + "</div>" +
-                (source ? '<span class="stat-source">' + source + "</span>" : "") +
+                (source ? '<span class="stat-source"' + sourceTitle + ">" + source + "</span>" : "") +
             "</div>";
         }).join("");
     }
@@ -1315,6 +2184,8 @@
         setStat("citations", d.cited_by_count);
         setStat("hindex", stats.h_index);
         setStat("i10", stats.i10_index);
+        // Camino de respaldo: si Scholar falla, la procedencia debe decirlo.
+        setImpactSource("metrics.source.openalex");
     }
 
     function setStat(key, value) {

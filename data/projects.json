@@ -1,0 +1,5 @@
+{
+  "_comment": "Proyectos de investigacion y contratos de transferencia. Cada entrada se pinta como tarjeta en la seccion 'Proyectos'. Si 'items' queda vacio, la seccion entera se oculta sola. Campos: id (unico, kebab-case); acronym (opcional, se muestra como distintivo); title; funder (organismo financiador); programme (convocatoria o plan); reference (codigo del proyecto); role = 'pi' | 'co-pi' | 'researcher' | 'team'; scope = 'european' | 'national' | 'regional' | 'contract' | 'internal'; startDate y endDate en formato AAAA-MM-DD; budget (numero, en euros, o null si no procede publicarlo); status = 'active' | 'finished' (si se omite, se deduce de endDate); url (web del proyecto o null); description (una o dos frases); partners (lista de entidades participantes, opcional); relatedPublications (lista de ids de data/publications/*.json, opcional).",
+  "updated_at": "2026-08-19",
+  "items": []
+}
