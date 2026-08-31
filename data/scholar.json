@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-08-24T08:02:11+00:00",
+  "updated_at": "2026-08-31T14:56:35+00:00",
   "source": "Google Scholar",
   "scholar_id": "Am2sDmIAAAAJ",
   "name": "José Luis López Ruiz",
   "affiliation": "Assistant Professor at the University of Jaén",
-  "citations": 408,
-  "citations_5y": 405,
+  "citations": 412,
+  "citations_5y": 409,
   "h_index": 9,
   "h_index_5y": 9,
-  "i10_index": 7,
-  "i10_index_5y": 7,
+  "i10_index": 8,
+  "i10_index_5y": 8,
   "counts_by_year": [
     {
       "year": 2021,
@@ -33,7 +33,7 @@
     },
     {
       "year": 2026,
-      "cited_by_count": 71
+      "cited_by_count": 75
     }
   ]
 }
