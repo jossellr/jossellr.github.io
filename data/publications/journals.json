@@ -19,9 +19,9 @@
       "issue": null,
       "pages": "103135",
       "issn": "2352-7110",
-      "quartile": null,
+      "quartile": "Q3",
       "category": null,
-      "impactFactor": null,
+      "impactFactor": 1.9,
       "indexedIn": [
         "JCR",
         "Scopus",
@@ -29,7 +29,8 @@
       ],
       "doi": "10.1016/j.softx.2026.103135",
       "figureUrl": null,
-      "featured": false
+      "featured": false,
+      "impactFactorSource": "JCR"
     },
     {
       "id": "gaitan-2026-fuzzy-fault-cgm",
