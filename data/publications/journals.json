@@ -2,8 +2,70 @@
   "_comment": "Artículos en revistas indexadas. Añade nuevos elementos al inicio del array 'items'. El campo 'quartile' acepta Q1, Q2, Q3, Q4 o null si está pendiente de asignar.",
   "items": [
     {
+      "id": "gaitan-2026-fuzzydiary-softwarex",
+      "title": "FuzzyDiary: An open-source framework for morphology-aware and traceable linguistic summarization of clinical time series",
+      "authors": [
+        "Gaitán Guerrero, J. F.",
+        "López Ruiz, J. L.",
+        "Martínez Cruz, C.",
+        "Espinilla Estévez, M."
+      ],
+      "myPosition": 2,
+      "corresponding": false,
+      "year": 2026,
+      "journal": "SoftwareX",
+      "publisher": "Elsevier B.V.",
+      "volume": "36",
+      "issue": null,
+      "pages": "103135",
+      "issn": "2352-7110",
+      "quartile": null,
+      "category": null,
+      "impactFactor": null,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.1016/j.softx.2026.103135",
+      "figureUrl": null,
+      "featured": false
+    },
+    {
+      "id": "gaitan-2026-fuzzy-fault-cgm",
+      "title": "Fuzzy Fault Detection and Band-Conditioned Data Quality Assessment for Sensor Streams: A Continuous Glucose Monitoring Case Study",
+      "authors": [
+        "Gaitán Guerrero, J. F.",
+        "Martínez Cruz, C.",
+        "Espinilla Estévez, M.",
+        "López Ruiz, J. L."
+      ],
+      "myPosition": 4,
+      "corresponding": false,
+      "year": 2026,
+      "journal": "Sensors",
+      "publisher": "MDPI",
+      "volume": "26",
+      "issue": "20",
+      "pages": "6442",
+      "issn": "1424-8220",
+      "quartile": "Q2",
+      "category": null,
+      "impactFactor": 4.0,
+      "indexedIn": [
+        "JCR",
+        "Scopus",
+        "SCIE"
+      ],
+      "doi": "10.3390/s26206442",
+      "figureUrl": null,
+      "featured": false,
+      "impactFactorSource": "OpenAlex",
+      "impactFactorOpenAlex": 4.39
+    },
+    {
       "id": "morcillo-2026-wearables-acceptance",
-      "title": "Perceptions of Non-Invasive Wearable Technologies for Elderly Care: A Mixed Methods Study on User Acceptance and Ethical Implications",
+      "title": "Perceptions of Non-Invasive Wearable Technologies for Elderly Care: A Mixed-Methods Study on User Acceptance and Ethical Implications",
       "authors": [
         "Morcillo Martínez, J. M.",
         "López Ruiz, J. L.",
@@ -16,9 +78,9 @@
       "year": 2026,
       "journal": "Journal of Universal Computer Science",
       "publisher": "Graz University of Technology",
-      "volume": null,
-      "issue": null,
-      "pages": null,
+      "volume": "32",
+      "issue": "8",
+      "pages": "1133-1149",
       "issn": "0948-6968",
       "quartile": "Q3",
       "category": null,
@@ -27,10 +89,9 @@
         "JCR",
         "Scopus"
       ],
-      "doi": null,
+      "doi": "10.3897/jucs.178088",
       "figureUrl": null,
-      "featured": false,
-      "status": "accepted"
+      "featured": false
     },
     {
       "id": "montoya-2026-iomt-stress",

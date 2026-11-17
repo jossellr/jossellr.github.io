@@ -85,7 +85,7 @@
   },
   "biography": {
     "title": "Biography",
-    "p1": "José Luis López Ruiz (Linares, Jaén, 1993) holds a B.Sc. in Computer Engineering (2018), an M.Sc. in Computer Engineering with the Best Master's Thesis Award (2020) and a Ph.D. in Information and Communication Technologies (2023), all from the <strong>University of Jaén</strong>. He currently serves as Assistant Professor (Profesor Ayudante Doctor) in the Department of Computer Science and is a member of the <strong>ASIA (TIC-257)</strong> research group at the same university. He has held the <strong>ANECA</strong> accreditation as Lecturer (Profesor Permanente Laboral) since December 2023. His research lines combine Internet of Things, fuzzy logic and deep learning in connected-health and active-ageing systems.",
+    "p1": "José Luis López Ruiz (Linares, Jaén, 1993) holds a B.Sc. in Computer Engineering (2018), an M.Sc. in Computer Engineering with the Best Master's Thesis Award (2020) and a Ph.D. in Information and Communication Technologies (2023), all from the <strong>University of Jaén</strong>. He currently serves as Assistant Professor (Profesor Ayudante Doctor) in the Department of Computer Science and is a member of the <strong>ASIA (TIC-257)</strong> research group at the same university, and since 2026 he has been affiliated with the <strong>Andalusian Interuniversity Research Institute in Data Science and Computational Intelligence (DaSCI)</strong>. He has held the <strong>ANECA</strong> accreditation as Lecturer (Profesor Permanente Laboral) since December 2023. His research lines combine Internet of Things, fuzzy logic and deep learning in connected-health and active-ageing systems.",
     "p2": "My academic career has developed entirely within the <strong>Department of Computer Science</strong> at the University of Jaén, where I started in 2019 as research staff under the Youth Guarantee programme. Between 2020 and 2022 I worked as an R&amp;D&amp;I Support and Management Technician in the <strong>ASIA</strong> research group and, in February 2022, I joined university teaching as a Substitute Lecturer, a position I held until 2024. In late 2024 I obtained an Assistant Professor (Profesor Ayudante Doctor) position in the Computer Architecture and Technology area. In 2025 I was awarded a <strong>José Castillejo grant for young doctors</strong> from the Spanish Ministry of Science, Innovation and Universities for a three-month research stay (May–July 2026) at <strong>Ulster University</strong> (Belfast, United Kingdom).",
     "p3": "My research is currently organised in four complementary lines, all focused on intelligent systems applied to health and active ageing. The first one, started during my doctoral thesis, tackles the <strong>recognition of activities of daily living</strong> using IoT sensors deployed in domestic and care environments, aimed at monitoring older adults and chronic patients. A second line, derived from the first, addresses <strong>glucose monitoring and management of type 1 and type 2 diabetes mellitus</strong>, combining treatment-adherence platforms with the generation of linguistic summaries from sensor data through fuzzy logic and language models. In parallel I develop <strong>indoor positioning systems with BLE (Bluetooth Low Energy) and UWB (ultra-wideband) technologies</strong>, applied mainly to assisted living, where they make it possible to detect multi-occupancy in monitored spaces without resorting to cameras. Finally, I have recently started a fourth line on <strong>stress detection from biometric data in low-cost IoMT (Internet of Medical Things) devices</strong>. Across these four lines, I maintain continuous work on efficient IoT/IoMT architectures and the assessment of their alignment with the Sustainable Development Goals."
   },
@@ -274,6 +274,13 @@
         "title": "Smart health platforms: monitoring of patients with type 2 diabetes and sustainability",
         "authors": "PhD candidate: <strong>David Díaz Jiménez</strong> · Co-supervisors: Macarena Espinilla Estévez, <strong>López Ruiz, J. L.</strong>",
         "venue": "University of Jaén · Defended on 12 February 2025"
+      }
+    },
+    "outreachTitle": "Science outreach",
+    "outreach": {
+      "cafe": {
+        "line": "Workshop <strong>“Intelligent Engineering Systems to improve people’s lives”</strong> at <em>Café con Ciencia 2026</em> (Science Week), 3 November 2026.",
+        "place": "Scientific Culture and Innovation Unit · University of Jaén"
       }
     }
   },

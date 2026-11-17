@@ -1,5 +1,26 @@
 {
   "_comment": "Proyectos de investigacion y contratos de transferencia. Cada entrada se pinta como tarjeta en la seccion 'Proyectos'. Si 'items' queda vacio, la seccion entera se oculta sola. Campos: id (unico, kebab-case); acronym (opcional, se muestra como distintivo); title; funder (organismo financiador); programme (convocatoria o plan); reference (codigo del proyecto); role = 'pi' | 'co-pi' | 'researcher' | 'team'; scope = 'european' | 'national' | 'regional' | 'contract' | 'internal'; startDate y endDate en formato AAAA-MM-DD; budget (numero, en euros, o null si no procede publicarlo); status = 'active' | 'finished' (si se omite, se deduce de endDate); url (web del proyecto o null); description (una o dos frases); partners (lista de entidades participantes, opcional); relatedPublications (lista de ids de data/publications/*.json, opcional).",
-  "updated_at": "2026-08-19",
-  "items": []
+  "updated_at": "2026-11-17",
+  "items": [
+    {
+      "id": "platera-2022",
+      "acronym": "PLATERA",
+      "title": "Plataforma tecnológica de reconocimiento de actividades de la vida diaria para la valoración funcional de personas mayores",
+      "funder": "Ministerio de Ciencia e Innovación",
+      "programme": "Proyectos de Generación de Conocimiento 2021",
+      "reference": "PID2021-127275OB-I00",
+      "role": "team",
+      "scope": "national",
+      "startDate": "2022-09-01",
+      "endDate": "2026-08-31",
+      "budget": 85547,
+      "url": null,
+      "description": "Plataforma de reconocimiento de actividades de la vida diaria mediante sensores para la valoración funcional de personas mayores. IP: Macarena Espinilla Estévez y Francisco Flórez Revuelta.",
+      "relatedPublications": [
+        "ucami-2024-platera",
+        "platera-2024",
+        "living-dataset-platera-2024"
+      ]
+    }
+  ]
 }

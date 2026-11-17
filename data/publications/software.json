@@ -2,6 +2,21 @@
   "_comment": "Registros de propiedad intelectual de software/datasets. Añade nuevos elementos al inicio del array 'items' para que aparezcan los primeros.",
   "items": [
     {
+      "id": "ujaloc-ble-nlos-2026",
+      "title": "UJALoc-BLE-NLOS: Real-World BLE Dataset for Indoor Localization under NLOS Conditions",
+      "authors": ["López Ruiz, J. L.", "Espinilla Estévez, M."],
+      "myPosition": 1,
+      "year": 2026,
+      "registryDate": "2026-10-30",
+      "registryNumber": "2610307494860",
+      "registry": "Safe Creative",
+      "country": "España, Andalucía",
+      "rightsHolder": "Universidad de Jaén",
+      "productType": "Dataset",
+      "description": "Conjunto de datos real de señales BLE para localización en interiores en condiciones sin visión directa (NLOS), publicado bajo licencia CC BY 4.0.",
+      "figureUrl": null
+    },
+    {
       "id": "glow-env-2025",
       "title": "GLOW-ENV. Aplicación móvil basada en una arquitectura IoE para integrar datos ambientales y de glucosa en un sistema de recomendación",
       "authors": ["Gaitán Guerrero, J. F.", "Espinilla Estévez, M.", "López Ruiz, J. L.", "Martínez Cruz, C."],

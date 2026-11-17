@@ -13,15 +13,14 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2026-11-11",
-      "status": "accepted",
-      "doi": null,
+      "doi": "10.1007/978-3-032-43170-7_32",
       "figureUrl": null
     },
     {
       "id": "caepia-2026-glucose-har",
       "title": "On the characterization of glucose data through HAR: An integrated IoMT architecture",
-      "authors": ["Gaitán Guerrero, J. F.", "Serrano Chica, J. M.", "Fernández García, E.", "López Ruiz, J. L.", "Martínez Cruz, C.", "Díaz Jiménez, D.", "González Lama, J.", "Espinilla Estévez, M."],
-      "myPosition": 4,
+      "authors": ["Gaitán Guerrero, J. F.", "Serrano Chica, J. M.", "Fernández García, E.", "Martínez Cruz, C.", "López Ruiz, J. L.", "Díaz Jiménez, D.", "González Lama, J.", "Espinilla Estévez, M."],
+      "myPosition": 5,
       "corresponding": false,
       "year": 2026,
       "conference": "Conferencia de la Asociación Española para la Inteligencia Artificial",
@@ -29,8 +28,7 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2026-11-11",
-      "status": "accepted",
-      "doi": null,
+      "doi": "10.1007/978-3-032-43170-7_35",
       "figureUrl": null
     },
     {
@@ -60,7 +58,7 @@
       "scope": "international",
       "location": "Prato, Italia",
       "date": "2025-11-26",
-      "doi": null,
+      "doi": "10.1007/978-3-032-16992-1_44",
       "figureUrl": null
     },
     {
@@ -75,7 +73,7 @@
       "scope": "international",
       "location": "Prato, Italia",
       "date": "2025-11-26",
-      "doi": null,
+      "doi": "10.1007/978-3-032-16992-1_41",
       "figureUrl": null
     },
     {
@@ -90,7 +88,7 @@
       "scope": "international",
       "location": "Prato, Italia",
       "date": "2025-11-26",
-      "doi": null,
+      "doi": "10.1007/978-3-032-16992-1_42",
       "figureUrl": null
     },
     {
@@ -241,7 +239,7 @@
       "scope": "international",
       "location": "Oporto, Portugal",
       "date": "2025-04-06",
-      "doi": null,
+      "doi": "10.5220/0013278700003938",
       "figureUrl": null
     },
     {
@@ -271,7 +269,7 @@
       "scope": "international",
       "location": "Oporto, Portugal",
       "date": "2025-02-20",
-      "doi": null,
+      "doi": "10.5220/0013278600003938",
       "figureUrl": null
     },
     {
