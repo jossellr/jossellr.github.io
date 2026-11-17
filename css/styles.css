@@ -143,13 +143,15 @@ h1, h2, h3, h4 {
     align-items: center;
     gap: .25rem;
     margin-left: auto;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
 }
 .topnav-link {
     position: relative;
-    padding: .55rem .9rem;
+    white-space: nowrap;
+    padding: .55rem .65rem;
     color: var(--color-text-soft);
-    font-size: .92rem;
+    font-size: .9rem;
     font-weight: 500;
     border-radius: var(--radius-sm);
     text-decoration: none;
@@ -166,8 +168,8 @@ h1, h2, h3, h4 {
 .topnav-link.active::after {
     content: '';
     position: absolute;
-    left: .9rem;
-    right: .9rem;
+    left: .65rem;
+    right: .65rem;
     bottom: .2rem;
     height: 2px;
     background: var(--color-accent);
@@ -1330,7 +1332,8 @@ a.metric-chip.chip-core:hover { filter: brightness(.95); box-shadow: 0 1px 4px r
     .hero-text { text-align: left; }
 }
 
-@media (max-width: 720px) {
+/* Menú hamburguesa: por debajo de 1024 px los seis enlaces no caben en una fila */
+@media (max-width: 1023px) {
     .topnav {
         position: fixed;
         top: var(--topbar-height);
@@ -1356,6 +1359,9 @@ a.metric-chip.chip-core:hover { filter: brightness(.95); box-shadow: 0 1px 4px r
     .topnav-link.active::after { display: none; }
     .topnav-link.active { background: var(--color-accent-soft); }
     .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+}
+
+@media (max-width: 720px) {
     .brand-sub { display: none; }
     .pub-card {
         grid-template-columns: 1fr;
@@ -1737,6 +1743,25 @@ a.metric-chip.chip-core:hover { filter: brightness(.95); box-shadow: 0 1px 4px r
     transform: translateY(-2px);
 }
 .project-card.is-active { border-left-color: var(--color-accent); }
+
+/* Ámbito del proyecto: un color y un icono por tipo */
+.metric-chip.chip-scope-european { background: #dbeafe; color: #1e3a8a; font-weight: 600; }
+.metric-chip.chip-scope-european i { color: #1d4ed8; }
+.metric-chip.chip-scope-national { background: #fee2e2; color: #991b1b; font-weight: 600; }
+.metric-chip.chip-scope-national i { color: #b91c1c; }
+.metric-chip.chip-scope-regional { background: #dcfce7; color: #166534; font-weight: 600; }
+.metric-chip.chip-scope-regional i { color: #15803d; }
+.metric-chip.chip-scope-contract { background: #ede9fe; color: #5b21b6; font-weight: 600; }
+.metric-chip.chip-scope-contract i { color: #6d28d9; }
+.metric-chip.chip-scope-internal { background: transparent; border: 1px solid var(--color-border); color: var(--color-muted); }
+:root[data-theme="dark"] .metric-chip.chip-scope-european { background: rgba(59, 130, 246, .18); color: #bfdbfe; }
+:root[data-theme="dark"] .metric-chip.chip-scope-european i { color: #93c5fd; }
+:root[data-theme="dark"] .metric-chip.chip-scope-national { background: rgba(239, 68, 68, .18); color: #fecaca; }
+:root[data-theme="dark"] .metric-chip.chip-scope-national i { color: #fca5a5; }
+:root[data-theme="dark"] .metric-chip.chip-scope-regional { background: rgba(34, 197, 94, .18); color: #bbf7d0; }
+:root[data-theme="dark"] .metric-chip.chip-scope-regional i { color: #86efac; }
+:root[data-theme="dark"] .metric-chip.chip-scope-contract { background: rgba(139, 92, 246, .2); color: #ddd6fe; }
+:root[data-theme="dark"] .metric-chip.chip-scope-contract i { color: #c4b5fd; }
 .project-head {
     display: flex;
     flex-wrap: wrap;

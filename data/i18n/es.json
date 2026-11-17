@@ -281,6 +281,14 @@
       "cafe": {
         "line": "Taller <strong>«Sistemas Inteligentes de Ingeniería para mejorar la vida de las personas»</strong> en <em>Café con Ciencia 2026</em> (Semana de la Ciencia), 3 de noviembre de 2026.",
         "place": "Unidad de Cultura Científica y de la Innovación · Universidad de Jaén"
+      },
+      "nei2025": {
+        "line": "Taller <strong>«IA en Acción: Innovar para Vivir Mejor»</strong> en <em>La Noche Europea de los Investigadores 2025</em>, 26 de septiembre de 2025.",
+        "place": "Unidad de Cultura Científica y de la Innovación · Universidad de Jaén"
+      },
+      "nei2023": {
+        "line": "Microencuentro <strong>«La ingeniería mueve y protege el mundo. Tecnología para la salud, energías renovables y cambio climático»</strong> en <em>La Noche Europea de los Investigadores 2023</em>, 29 de septiembre de 2023.",
+        "place": "Unidad de Cultura Científica y de la Innovación · Universidad de Jaén"
       }
     }
   },

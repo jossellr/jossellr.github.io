@@ -484,7 +484,7 @@
 
         nav.querySelectorAll(".topnav-link").forEach(function (link) {
             link.addEventListener("click", function () {
-                if (window.matchMedia("(max-width: 720px)").matches) {
+                if (window.matchMedia("(max-width: 1023px)").matches) {
                     nav.classList.remove("is-open");
                     toggle.setAttribute("aria-expanded", "false");
                     toggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
@@ -2006,8 +2006,17 @@
               escapeHtml(t("projects.roles." + p.role)) + "</span>"
             : "";
 
+        // Cada ámbito tiene su color (CSS .chip-scope-*) y su icono.
+        var scopeIcons = {
+            european: "fa-earth-europe",
+            national: "fa-flag",
+            regional: "fa-map-location-dot",
+            contract: "fa-handshake",
+            internal: "fa-building-columns"
+        };
         var scopeChip = p.scope
-            ? '<span class="metric-chip subtle"><i class="fa-solid fa-globe"></i> ' +
+            ? '<span class="metric-chip chip-scope-' + escapeHtml(p.scope) + '"><i class="fa-solid ' +
+              (scopeIcons[p.scope] || "fa-globe") + '"></i> ' +
               escapeHtml(t("projects.scopes." + p.scope)) + "</span>"
             : "";
 
@@ -2049,7 +2058,8 @@
             }
         }
 
-        return '<article class="project-card' + (active ? " is-active" : "") + '">' +
+        return '<article class="project-card' + (active ? " is-active" : "") + '"' +
+            (p.scope ? ' data-scope="' + escapeHtml(p.scope) + '"' : "") + '>' +
             '<div class="project-head">' + acronym + statusChip + "</div>" +
             '<h4 class="project-title">' + title + "</h4>" +
             (meta ? '<p class="project-meta">' + meta + "</p>" : "") +

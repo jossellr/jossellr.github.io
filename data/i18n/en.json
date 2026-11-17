@@ -281,6 +281,14 @@
       "cafe": {
         "line": "Workshop <strong>“Intelligent Engineering Systems to improve people’s lives”</strong> at <em>Café con Ciencia 2026</em> (Science Week), 3 November 2026.",
         "place": "Scientific Culture and Innovation Unit · University of Jaén"
+      },
+      "nei2025": {
+        "line": "Workshop <strong>“AI in Action: Innovating to Live Better”</strong> at <em>European Researchers’ Night 2025</em>, 26 September 2025.",
+        "place": "Scientific Culture and Innovation Unit · University of Jaén"
+      },
+      "nei2023": {
+        "line": "Micro-meeting <strong>“Engineering moves and protects the world. Technology for health, renewable energy and climate change”</strong> at <em>European Researchers’ Night 2023</em>, 29 September 2023.",
+        "place": "Scientific Culture and Innovation Unit · University of Jaén"
       }
     }
   },
