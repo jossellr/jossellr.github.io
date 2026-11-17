@@ -3,6 +3,51 @@
   "updated_at": "2026-11-17",
   "items": [
     {
+      "id": "asista-2025",
+      "acronym": "ASISTA",
+      "title": "Sistema inteligente e interoperable con detección multimodal para ambientes asistidos",
+      "funder": "Ministerio de Ciencia, Innovación y Universidades · Agencia Estatal de Investigación",
+      "programme": "Proyectos de Generación de Conocimiento 2024 (Plan Estatal 2024-2027)",
+      "reference": "PID2024-156412OB-I00",
+      "role": "team",
+      "scope": "national",
+      "startDate": "2025-09-01",
+      "endDate": "2028-08-31",
+      "budget": 180250,
+      "url": null,
+      "description": "IP: Macarena Espinilla Estévez y Juan Carlos Cuevas Martínez."
+    },
+    {
+      "id": "hogar-asistido-ia-2024",
+      "acronym": null,
+      "title": "Hogar Asistido con Reconocimiento y MONitoreo de actividades basado en la Inteligencia Artificial",
+      "funder": "Universidad de Jaén · Programa Operativo FEDER Andalucía 2021-2027",
+      "programme": "Proyectos de investigación aplicada · Modalidad Pruebas de Concepto",
+      "reference": "PDC_000756",
+      "role": "team",
+      "scope": "regional",
+      "startDate": "2024-09-01",
+      "endDate": "2026-08-31",
+      "budget": 30000,
+      "url": null,
+      "description": "IP: Macarena Espinilla Estévez."
+    },
+    {
+      "id": "microchip4age-2024",
+      "acronym": "MicroChip4Age",
+      "title": "Potenciando la salud de personas mayores a través de la microelectrónica y monitoreo inteligente",
+      "funder": "Ministerio de Ciencia e Innovación · Agencia Estatal de Investigación",
+      "programme": "Proyectos de Pruebas de Concepto 2023",
+      "reference": "PDC2023-145863-I00",
+      "role": "team",
+      "scope": "national",
+      "startDate": "2024-01-01",
+      "endDate": "2025-12-31",
+      "budget": 278300,
+      "url": null,
+      "description": "IP: Macarena Espinilla Estévez."
+    },
+    {
       "id": "platera-2022",
       "acronym": "PLATERA",
       "title": "Plataforma tecnológica de reconocimiento de actividades de la vida diaria para la valoración funcional de personas mayores",
@@ -15,12 +60,67 @@
       "endDate": "2026-08-31",
       "budget": 85547,
       "url": null,
-      "description": "Plataforma de reconocimiento de actividades de la vida diaria mediante sensores para la valoración funcional de personas mayores. IP: Macarena Espinilla Estévez y Francisco Flórez Revuelta.",
-      "relatedPublications": [
-        "ucami-2024-platera",
-        "platera-2024",
-        "living-dataset-platera-2024"
-      ]
+      "description": "IP: Macarena Espinilla Estévez y Francisco Flórez Revuelta."
+    },
+    {
+      "id": "pharaon-2019",
+      "acronym": "Pharaon",
+      "title": "Pilots for Healthy and Active Ageing",
+      "funder": "Comisión Europea",
+      "programme": "Horizonte 2020 · SC1 Smart and healthy living at home",
+      "reference": "857188",
+      "role": "team",
+      "scope": "european",
+      "startDate": "2019-12-01",
+      "endDate": "2024-11-30",
+      "budget": 280375,
+      "url": null,
+      "description": "IP en la Universidad de Jaén: Macarena Espinilla Estévez y Javier Medina Quero."
+    },
+    {
+      "id": "activa-2019",
+      "acronym": "ACTIVA",
+      "title": "Sistema inteligente de decisión basado en reconocimiento de ACTIVidAdes en el entorno operativo de envejecimiento",
+      "funder": "Ministerio de Ciencia, Innovación y Universidades · Agencia Estatal de Investigación",
+      "programme": "Proyectos I+D+i Retos de la Sociedad 2018",
+      "reference": "RTI2018-098979-A-I00",
+      "role": "team",
+      "scope": "national",
+      "startDate": "2019-01-01",
+      "endDate": "2022-09-30",
+      "budget": 55539,
+      "url": null,
+      "description": "IP: Macarena Espinilla Estévez."
+    },
+    {
+      "id": "fibico-diabetes-2022",
+      "acronym": null,
+      "title": "Pilotaje para sistema inteligente desde un punto de vista clínico para el reconocimiento de actividades en el hogar de pacientes con diabetes mellitus tipo 2",
+      "funder": "Fundación para la Investigación Biomédica de Córdoba (FIBICO)",
+      "programme": null,
+      "reference": null,
+      "role": "researcher",
+      "scope": "contract",
+      "startDate": "2022-06-24",
+      "endDate": "2023-05-31",
+      "budget": 9034.71,
+      "url": null,
+      "description": "IP: Macarena Espinilla Estévez y Javier Medina Quero."
+    },
+    {
+      "id": "deterioro-cognitivo-2020",
+      "acronym": null,
+      "title": "Alertas y detección temprana del deterioro cognitivo",
+      "funder": "Nazaríes Information Technologies, S.L. · Trevenque Sistemas de Información, S.L.",
+      "programme": null,
+      "reference": null,
+      "role": "researcher",
+      "scope": "contract",
+      "startDate": "2020-07-14",
+      "endDate": "2021-04-13",
+      "budget": 67236,
+      "url": null,
+      "description": "IP: Macarena Espinilla Estévez y Javier Medina Quero."
     }
   ]
 }
