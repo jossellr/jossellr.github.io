@@ -13,7 +13,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2026-11-11",
-      "presentationType": "Trabajo en curso",
       "doi": null,
       "isbn": "978-84-09-92828-6",
       "figureUrl": "assets/img/conferences/caepia-2026.jpg"
@@ -30,7 +29,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2026-11-11",
-      "presentationType": "Trabajo en curso",
       "doi": null,
       "isbn": "978-84-09-92828-6",
       "figureUrl": "assets/img/conferences/caepia-2026.jpg"
@@ -47,7 +45,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2026-11-11",
-      "presentationType": "Trabajo en curso",
       "doi": null,
       "isbn": "978-84-09-92828-6",
       "figureUrl": "assets/img/conferences/caepia-2026.jpg"
@@ -337,7 +334,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2024-12-20",
-      "presentationType": "Póster",
       "doi": null,
       "figureUrl": "assets/img/conferences/andaluzia-2024-adherence.png"
     },
@@ -353,7 +349,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2024-12-20",
-      "presentationType": "Póster",
       "doi": null,
       "figureUrl": "assets/img/conferences/andaluzia-2024-activa.png"
     },
@@ -369,7 +364,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2024-12-20",
-      "presentationType": "Póster",
       "doi": null,
       "figureUrl": "assets/img/conferences/andaluzia-2024-cgm.png"
     },
@@ -506,7 +500,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2024-03-22",
-      "presentationType": "Póster",
       "doi": null,
       "figureUrl": "assets/img/conferences/ods-2024.jpg"
     },
@@ -642,7 +635,6 @@
       "scope": "national",
       "location": "País Vasco, España",
       "date": "2023-05-11",
-      "presentationType": "Póster",
       "doi": null,
       "figureUrl": "assets/img/conferences/egprn-2023.jpg"
     },
@@ -673,7 +665,6 @@
       "scope": "national",
       "location": "Jaén, Andalucía, España",
       "date": "2022-12-15",
-      "presentationType": "Póster",
       "doi": null,
       "figureUrl": "assets/img/conferences/ods-jaen-2022.jpg"
     },
@@ -854,7 +845,6 @@
       "scope": "national",
       "location": "Madrid, Comunidad de Madrid, España",
       "date": "2018-06-27",
-      "presentationType": "Póster",
       "doi": null,
       "figureUrl": null
     }

@@ -1660,7 +1660,6 @@
         var scopeLabel = c.scope === "international" ? t("publications.labels.international") : t("publications.labels.national");
         var scopeChip = '<span class="metric-chip chip-' + c.scope + '"><i class="fa-solid fa-globe"></i> ' + escapeHtml(scopeLabel) + "</span>";
         var acronymChip = c.acronym ? '<span class="metric-chip">' + escapeHtml(c.acronym) + "</span>" : "";
-        var presChip = c.presentationType ? '<span class="metric-chip subtle">' + escapeHtml(c.presentationType) + "</span>" : "";
         var specialChip = c.specialSession ? '<span class="metric-chip subtle"><i class="fa-solid fa-star"></i> ' + escapeHtml(c.specialSession) + "</span>" : "";
         var acceptedChip = c.status === "accepted"
             ? '<span class="metric-chip chip-accepted" title="' + escapeHtml(t("publications.labels.accepted")) + '"><i class="fa-solid fa-circle-check"></i> ' + escapeHtml(t("publications.labels.accepted")) + "</span>"
@@ -1697,7 +1696,7 @@
                 '<h4 class="pub-title">' + title + "</h4>" +
                 '<p class="pub-authors">' + highlightAuthor(c.authors, c.myPosition) + "</p>" +
                 '<p class="pub-venue"><em>' + venueParts + "</em></p>" +
-                '<div class="pub-metrics">' + acceptedChip + coreChip + scopeChip + acronymChip + presChip + specialChip + "</div>" +
+                '<div class="pub-metrics">' + acceptedChip + coreChip + scopeChip + acronymChip + specialChip + "</div>" +
                 pubActions(c, doiLink) +
             "</div>" +
         "</article>";
