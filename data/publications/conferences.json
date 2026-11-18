@@ -2,6 +2,57 @@
   "_comment": "Trabajos presentados en congresos. scope = 'international' | 'national'. Añade nuevos elementos al inicio del array 'items'.",
   "items": [
     {
+      "id": "estylf-2026-mobility-qol",
+      "title": "From sensor-based mobility to quality-of-life assessment: a linguistic fuzzy approach",
+      "authors": ["López Ruiz, J. L.", "Espinilla Estévez, M.", "Nugent, C."],
+      "myPosition": 1,
+      "corresponding": false,
+      "year": 2026,
+      "conference": "Congreso Español sobre Tecnologías y Lógica Fuzzy",
+      "acronym": "ESTYLF",
+      "scope": "national",
+      "location": "Jaén, Andalucía, España",
+      "date": "2026-11-11",
+      "presentationType": "Trabajo en curso",
+      "doi": null,
+      "isbn": "978-84-09-92828-6",
+      "figureUrl": "assets/img/conferences/caepia-2026.jpg"
+    },
+    {
+      "id": "estylf-2026-federated-stress",
+      "title": "Selección difusa de clientes para detección federada del estrés en dispositivos IoMT",
+      "authors": ["López Ruiz, J. L.", "Montoya Peña, C.", "Gaitán Guerrero, J. F.", "Albín Rodríguez, A. P.", "Espinilla Estévez, M.", "Fernández Basso, C."],
+      "myPosition": 1,
+      "corresponding": false,
+      "year": 2026,
+      "conference": "Congreso Español sobre Tecnologías y Lógica Fuzzy",
+      "acronym": "ESTYLF",
+      "scope": "national",
+      "location": "Jaén, Andalucía, España",
+      "date": "2026-11-11",
+      "presentationType": "Trabajo en curso",
+      "doi": null,
+      "isbn": "978-84-09-92828-6",
+      "figureUrl": "assets/img/conferences/caepia-2026.jpg"
+    },
+    {
+      "id": "estylf-2026-biosignal-alignment",
+      "title": "Hacia una alineación multilingüística de bioseñales mediante operadores difusos",
+      "authors": ["Gaitán Guerrero, J. F.", "Martínez Cruz, C.", "López Ruiz, J. L.", "Espinilla Estévez, M.", "Albín Rodríguez, A. P.", "Popescu, M.", "Keller, J."],
+      "myPosition": 3,
+      "corresponding": false,
+      "year": 2026,
+      "conference": "Congreso Español sobre Tecnologías y Lógica Fuzzy",
+      "acronym": "ESTYLF",
+      "scope": "national",
+      "location": "Jaén, Andalucía, España",
+      "date": "2026-11-11",
+      "presentationType": "Trabajo en curso",
+      "doi": null,
+      "isbn": "978-84-09-92828-6",
+      "figureUrl": "assets/img/conferences/caepia-2026.jpg"
+    },
+    {
       "id": "caepia-2026-ble-nlos",
       "title": "Real-world NLOS validation of novel low-power BLE devices for Indoor Localization",
       "authors": ["López Ruiz, J. L.", "Díaz Jiménez, D.", "Gaitán Guerrero, J. F.", "Torres Sospedra, J.", "Espinilla Estévez, M."],
@@ -14,6 +65,7 @@
       "location": "Jaén, Andalucía, España",
       "date": "2026-11-11",
       "doi": "10.1007/978-3-032-43170-7_32",
+      "isbn": "978-3-032-43169-1",
       "figureUrl": "assets/img/conferences/caepia-2026.jpg"
     },
     {
@@ -29,6 +81,7 @@
       "location": "Jaén, Andalucía, España",
       "date": "2026-11-11",
       "doi": "10.1007/978-3-032-43170-7_35",
+      "isbn": "978-3-032-43169-1",
       "figureUrl": "assets/img/conferences/caepia-2026.jpg"
     },
     {
